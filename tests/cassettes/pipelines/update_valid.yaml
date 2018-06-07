@@ -1,0 +1,30 @@
+interactions:
+- request:
+    body: '{"status": "packaging", "project_api_token": "410befdcd606f602c20e5140b94909aeff27800a86459ceb1fc97b7e09bce57b"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['112']
+      Content-type: [application/json]
+      User-Agent: [python-requests/2.18.4]
+    method: PATCH
+    uri: http://localhost:5000/api/v1/project_runs/1/pipelines/pipeline-123
+  response:
+    body: {string: '{"data":{"object":"pipeline","deleted":false,"id":"pipeline-123","status":"packaging","trial":{"object":"trial","deleted":false,"id":4,"dataset_manifest_id":4,"project_run_id":1,"hyperparameter":{"object":"hyperparameter","deleted":false,"id":1,"algorithm_name":"SVM","algorithm_params":{"x":1,"y":2}},"evaluation_type":"fastest
+        one","score_name":"strict one","score_value":99.9,"task_type":"subdue leather
+        bags"}},"meta":{"status":200}}'}
+    headers:
+      Cache-Control: ['max-age=0, private, must-revalidate']
+      Content-Type: [application/json; charset=utf-8]
+      ETag: [W/"9fd217b1be4de211840a32207c51137f"]
+      Transfer-Encoding: [chunked]
+      Vary: [Accept-Encoding]
+      X-Content-Type-Options: [nosniff]
+      X-Frame-Options: [SAMEORIGIN]
+      X-Request-Id: [e4078b95-1f5a-4ec1-af58-f17125d8f9d6]
+      X-Runtime: ['0.037005']
+      X-XSS-Protection: [1; mode=block]
+      content-length: ['437']
+    status: {code: 200, message: OK}
+version: 1

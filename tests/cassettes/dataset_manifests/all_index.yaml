@@ -1,0 +1,108 @@
+interactions:
+- request:
+    body: '{"limit": 1, "offset": 0, "project_api_token": "481da66630fe89649b5450be8c7cb7c5"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['82']
+      Content-type: [application/json]
+      User-Agent: [python-requests/2.18.4]
+    method: GET
+    uri: http://localhost:5000/api/v1/dataset_manifests
+  response:
+    body: {string: '{"data":[{"object":"dataset_manifest","deleted":false,"id":"1234567890","name":"My
+        Iris dataset","statistics":{"f1":12,"f2":13,"f3":14}}],"meta":{"status":200,"pagination":{"limit":1,"offset":0,"count":1,"total":3}}}'}
+    headers:
+      Cache-Control: ['max-age=0, private, must-revalidate']
+      Content-Type: [application/json; charset=utf-8]
+      ETag: [W/"efa251ff443d2c5523a0142a4c44867f"]
+      Transfer-Encoding: [chunked]
+      Vary: [Accept-Encoding]
+      X-Content-Type-Options: [nosniff]
+      X-Frame-Options: [SAMEORIGIN]
+      X-Request-Id: [86738578-7570-4fdf-97a6-21e3358443e9]
+      X-Runtime: ['0.017814']
+      X-XSS-Protection: [1; mode=block]
+      content-length: ['216']
+    status: {code: 200, message: OK}
+- request:
+    body: '{"limit": 1, "offset": 1, "project_api_token": "481da66630fe89649b5450be8c7cb7c5"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['82']
+      Content-type: [application/json]
+      User-Agent: [python-requests/2.18.4]
+    method: GET
+    uri: http://localhost:5000/api/v1/dataset_manifests
+  response:
+    body: {string: '{"data":[{"object":"dataset_manifest","deleted":false,"id":"1234567891","name":"My
+        Adult dataset","statistics":{"f1":12,"f2":13,"f3":777}}],"meta":{"status":200,"pagination":{"limit":1,"offset":1,"count":1,"total":3}}}'}
+    headers:
+      Cache-Control: ['max-age=0, private, must-revalidate']
+      Content-Type: [application/json; charset=utf-8]
+      ETag: [W/"ffa16a14a421ca48606b9753334a7fc8"]
+      Transfer-Encoding: [chunked]
+      Vary: [Accept-Encoding]
+      X-Content-Type-Options: [nosniff]
+      X-Frame-Options: [SAMEORIGIN]
+      X-Request-Id: [2e5b39c0-8a4c-4cc1-bc86-18808acea93e]
+      X-Runtime: ['0.015049']
+      X-XSS-Protection: [1; mode=block]
+      content-length: ['218']
+    status: {code: 200, message: OK}
+- request:
+    body: '{"limit": 1, "offset": 2, "project_api_token": "481da66630fe89649b5450be8c7cb7c5"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['82']
+      Content-type: [application/json]
+      User-Agent: [python-requests/2.18.4]
+    method: GET
+    uri: http://localhost:5000/api/v1/dataset_manifests
+  response:
+    body: {string: '{"data":[{"object":"dataset_manifest","deleted":false,"id":"100500","name":"test","statistics":{"x":1,"y":2}}],"meta":{"status":200,"pagination":{"limit":1,"offset":2,"count":1,"total":3}}}'}
+    headers:
+      Cache-Control: ['max-age=0, private, must-revalidate']
+      Content-Type: [application/json; charset=utf-8]
+      ETag: [W/"0a18495ff6ea56b46e7f879effbafc50"]
+      Transfer-Encoding: [chunked]
+      Vary: [Accept-Encoding]
+      X-Content-Type-Options: [nosniff]
+      X-Frame-Options: [SAMEORIGIN]
+      X-Request-Id: [999a1955-9560-4101-871e-8a7d97ff7264]
+      X-Runtime: ['0.014544']
+      X-XSS-Protection: [1; mode=block]
+      content-length: ['189']
+    status: {code: 200, message: OK}
+- request:
+    body: '{"limit": 1, "offset": 3, "project_api_token": "481da66630fe89649b5450be8c7cb7c5"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['82']
+      Content-type: [application/json]
+      User-Agent: [python-requests/2.18.4]
+    method: GET
+    uri: http://localhost:5000/api/v1/dataset_manifests
+  response:
+    body: {string: '{"data":[],"meta":{"status":200,"pagination":{"limit":1,"offset":3,"count":0,"total":3}}}'}
+    headers:
+      Cache-Control: ['max-age=0, private, must-revalidate']
+      Content-Type: [application/json; charset=utf-8]
+      ETag: [W/"d6b189ebaa0be0be165c7ffb45df33a2"]
+      Transfer-Encoding: [chunked]
+      Vary: [Accept-Encoding]
+      X-Content-Type-Options: [nosniff]
+      X-Frame-Options: [SAMEORIGIN]
+      X-Request-Id: [0bd649f8-e349-4c55-84b1-e7d0657a1109]
+      X-Runtime: ['0.014532']
+      X-XSS-Protection: [1; mode=block]
+      content-length: ['89']
+    status: {code: 200, message: OK}
+version: 1

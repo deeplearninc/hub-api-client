@@ -12,6 +12,7 @@ setup(
         'auger',
     ],
     install_requires=[
+        'requests'
     ],
     zip_safe=False
 )

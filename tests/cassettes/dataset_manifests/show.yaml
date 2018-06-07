@@ -1,0 +1,28 @@
+interactions:
+- request:
+    body: '{"project_api_token": "481da66630fe89649b5450be8c7cb7c5"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['57']
+      Content-type: [application/json]
+      User-Agent: [python-requests/2.18.4]
+    method: GET
+    uri: http://localhost:5000/api/v1/dataset_manifests/100500
+  response:
+    body: {string: '{"data":{"object":"dataset_manifest","deleted":false,"id":"100500","name":"test","statistics":{"x":1,"y":2}},"meta":{"status":200}}'}
+    headers:
+      Cache-Control: ['max-age=0, private, must-revalidate']
+      Content-Type: [application/json; charset=utf-8]
+      ETag: [W/"b467b1816605021837f4995bc49e8cff"]
+      Transfer-Encoding: [chunked]
+      Vary: [Accept-Encoding]
+      X-Content-Type-Options: [nosniff]
+      X-Frame-Options: [SAMEORIGIN]
+      X-Request-Id: [52fa38f3-f23b-4929-8cf4-ce7cba4bad6b]
+      X-Runtime: ['0.025058']
+      X-XSS-Protection: [1; mode=block]
+      content-length: ['131']
+    status: {code: 200, message: OK}
+version: 1

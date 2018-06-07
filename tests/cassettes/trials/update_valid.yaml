@@ -1,0 +1,33 @@
+interactions:
+- request:
+    body: '{"dataset_manifest_id": 100500, "trials": [{"task_type": "subdue leather
+      bags", "evaluation_type": "fastest one", "score_name": "strict one", "score_value":
+      99.9, "hyperparameter": {"algorithm_name": "SVM", "algorithm_params": {"x":
+      1, "y": 2}}}], "project_api_token": "410befdcd606f602c20e5140b94909aeff27800a86459ceb1fc97b7e09bce57b"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['336']
+      Content-type: [application/json]
+      User-Agent: [python-requests/2.18.4]
+    method: PATCH
+    uri: http://localhost:5000/api/v1/project_runs/1/trials
+  response:
+    body: {string: '{"data":[{"object":"trial","deleted":false,"id":5,"dataset_manifest_id":4,"project_run_id":1,"hyperparameter":{"object":"hyperparameter","deleted":false,"id":1,"algorithm_name":"SVM","algorithm_params":{"x":1,"y":2}},"evaluation_type":"fastest
+        one","score_name":"strict one","score_value":99.9,"task_type":"subdue leather
+        bags"}],"meta":{"status":200}}'}
+    headers:
+      Cache-Control: ['max-age=0, private, must-revalidate']
+      Content-Type: [application/json; charset=utf-8]
+      ETag: [W/"b49e43ae6d292f370be3557d6df0ce12"]
+      Transfer-Encoding: [chunked]
+      Vary: [Accept-Encoding]
+      X-Content-Type-Options: [nosniff]
+      X-Frame-Options: [SAMEORIGIN]
+      X-Request-Id: [c8d22174-e8c6-4d1c-a69d-9f37293a04bb]
+      X-Runtime: ['0.033791']
+      X-XSS-Protection: [1; mode=block]
+      content-length: ['352']
+    status: {code: 200, message: OK}
+version: 1

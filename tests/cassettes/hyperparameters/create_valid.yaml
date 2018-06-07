@@ -1,0 +1,29 @@
+interactions:
+- request:
+    body: '{"algorithm_name": "SVM", "algorithm_params": {"x": 1, "y": 2}, "project_api_token":
+      "410befdcd606f602c20e5140b94909aeff27800a86459ceb1fc97b7e09bce57b"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['152']
+      Content-type: [application/json]
+      User-Agent: [python-requests/2.18.4]
+    method: POST
+    uri: http://localhost:5000/api/v1/hyperparameters
+  response:
+    body: {string: '{"data":{"object":"hyperparameter","deleted":false,"id":1,"algorithm_name":"SVM","algorithm_params":{"x":1,"y":2}},"meta":{"status":200}}'}
+    headers:
+      Cache-Control: ['max-age=0, private, must-revalidate']
+      Content-Type: [application/json; charset=utf-8]
+      ETag: [W/"d6f64d46f033f2eed9b939980a86913a"]
+      Transfer-Encoding: [chunked]
+      Vary: [Accept-Encoding]
+      X-Content-Type-Options: [nosniff]
+      X-Frame-Options: [SAMEORIGIN]
+      X-Request-Id: [c3ad4c07-6def-4df3-9c8a-c304d920a3cd]
+      X-Runtime: ['0.013217']
+      X-XSS-Protection: [1; mode=block]
+      content-length: ['137']
+    status: {code: 200, message: OK}
+version: 1

@@ -1,0 +1,30 @@
+interactions:
+- request:
+    body: '{"limit": 50, "offset": 0, "project_api_token": "481da66630fe89649b5450be8c7cb7c5"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['83']
+      Content-type: [application/json]
+      User-Agent: [python-requests/2.18.4]
+    method: GET
+    uri: http://localhost:5000/api/v1/dataset_manifests
+  response:
+    body: {string: '{"data":[{"object":"dataset_manifest","deleted":false,"id":"1234567890","name":"My
+        Iris dataset","statistics":{"f1":12,"f2":13,"f3":14}},{"object":"dataset_manifest","deleted":false,"id":"1234567891","name":"My
+        Adult dataset","statistics":{"f1":12,"f2":13,"f3":777}},{"object":"dataset_manifest","deleted":false,"id":"100500","name":"test","statistics":{"x":1,"y":2}}],"meta":{"status":200,"pagination":{"limit":50,"offset":0,"count":3,"total":3}}}'}
+    headers:
+      Cache-Control: ['max-age=0, private, must-revalidate']
+      Content-Type: [application/json; charset=utf-8]
+      ETag: [W/"617832de7726c5bddf0c48ec5efb1389"]
+      Transfer-Encoding: [chunked]
+      Vary: [Accept-Encoding]
+      X-Content-Type-Options: [nosniff]
+      X-Frame-Options: [SAMEORIGIN]
+      X-Request-Id: [00721c61-c8d5-4513-b807-6a579cf928d8]
+      X-Runtime: ['0.017851']
+      X-XSS-Protection: [1; mode=block]
+      content-length: ['448']
+    status: {code: 200, message: OK}
+version: 1

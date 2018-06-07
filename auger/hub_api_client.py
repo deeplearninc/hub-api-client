@@ -13,7 +13,8 @@ class HubApiClient:
 
     # Wrong input, consumer should fix input values
     class InvalidParamsError(Exception):
-        pass
+        def metadata(self):
+            return self.args[1]
 
     # Temporary network issue, retry can help
     class RetryableApiError(Exception):
@@ -80,24 +81,33 @@ class HubApiClient:
             return res.json()
         elif res.status_code == 400:
             # Invalid input data, we can't do anyting, consumer should fix source code
-            raise self.InvalidParamsError(self.format_response(res))
-        elif res.status_code == 401 or res.status_code == 403:
+            raise self.InvalidParamsError(self.format_response(res), res.json()['meta'])
+        elif res.status_code == 401 or res.status_code == 403 or res.status_code == 404 or res.status_code == 500:
             # Invalid token or error in source code, we can't do anyting raise error
             raise self.FatalApiError(self.format_response(res))
         else:
             # In case of another error we can retry
             raise self.RetryableApiError(self.format_response(res))
 
-    def format_response(self, res):
-        return 'status: {}, body: {}'.format(res.status_code, self.extract_plain_text(res.text))
+    def format_api_error(self, error):
+        return '{param} {message}'.format(
+            param=error['error_param'],
+            message=error['message']
+        )
 
-    def make_and_handle_request(self, method_name, path, payload={}, retries_left=None):
+    def format_response(self, res):
+        if res.status_code == 400:
+            errors = res.json()['meta']['errors']
+            return ', '.join(map(lambda error: self.format_api_error(error), errors))
+        else:
+            return 'status: {}, body: {}'.format(res.status_code, self.extract_plain_text(res.text))
+
+    def make_and_handle_request(self, method_name, path, payload={}, retries_left=5):
         try:
             res = self.request(method_name, path, payload)
             return self.handle_response(res)
         except self.RetryableApiError as e:
             if retries_left > 0:
-                print('retries_left = ' + str(retries_left))
                 time.sleep(self.retry_wait_seconds)
                 return self.make_and_handle_request(method_name, path, payload, retries_left-1)
             else:
@@ -160,8 +170,8 @@ class HubApiClient:
                 path = self.format_full_resource_path(path_template, parent_resource_name, parent_id)
                 return self.get_paginated_response(path, **kwargs)
 
-            def iterate(self, handler):
-                return self.iterate_all_resource_pages(index_proc_name, handler)
+            def iterate(self, handler, **kwargs):
+                return self.iterate_all_resource_pages(index_proc_name, handler, **kwargs)
 
             setattr(self.__class__, index_proc_name, index)
             setattr(self.__class__, iterate_proc_name, iterate)
@@ -171,7 +181,7 @@ class HubApiClient:
 
             def show(self, id, parent_id=None):
                 path = self.format_full_resource_path(path_template, parent_resource_name, parent_id)
-                return self.make_and_handle_request('get', path, { 'id': id })
+                return self.make_and_handle_request('get', '{path}/{id}'.format(path=path, id=id))
 
             setattr(self.__class__, show_proc_name, show)
 
@@ -189,6 +199,8 @@ class HubApiClient:
 
             def update(self, id, parent_id=None, **kwargs):
                 path = self.format_full_resource_path(path_template, parent_resource_name, parent_id)
+                if id:
+                    path='{path}/{id}'.format(path=path, id=id)
                 return self.make_and_handle_request('patch', path, kwargs)
 
             setattr(self.__class__, update_proc_name, update)

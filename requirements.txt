@@ -1,4 +1,10 @@
+# Runtime dependancies
+
+requests
+
+# Development dependancies
+
 mock
 nose2
-requests
+vcrpy
 wheel

@@ -1,0 +1,28 @@
+interactions:
+- request:
+    body: '{"limit": 50, "offset": 0, "project_api_token": "410befdcd606f602c20e5140b94909aeff27800a86459ceb1fc97b7e09bce57b"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['115']
+      Content-type: [application/json]
+      User-Agent: [python-requests/2.18.4]
+    method: GET
+    uri: http://localhost:5000/api/v1/project_runs/1/pipelines
+  response:
+    body: {string: '{"data":[{"object":"pipeline","deleted":false,"id":"12313","status":"creating_files","trial":null}],"meta":{"status":200,"pagination":{"limit":50,"offset":0,"count":1,"total":1}}}'}
+    headers:
+      Cache-Control: ['max-age=0, private, must-revalidate']
+      Content-Type: [application/json; charset=utf-8]
+      ETag: [W/"52aece418f05ad4305b860ad247845f1"]
+      Transfer-Encoding: [chunked]
+      Vary: [Accept-Encoding]
+      X-Content-Type-Options: [nosniff]
+      X-Frame-Options: [SAMEORIGIN]
+      X-Request-Id: [bbc8ab37-2a72-4282-9c18-efeb9e131e55]
+      X-Runtime: ['0.044317']
+      X-XSS-Protection: [1; mode=block]
+      content-length: ['179']
+    status: {code: 200, message: OK}
+version: 1

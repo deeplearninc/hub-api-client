@@ -1,0 +1,33 @@
+interactions:
+- request:
+    body: '{"id": "pipeline-123", "dataset_manifest_id": 100500, "trial": {"task_type":
+      "subdue leather bags", "evaluation_type": "fastest one", "score_name": "strict
+      one", "score_value": 99.9, "hyperparameter": {"algorithm_name": "SVM", "algorithm_params":
+      {"x": 1, "y": 2}}}, "project_api_token": "410befdcd606f602c20e5140b94909aeff27800a86459ceb1fc97b7e09bce57b"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['355']
+      Content-type: [application/json]
+      User-Agent: [python-requests/2.18.4]
+    method: POST
+    uri: http://localhost:5000/api/v1/project_runs/1/pipelines
+  response:
+    body: {string: '{"data":{"object":"pipeline","deleted":false,"id":"pipeline-123","status":"creating_files","trial":{"object":"trial","deleted":false,"id":4,"dataset_manifest_id":4,"project_run_id":1,"hyperparameter":{"object":"hyperparameter","deleted":false,"id":1,"algorithm_name":"SVM","algorithm_params":{"x":1,"y":2}},"evaluation_type":"fastest
+        one","score_name":"strict one","score_value":99.9,"task_type":"subdue leather
+        bags"}},"meta":{"status":200}}'}
+    headers:
+      Cache-Control: ['max-age=0, private, must-revalidate']
+      Content-Type: [application/json; charset=utf-8]
+      ETag: [W/"28c69d9c63331ae60e8a9022b45f318e"]
+      Transfer-Encoding: [chunked]
+      Vary: [Accept-Encoding]
+      X-Content-Type-Options: [nosniff]
+      X-Frame-Options: [SAMEORIGIN]
+      X-Request-Id: [12134a59-3f71-4050-814b-b111c44434ce]
+      X-Runtime: ['0.546081']
+      X-XSS-Protection: [1; mode=block]
+      content-length: ['442']
+    status: {code: 200, message: OK}
+version: 1

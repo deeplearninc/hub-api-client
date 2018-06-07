@@ -1,0 +1,30 @@
+interactions:
+- request:
+    body: '{"project_api_token": "481da66630fe89649b5450be8c7cb7c5"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['57']
+      Content-type: [application/json]
+      User-Agent: [python-requests/2.18.4]
+    method: POST
+    uri: http://localhost:5000/api/v1/dataset_manifests
+  response:
+    body: {string: '{"meta":{"status":400,"errors":[{"error_type":"invalid_param","error_param":"id","message":"is
+        required"},{"error_type":"invalid_param","error_param":"name","message":"is
+        required"},{"error_type":"invalid_param","error_param":"statistics","message":"is
+        required"}]}}'}
+    headers:
+      Cache-Control: [no-cache]
+      Content-Type: [application/json; charset=utf-8]
+      Transfer-Encoding: [chunked]
+      Vary: [Accept-Encoding]
+      X-Content-Type-Options: [nosniff]
+      X-Frame-Options: [SAMEORIGIN]
+      X-Request-Id: [d5ee6b32-d35d-42d3-8f41-80f814aafd12]
+      X-Runtime: ['0.089074']
+      X-XSS-Protection: [1; mode=block]
+      content-length: ['266']
+    status: {code: 400, message: Bad Request}
+version: 1

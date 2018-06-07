@@ -1,0 +1,28 @@
+interactions:
+- request:
+    body: '{"project_api_token": "481da66630fe89649b5450be8c7cb7c5"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['57']
+      Content-type: [application/json]
+      User-Agent: [python-requests/2.18.4]
+    method: GET
+    uri: http://localhost:5000/api/v1/project_runs/1
+  response:
+    body: {string: '{"data":{"object":"project_run","deleted":false,"id":1,"project_id":30,"notebook_uid":"1234","status":"running","message":null,"leaderbord":{},"model_settings":{}},"meta":{"status":200}}'}
+    headers:
+      Cache-Control: ['max-age=0, private, must-revalidate']
+      Content-Type: [application/json; charset=utf-8]
+      ETag: [W/"4dfab0bf650cf6a5a33f4d91c2687914"]
+      Transfer-Encoding: [chunked]
+      Vary: [Accept-Encoding]
+      X-Content-Type-Options: [nosniff]
+      X-Frame-Options: [SAMEORIGIN]
+      X-Request-Id: [1ba20bce-953d-4b2c-adc3-47be47ac3744]
+      X-Runtime: ['0.221656']
+      X-XSS-Protection: [1; mode=block]
+      content-length: ['186']
+    status: {code: 200, message: OK}
+version: 1
