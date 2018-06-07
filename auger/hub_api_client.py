@@ -20,6 +20,9 @@ class HubApiClient:
     class RetryableApiError(Exception):
         pass
 
+    class MissingParamError(Exception):
+        pass
+
     API_SCHEMA = {
         'dataset_manifest': {
             'actions': ['index', 'show', 'create']
@@ -117,7 +120,7 @@ class HubApiClient:
         return self.make_and_handle_request('get', path, payload, self.retries_count)
 
 
-    def get_paginated_response(self, full_path, limit=50, offset=0):
+    def get_paginated_response(self, full_path, limit=50, offset=0, **kwargs):
         return self.get(full_path, { 'limit': limit, 'offset': offset })
 
     def iterate_all_resource_pages(self, method_name, handler, **kwargs):
@@ -153,9 +156,14 @@ class HubApiClient:
             for action_name in options['actions']:
                 self.define_action(action_name, path, resource_name, parent_resource_name)
 
-    def format_full_resource_path(self, path_template, parent_resource_name, parent_id):
-        if parent_resource_name and parent_id:
-            return path_template.format(parent_id=parent_id)
+    def format_full_resource_path(self, path_template, parent_resource_name, kwargs):
+        if parent_resource_name:
+            parent_id_key = parent_resource_name + '_id'
+            parent_id = kwargs.get(parent_id_key, None)
+            if parent_id:
+                return path_template.format(parent_id=parent_id)
+            else:
+                raise self.MissingParamError('{name} parameter is required'.format(name=parent_id_key))
         elif not parent_resource_name:
             return path_template
         else:
@@ -166,8 +174,8 @@ class HubApiClient:
             index_proc_name = 'get_{resource_name}s'.format(resource_name=resource_name)
             iterate_proc_name = 'iterate_all_{resource_name}s'.format(resource_name=resource_name)
 
-            def index(self, parent_id=None, **kwargs):
-                path = self.format_full_resource_path(path_template, parent_resource_name, parent_id)
+            def index(self, **kwargs):
+                path = self.format_full_resource_path(path_template, parent_resource_name, kwargs)
                 return self.get_paginated_response(path, **kwargs)
 
             def iterate(self, handler, **kwargs):
@@ -179,8 +187,8 @@ class HubApiClient:
         elif action_name == 'show':
             show_proc_name = 'get_{resource_name}'.format(resource_name=resource_name)
 
-            def show(self, id, parent_id=None):
-                path = self.format_full_resource_path(path_template, parent_resource_name, parent_id)
+            def show(self, id, **kwargs):
+                path = self.format_full_resource_path(path_template, parent_resource_name, kwargs)
                 return self.make_and_handle_request('get', '{path}/{id}'.format(path=path, id=id))
 
             setattr(self.__class__, show_proc_name, show)
@@ -188,8 +196,8 @@ class HubApiClient:
         elif action_name == 'create':
             create_proc_name = 'create_{resource_name}'.format(resource_name=resource_name)
 
-            def create(self, parent_id=None, **kwargs):
-                path = self.format_full_resource_path(path_template, parent_resource_name, parent_id)
+            def create(self, **kwargs):
+                path = self.format_full_resource_path(path_template, parent_resource_name, kwargs)
                 return self.make_and_handle_request('post', path, kwargs)
 
             setattr(self.__class__, create_proc_name, create)
@@ -197,8 +205,8 @@ class HubApiClient:
         elif action_name == 'update':
             update_proc_name = 'update_{resource_name}'.format(resource_name=resource_name)
 
-            def update(self, id, parent_id=None, **kwargs):
-                path = self.format_full_resource_path(path_template, parent_resource_name, parent_id)
+            def update(self, id, **kwargs):
+                path = self.format_full_resource_path(path_template, parent_resource_name, kwargs)
                 if id:
                     path='{path}/{id}'.format(path=path, id=id)
                 return self.make_and_handle_request('patch', path, kwargs)
@@ -209,5 +217,5 @@ class HubApiClient:
 
 
     # Deviation, not pure RESTfull endpoint, updates a bunch of trials for project run
-    def update_trials(self, parent_id, **kwargs):
-        return self.update_trial(id=None, parent_id=parent_id, **kwargs)
+    def update_trials(self, **kwargs):
+        return self.update_trial(id=None, **kwargs)

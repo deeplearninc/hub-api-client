@@ -32,7 +32,7 @@ If app has both tokens prefer `hub_project_api_token`
 
 ### Available resources and operations
 
-Full set of available resources, required parameters and parent resources described here https://app.auger.ai/api/v1/docs
+Full set of available resources, required parameters and parent resource names described here https://app.auger.ai/api/v1/docs
 
 This client currently support only next subset:
 
@@ -65,26 +65,26 @@ client.iterate_all_dataset_manifests(
     lambda item: # you code here, item is a dataset manifest object
 )
 
-# Some resources are nested (the have a parent resource), so you have to specify the parent_id parameter
+# Some resources are nested (the have a parent resource), so you have to specify the parent id parameter
 
-res = client.get_pipelines(parent_id=1) # parent_id here is a project run id
+res = client.get_pipelines(project_run_id=1)
 ```
 
 ### Get resource
 
 ```python
-# Just specify id, and parent_id if required
-res = self.client.get_pipeline(12313, parent_id=1)
+# Just specify id, and parent id if required
+res = self.client.get_pipeline(12313, project_run_id=1)
 res['data'] # a pipeline object 
 ```
 
 ### Create resource
 
 ```python
-# Just specify id, and parent_id if required
+# Specify all required parameters
 res = client.create_pipeline(
-    parent_id=1,
     id='pipeline-123',
+    project_run_id=1,
     dataset_manifest_id=100500,
     trial={
         'task_type': 'subdue leather bags',
@@ -117,7 +117,7 @@ res['data'] # a project run object
 # Update a bunch of trials for project run
 # Note trials in plural form
 client.update_trials(
-    parent_id=1, # project run id
+    project_run_id=1, # project run id
     dataset_manifest_id=100500,
     trials=[ # array of trials data
         {
@@ -136,6 +136,14 @@ client.update_trials(
     ]
 )
 ```
+### Excpetions
+
+* `HubApiClient.FatalApiError` - retry doesn't make sense in most cases it measn error in source code of consumer or API
+* `HubApiClient.InvalidParamsError` - call with invalid params in most cases can be fixed in consumers source code
+* `HubApiClient.RetryableApiError` - some network related issue when request retry can make sense
+* `HubApiClient.MissingParamError` - client side validation fail, can be fixed only on consumers code side
+
+In all case see exception content it contains more specific details for each case
 
 ## Development
 

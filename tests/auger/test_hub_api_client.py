@@ -101,18 +101,18 @@ class TestHubApiClient(unittest.TestCase):
 
     @vcr.use_cassette('pipelines/show.yaml')
     def test_get_pipeline(self, sleep_mock):
-        res = self.client.get_pipeline(12313, parent_id=1)
+        res = self.client.get_pipeline(12313, project_run_id=1)
         self.assertResourceResponse(res, 'pipeline')
 
     @vcr.use_cassette('pipelines/index.yaml')
     def test_get_pipelines(self, sleep_mock):
-        res = self.client.get_pipelines(parent_id=1)
+        res = self.client.get_pipelines(project_run_id=1)
         self.assertIndexResponse(res, 'pipeline')
 
     @vcr.use_cassette('pipelines/create_valid.yaml')
     def test_create_pipeline_valid(self, sleep_mock):
         res = self.client.create_pipeline(
-            parent_id=1,
+            project_run_id=1,
             id='pipeline-123',
             dataset_manifest_id=100500,
             trial={
@@ -134,25 +134,25 @@ class TestHubApiClient(unittest.TestCase):
 
     @vcr.use_cassette('pipelines/update_valid.yaml')
     def test_create_pipeline_valid(self, sleep_mock):
-        res = self.client.update_pipeline('pipeline-123', parent_id=1, status='packaging')
+        res = self.client.update_pipeline('pipeline-123', project_run_id=1, status='packaging')
         self.assertResourceResponse(res, 'pipeline')
 
     # Trials
 
     @vcr.use_cassette('trials/show.yaml')
     def test_get_trial(self, sleep_mock):
-        res = self.client.get_trial(3, parent_id=1)
+        res = self.client.get_trial(3, project_run_id=1)
         self.assertResourceResponse(res, 'trial')
 
     @vcr.use_cassette('trials/index.yaml')
     def test_get_trials(self, sleep_mock):
-        res = self.client.get_trials(parent_id=1)
+        res = self.client.get_trials(project_run_id=1)
         self.assertIndexResponse(res, 'trial')
 
     @vcr.use_cassette('trials/update_valid.yaml')
     def test_update_trials_valid(self, sleep_mock):
         res = self.client.update_trials(
-            parent_id=1,
+            project_run_id=1,
             dataset_manifest_id=100500,
             trials=[
                 {
