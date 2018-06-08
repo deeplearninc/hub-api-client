@@ -6,7 +6,6 @@
 
 ### Install
 
-??? - TODO
 ```sh
 pip install git+https://github.com/deeplearninc/hub-api-client#egg=auger-hub-api-client
 ```
