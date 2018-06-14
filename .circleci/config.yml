@@ -4,7 +4,41 @@
 #
 version: 2
 jobs:
-  build:
+  python2-tests:
+    docker:
+      # specify the version you desire here
+      # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
+      - image: circleci/python:2.7.15
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/postgres:9.4
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - run:
+          name: install dependencies
+          command: |
+            pip install -r requirements.txt --user
+
+      # run tests!
+      # this example uses Django's built-in test-runner
+      # other common Python testing frameworks include pytest and nose
+      # https://pytest.org
+      # https://nose.readthedocs.io
+      - run:
+          name: run tests
+          command: |
+            python $HOME/.local/lib/python2.7/site-packages/nose2
+
+      - store_artifacts:
+          path: test-reports
+          destination: test-reports
+  python3-tests:
     docker:
       # specify the version you desire here
       # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
@@ -54,3 +88,9 @@ jobs:
           path: test-reports
           destination: test-reports
 
+workflows:
+  version: 2
+  test:
+    jobs:
+      - python2-tests
+      - python3-tests
