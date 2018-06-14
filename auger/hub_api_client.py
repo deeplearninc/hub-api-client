@@ -1,7 +1,13 @@
 import re
 import requests
 import time
-import urllib.parse
+
+try:
+    # Python 3
+    from urllib.parse import urljoin
+except ImportError:
+    # Python 2
+    from urlparse import urljoin
 
 from requests.exceptions import ConnectionError
 
@@ -55,7 +61,7 @@ class HubApiClient:
         self.define_actions()
 
     def full_path(self, relative_path):
-        return urllib.parse.urljoin(self.host, relative_path)
+        return urljoin(self.host, relative_path)
 
     def extract_plain_text(self, html):
         clean = re.compile('<.*?>')
@@ -74,7 +80,10 @@ class HubApiClient:
     def request(self, method_name, path, payload={}):
         try:
             method = getattr(requests, method_name)
-            params = { **payload, **self.tokens_payload() }
+
+            params = payload.copy()
+            params.update(self.tokens_payload())
+
             return method(self.full_path(path), json=params, headers=self.headers)
         except ConnectionError as e:
             raise self.RetryableApiError(str(e))
@@ -127,7 +136,11 @@ class HubApiClient:
         offset = 0
         while True:
             method = getattr(self, method_name)
-            res = method(**{ 'offset': offset, **kwargs })
+
+            args = { 'offset': offset }
+            args.update(kwargs)
+
+            res = method(**args)
 
             for item in res['data']:
                 handler(item)
