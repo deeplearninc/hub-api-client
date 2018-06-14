@@ -50,7 +50,7 @@ class HubApiClient:
     }
 
     def __init__(self, **config):
-        self.host = config['hub_app_host']
+        self.base_url = config['hub_app_url']
         self.system_token = config.get('hub_system_token', None)
         self.cluster_api_token = config.get('hub_cluster_api_token', None)
         self.project_api_token = config.get('hub_project_api_token', None)
@@ -61,7 +61,7 @@ class HubApiClient:
         self.define_actions()
 
     def full_path(self, relative_path):
-        return urljoin(self.host, relative_path)
+        return urljoin(self.base_url, relative_path)
 
     def extract_plain_text(self, html):
         clean = re.compile('<.*?>')

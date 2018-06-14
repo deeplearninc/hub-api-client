@@ -10,7 +10,7 @@ class TestHubApiClient(unittest.TestCase):
     def setUp(self):
         self.hub_project_api_token = '410befdcd606f602c20e5140b94909aeff27800a86459ceb1fc97b7e09bce57b'
         self.client = HubApiClient(
-          hub_app_host='http://localhost:5000',
+          hub_app_url='http://localhost:5000',
           retries_count=1,
           hub_project_api_token=self.hub_project_api_token
         )

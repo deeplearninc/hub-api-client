@@ -16,14 +16,14 @@ from auger.hub_api_client import HubApiClient
 
 # Create client instance
 client = HubApiClient(
-    hub_app_host='http://localhost:5000',
+    hub_app_url='http://localhost:5000',
     hub_project_api_token='some secret token'
 )
 ```
 
 Client parameters:
 
-* `hub_app_host` - URL of Hub API server (e.g. http://localhost:5000 or https://app.auger.ai/)
+* `hub_app_url` - URL of Hub API server (e.g. http://localhost:5000 or https://app.auger.ai/)
 * `hub_project_api_token` - project token (provides project and cluster context to API)
 * `hub_cluster_api_token` - cluster token (provides cluster context to API)
 
