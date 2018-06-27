@@ -1,3 +1,4 @@
+import json
 import re
 import requests
 import time
@@ -108,11 +109,14 @@ class HubApiClient:
         )
 
     def format_response(self, res):
-        if res.status_code == 400:
-            errors = res.json()['meta']['errors']
-            return ', '.join(map(lambda error: self.format_api_error(error), errors))
-        else:
-            return 'status: {}, body: {}'.format(res.status_code, self.extract_plain_text(res.text))
+        try:
+            if res.status_code == 400:
+                errors = res.json()['meta']['errors']
+                return ', '.join(map(lambda error: self.format_api_error(error), errors))
+            else:
+                return 'status: {}, body: {}'.format(res.status_code, self.extract_plain_text(res.text))
+        except json.decoder.JSONDecodeError:
+            raise self.FatalApiError(self.extract_plain_text(res.text))
 
     def make_and_handle_request(self, method_name, path, payload={}, retries_left=5):
         try:

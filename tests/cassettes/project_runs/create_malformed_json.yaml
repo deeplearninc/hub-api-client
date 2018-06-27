@@ -1,0 +1,29 @@
+interactions:
+- request:
+    body: '{"notebook_uid": "afaf-dfgdfhg-gdfgdg", "status": "running", "leaderbord":
+      {"a1": 1, "a2": 2}, "model_settings": {"x": Infinity}, "message": "Some sort
+      of message", "project_api_token": "410befdcd606f602c20e5140b94909aeff27800a86459ceb1fc97b7e09bce57b"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['253']
+      Content-type: [application/json]
+      User-Agent: [python-requests/2.18.4]
+    method: POST
+    uri: http://localhost:5000/api/v1/project_runs
+  response:
+    body: {string: ''}
+    headers:
+      Connection: [keep-alive]
+      Content-Length: ['0']
+      Content-Type: [text/html; charset=UTF-8]
+      Date: ['Wed, 27 Jun 2018 16:27:25 GMT']
+      Server: [Cowboy]
+      Strict-Transport-Security: [max-age=15552000; includeSubDomains]
+      Vary: [Origin]
+      Via: [1.1 vegur]
+      X-Request-Id: [274f4f59-cf0a-4a92-a84d-1bf9804bcbf4]
+      X-Runtime: ['0.046576']
+    status: {code: 400, message: Bad Request}
+version: 1

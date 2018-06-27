@@ -79,6 +79,17 @@ class TestHubApiClient(unittest.TestCase):
         res = self.client.get_project_runs()
         self.assertIndexResponse(res, 'project_run')
 
+    @vcr.use_cassette('project_runs/create_malformed_json.yaml')
+    def test_create_project_run_malformed_json(self, sleep_mock):
+        with self.assertRaises(HubApiClient.FatalApiError) as context:
+            self.client.create_project_run(
+                notebook_uid='afaf-dfgdfhg-gdfgdg',
+                status='running',
+                leaderbord={'a1': 1, 'a2': 2},
+                model_settings={'x': float('inf')},
+                message='Some sort of message'
+            )
+
     @vcr.use_cassette('project_runs/create_valid.yaml')
     def test_create_project_run_valid(self, sleep_mock):
         res = self.client.create_project_run(
@@ -92,10 +103,9 @@ class TestHubApiClient(unittest.TestCase):
         self.assertResourceResponse(res, 'project_run')
 
     @vcr.use_cassette('project_runs/update_valid.yaml')
-    def test_create_project_run_valid(self, sleep_mock):
+    def test_update_project_run_valid(self, sleep_mock):
         res = self.client.update_project_run(4, status='completed')
         self.assertResourceResponse(res, 'project_run')
-
 
     # Pipelines
 
