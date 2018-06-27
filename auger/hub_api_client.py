@@ -6,9 +6,14 @@ import time
 try:
     # Python 3
     from urllib.parse import urljoin
+    from json.decoder import JSONDecodeError
 except ImportError:
     # Python 2
     from urlparse import urljoin
+
+    # Stub class to unify handler code
+    class JSONDecodeError(Exception):
+        pass
 
 from requests.exceptions import ConnectionError
 
@@ -115,7 +120,7 @@ class HubApiClient:
                 return ', '.join(map(lambda error: self.format_api_error(error), errors))
             else:
                 return 'status: {}, body: {}'.format(res.status_code, self.extract_plain_text(res.text))
-        except json.decoder.JSONDecodeError:
+        except (JSONDecodeError, ValueError) as e:
             raise self.FatalApiError(self.extract_plain_text(res.text))
 
     def make_and_handle_request(self, method_name, path, payload={}, retries_left=5):
