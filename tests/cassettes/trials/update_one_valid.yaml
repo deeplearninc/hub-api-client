@@ -1,0 +1,32 @@
+interactions:
+- request:
+    body: !!python/unicode '{"task_type": "subdue leather bags", "score_name": "strict
+      one", "project_run_id": 5, "hyperparameter": {"algorithm_name": "SVM", "algorithm_params":
+      {"y": 2, "x": 1}}, "evaluation_type": "fastest one", "project_api_token": "410befdcd606f602c20e5140b94909aeff27800a86459ceb1fc97b7e09bce57b",
+      "score_value": 99.9}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['312']
+      Content-type: [application/json]
+      User-Agent: [python-requests/2.19.0]
+    method: PATCH
+    uri: http://localhost:5000/api/v1/project_runs/5/trials/qwqweqwe
+  response:
+    body: {string: !!python/unicode '{"data":{"object":"trial","deleted":false,"id":"qwqweqwe","project_run_id":"231231","hyperparameter":{"object":"hyperparameter","deleted":false,"id":2,"algorithm_name":"SMV","algorithm_params":{"x":1}},"score_name":"strict
+        one","score_value":0.99,"task_type":"regression"},"meta":{"status":200}}'}
+    headers:
+      cache-control: ['max-age=0, private, must-revalidate']
+      content-length: ['295']
+      content-type: [application/json; charset=utf-8]
+      etag: [W/"eacdfe209de97e8dc8af4ef7e1e014cc"]
+      transfer-encoding: [chunked]
+      vary: [Accept-Encoding]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-request-id: [ace88887-518e-43bf-a898-ff5a5ef2125b]
+      x-runtime: ['0.302069']
+      x-xss-protection: [1; mode=block]
+    status: {code: 200, message: OK}
+version: 1

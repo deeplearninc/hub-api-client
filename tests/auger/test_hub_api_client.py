@@ -159,6 +159,27 @@ class TestHubApiClient(unittest.TestCase):
         res = self.client.get_trials(project_run_id=1)
         self.assertIndexResponse(res, 'trial')
 
+
+    @vcr.use_cassette('trials/update_one_valid.yaml')
+    def test_update_trial_valid(self, sleep_mock):
+        res = self.client.update_trial(
+            'qwqweqwe',
+            project_run_id=5,
+            task_type='subdue leather bags',
+            evaluation_type='fastest one',
+            score_name='strict one',
+            score_value=99.9,
+            hyperparameter={
+                'algorithm_name': 'SVM',
+                'algorithm_params': {
+                    'x': 1,
+                    'y': 2,
+                }
+            }
+        )
+
+        self.assertResourceResponse(res, 'trial')
+
     @vcr.use_cassette('trials/update_valid.yaml')
     def test_update_trials_valid(self, sleep_mock):
         res = self.client.update_trials(
