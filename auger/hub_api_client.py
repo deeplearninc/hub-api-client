@@ -37,7 +37,7 @@ class HubApiClient:
 
     API_SCHEMA = {
         'dataset_manifest': {
-            'actions': ['index', 'show', 'create']
+            'actions': ['index', 'show', 'create', 'update']
         },
         'hyperparameter': {
             'actions': ['index', 'show', 'create']

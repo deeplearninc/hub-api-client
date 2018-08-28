@@ -1,0 +1,29 @@
+interactions:
+- request:
+    body: !!python/unicode '{"dataset_url": "s3://bucket/path", "project_api_token":
+      "410befdcd606f602c20e5140b94909aeff27800a86459ceb1fc97b7e09bce57b"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['124']
+      Content-type: [application/json]
+      User-Agent: [python-requests/2.19.0]
+    method: PATCH
+    uri: http://localhost:5000/api/v1/dataset_manifests/123123
+  response:
+    body: {string: !!python/unicode '{"data":{"object":"dataset_manifest","deleted":false,"id":"123123","name":"my","dataset_url":"s3://bucket/path","statistics":{"x":1}},"meta":{"status":200}}'}
+    headers:
+      cache-control: ['max-age=0, private, must-revalidate']
+      content-length: ['156']
+      content-type: [application/json; charset=utf-8]
+      etag: [W/"6bb63cab16505d1e5c86d09841d5c342"]
+      transfer-encoding: [chunked]
+      vary: [Accept-Encoding]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-request-id: [d92e1905-9b8f-4e72-9bea-ed244a3fe3bc]
+      x-runtime: ['0.036576']
+      x-xss-protection: [1; mode=block]
+    status: {code: 200, message: OK}
+version: 1

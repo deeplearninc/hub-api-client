@@ -67,6 +67,11 @@ class TestHubApiClient(unittest.TestCase):
 
         self.assertResourceResponse(res, 'dataset_manifest')
 
+    @vcr.use_cassette('dataset_manifests/update_valid.yaml')
+    def test_update_dataset_manifest_valid(self, sleep_mock):
+        res = self.client.update_dataset_manifest(123123, dataset_url='s3://bucket/path')
+        self.assertResourceResponse(res, 'dataset_manifest')
+
     # Project runs
 
     @vcr.use_cassette('project_runs/show.yaml')
