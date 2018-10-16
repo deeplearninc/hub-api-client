@@ -167,3 +167,12 @@ Run tests
 ```bash
 make test
 ```
+
+## Release
+
+Increase version in `setup.py` then build and upload package
+
+```bash
+python3 setup.py sdist bdist_wheel
+twine upload dist/*
+```
