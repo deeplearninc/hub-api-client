@@ -1,0 +1,29 @@
+interactions:
+- request:
+    body: '{"dataset_manifest_id": "100500", "score_name": "logloss", "project_api_token":
+      "410befdcd606f602c20e5140b94909aeff27800a86459ceb1fc97b7e09bce57b"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['147']
+      Content-type: [application/json]
+      User-Agent: [python-requests/2.18.4]
+    method: POST
+    uri: http://localhost:5000/api/v1/warm_start_requests
+  response:
+    body: {string: '{"data":{"object":"warm_start_request","deleted":false,"id":2,"score_name":"logloss","limit":10,"status":"requested","time_consumed_ms":null,"hyperparameters":[]},"meta":{"status":200}}'}
+    headers:
+      Cache-Control: ['max-age=0, private, must-revalidate']
+      Content-Type: [application/json; charset=utf-8]
+      ETag: [W/"4083e3b3378c1b872e8cd756fc2ac908"]
+      Transfer-Encoding: [chunked]
+      Vary: [Accept-Encoding]
+      X-Content-Type-Options: [nosniff]
+      X-Frame-Options: [SAMEORIGIN]
+      X-Request-Id: [d5fb29dc-a1a6-47fc-a650-f41c9c54206b]
+      X-Runtime: ['0.624126']
+      X-XSS-Protection: [1; mode=block]
+      content-length: ['185']
+    status: {code: 200, message: OK}
+version: 1

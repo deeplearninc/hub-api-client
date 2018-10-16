@@ -232,3 +232,19 @@ class TestHubApiClient(unittest.TestCase):
         )
 
         self.assertResourceResponse(res, 'hyperparameter')
+
+    # Warm start requests
+
+    @vcr.use_cassette('warm_start_requests/show.yaml')
+    def test_get_warm_start_request(self, sleep_mock):
+        res = self.client.get_warm_start_request(1)
+        self.assertResourceResponse(res, 'warm_start_request')
+
+    @vcr.use_cassette('warm_start_requests/create_valid.yaml')
+    def test_create_warm_start_request_valid(self, sleep_mock):
+        res = self.client.create_warm_start_request(
+            dataset_manifest_id='100500',
+            score_name='logloss'
+        )
+
+        self.assertResourceResponse(res, 'warm_start_request')

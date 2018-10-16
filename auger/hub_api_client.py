@@ -52,6 +52,9 @@ class HubApiClient:
         'trial': {
             'actions': ['index', 'show', 'update'],
             'parent_resource': 'project_run'
+        },
+        'warm_start_request': {
+            'actions': ['show', 'create']
         }
     }
 
