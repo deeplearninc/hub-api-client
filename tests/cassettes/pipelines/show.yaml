@@ -7,22 +7,25 @@ interactions:
       Connection: [keep-alive]
       Content-Length: ['89']
       Content-type: [application/json]
-      User-Agent: [python-requests/2.18.4]
+      User-Agent: [python-requests/2.20.1]
     method: GET
-    uri: http://localhost:5000/api/v1/project_runs/1/pipelines/12313
+    uri: http://localhost:5000/api/v1/experiment_sessions/1bf484f7305779/pipelines/37fec5a5bfa9f3
   response:
-    body: {string: '{"data":{"object":"pipeline","deleted":false,"id":"12313","status":"creating_files","trial":null},"meta":{"status":200}}'}
+    body: {string: '{"data":{"object":"pipeline","deleted":false,"id":"37fec5a5bfa9f3","status":"packaging","lambda_package_s3_path":"workspace/pipelines/37fec5a5bfa9f3.zip","project_id":1,"organization_id":16,"trial":{"object":"trial","deleted":false,"id":"4c30454300","experiment_session_id":"1bf484f7305779","hyperparameter":{"object":"hyperparameter","deleted":false,"id":10,"algorithm_name":"sklearn.naive_bayes.BernoulliNB","algorithm_params":{"alpha":38.88019610571887,"fit_prior":true}},"score_name":"f1","score_value":0.599461091136353,"task_type":"regression","raw_data":{"uid":"4c30454300","error":null,"ratio":1.0,"score":0.5994610911363535,"budget":null,"scoring":"f1","ensemble":false,"all_scores":{"f1":0.5994610911363535,"recall":0.5076237015674652,"roc_auc":0.9307678557380448,"accuracy":0.8896342039045146,"f1_macro":0.7677303373060739,"f1_micro":0.8896342039045146,"precision":0.7318870894601397,"f1_weighted":0.8812466528751092,"neg_log_loss":-0.2367266878917726,"recall_macro":0.7357426269706364,"recall_micro":0.8896342039045146,"precision_macro":0.8207952796266752,"precision_micro":0.8896342039045146,"recall_weighted":0.8896342039045146,"average_precision":0.7276520336635652,"precision_weighted":0.880773741694883},"score_name":"f1","trialClass":null,"fold_scores":[0.597210441994157,0.6027565954625111,0.5984162359523924],"algorithm_name":"sklearn.ensemble.RandomForestClassifier","optimizer_name":"auger_ml.optimizers.pso_optimizer.PSOOptimizer","project_run_id":"D6AAC6110357410","evaluation_time":499.3518218994141,"algorithm_params":{"n_jobs":-1,"bootstrap":true,"criterion":"gini","max_features":0.5555568747692685,"n_estimators":100,"min_samples_leaf":4,"min_samples_split":15},"dataset_manifest_id":"63DAECF6D03C404"},"created_at":"2018-11-14T18:26:58.810Z","updated_at":"2018-11-14T18:26:58.810Z"},"datasource_manifest_name":"iris-1","error_message":null,"created_at":"2018-11-14T18:27:00.085Z","updated_at":"2018-11-14T18:27:00.091Z"},"meta":{"status":200}}'}
     headers:
       Cache-Control: ['max-age=0, private, must-revalidate']
       Content-Type: [application/json; charset=utf-8]
-      ETag: [W/"a569f91055bfd6d2acbc60e73892156f"]
+      ETag: [W/"715bb2fb9e564ac176a42937a761fac5"]
+      Referrer-Policy: [strict-origin-when-cross-origin]
       Transfer-Encoding: [chunked]
       Vary: [Accept-Encoding]
       X-Content-Type-Options: [nosniff]
+      X-Download-Options: [noopen]
       X-Frame-Options: [SAMEORIGIN]
-      X-Request-Id: [391e47fb-13ce-40c9-a0a7-601886001945]
-      X-Runtime: ['0.011820']
+      X-Permitted-Cross-Domain-Policies: [none]
+      X-Request-Id: [1ee3c002-24b9-494d-bc27-e6afb158e25c]
+      X-Runtime: ['0.120242']
       X-XSS-Protection: [1; mode=block]
-      content-length: ['120']
+      content-length: ['1973']
     status: {code: 200, message: OK}
 version: 1
