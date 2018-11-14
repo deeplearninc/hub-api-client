@@ -39,19 +39,22 @@ class HubApiClient:
         'dataset_manifest': {
             'actions': ['index', 'show', 'create', 'update']
         },
+        'experiment': {
+            'actions': ['index', 'show', 'create', 'update', 'delete']
+        },
+        'experiment_session': {
+            'actions': ['index', 'show', 'create', 'update'],
+        },
         'hyperparameter': {
             'actions': ['index', 'show', 'create']
         },
-        'project_run': {
-            'actions': ['index', 'show', 'create', 'update'],
-        },
         'pipeline': {
             'actions': ['index', 'show', 'create', 'update'],
-            'parent_resource': 'project_run'
+            'parent_resource': 'experiment_session'
         },
         'trial': {
             'actions': ['index', 'show', 'update'],
-            'parent_resource': 'project_run'
+            'parent_resource': 'experiment_session'
         },
         'warm_start_request': {
             'actions': ['show', 'create']
@@ -237,6 +240,14 @@ class HubApiClient:
                 return self.make_and_handle_request('patch', path, kwargs)
 
             setattr(self.__class__, update_proc_name, update)
+        elif action_name == 'delete':
+            delete_proc_name = 'delete_{resource_name}'.format(resource_name=resource_name)
+
+            def delete(self, id):
+                path = self.format_full_resource_path(path_template, parent_resource_name, {})
+                return self.make_and_handle_request('delete', '{path}/{id}'.format(path=path, id=id))
+
+            setattr(self.__class__, delete_proc_name, delete)
         else:
             raise 'Unsupported REST action `{name}`'.format(name=action_name)
 

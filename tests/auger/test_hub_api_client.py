@@ -72,64 +72,105 @@ class TestHubApiClient(unittest.TestCase):
         res = self.client.update_dataset_manifest(123123, dataset_url='s3://bucket/path')
         self.assertResourceResponse(res, 'dataset_manifest')
 
-    # Project runs
+    # Experiments
 
-    @vcr.use_cassette('project_runs/show.yaml')
-    def test_get_project_run(self, sleep_mock):
-        res = self.client.get_project_run(1)
-        self.assertResourceResponse(res, 'project_run')
+    @vcr.use_cassette('experiments/show.yaml')
+    def test_get_experiment(self, sleep_mock):
+        res = self.client.get_experiment('0138f8da7adf76')
+        self.assertResourceResponse(res, 'experiment')
 
-    @vcr.use_cassette('project_runs/index.yaml')
-    def test_get_project_runs(self, sleep_mock):
-        res = self.client.get_project_runs()
-        self.assertIndexResponse(res, 'project_run')
+    @vcr.use_cassette('experiments/index.yaml')
+    def test_get_experiments(self, sleep_mock):
+        res = self.client.get_experiments()
+        self.assertIndexResponse(res, 'experiment')
 
-    @vcr.use_cassette('project_runs/create_malformed_json.yaml')
-    def test_create_project_run_malformed_json(self, sleep_mock):
+    @vcr.use_cassette('experiments/create_valid.yaml')
+    def test_create_experiment_valid(self, sleep_mock):
+        res = self.client.create_experiment(
+            id='a0138f7adf78d6',
+            dataset_manifest_id='c993ab1107',
+            name='Some sort of experiment'
+        )
+
+        self.assertResourceResponse(res, 'experiment')
+
+    @vcr.use_cassette('experiments/update_valid.yaml')
+    def test_update_experiment_valid(self, sleep_mock):
+        res = self.client.update_experiment('a0138f7adf78d6', name='Real experiment')
+        self.assertResourceResponse(res, 'experiment')
+
+    @vcr.use_cassette('experiments/delete_valid.yaml')
+    def test_delete_experiment_valid(self, sleep_mock):
+        res = self.client.delete_experiment('a0138f7adf78d6')
+        self.assertResourceResponse(res, 'experiment')
+
+    @vcr.use_cassette('experiments/delete_not_existing.yaml')
+    def test_delete_not_existing(self, sleep_mock):
         with self.assertRaises(HubApiClient.FatalApiError) as context:
-            self.client.create_project_run(
-                notebook_uid='afaf-dfgdfhg-gdfgdg',
+            self.client.delete_experiment('a0138f7adf78d6')
+
+    # Experiment Sessions
+
+    @vcr.use_cassette('experiment_sessions/show.yaml')
+    def test_get_experiment_session(self, sleep_mock):
+        res = self.client.get_experiment_session('5772fd1ec439b7')
+        self.assertResourceResponse(res, 'experiment_session')
+
+    @vcr.use_cassette('experiment_sessions/index.yaml')
+    def test_get_experiment_sessions(self, sleep_mock):
+        res = self.client.get_experiment_sessions()
+        self.assertIndexResponse(res, 'experiment_session')
+
+    @vcr.use_cassette('experiment_sessions/create_malformed_json.yaml')
+    def test_create_experiment_session_malformed_json(self, sleep_mock):
+        with self.assertRaises(HubApiClient.FatalApiError) as context:
+            self.client.create_experiment_session(
+                id='1984368722',
+                experiment_id='afaf-dfgdfhg-gdfgdg',
+                dataset_manifest_id='c993ab1107',
                 status='running',
                 leaderbord={'a1': 1, 'a2': 2},
                 model_settings={'x': float('inf')},
                 message='Some sort of message'
             )
 
-    @vcr.use_cassette('project_runs/create_valid.yaml')
-    def test_create_project_run_valid(self, sleep_mock):
-        res = self.client.create_project_run(
-            notebook_uid='afaf-dfgdfhg-gdfgdg',
-            status='running',
+    @vcr.use_cassette('experiment_sessions/create_valid.yaml')
+    def test_create_experiment_session_valid(self, sleep_mock):
+        res = self.client.create_experiment_session(
+            id='1984368722',
+            experiment_id='0138f8da7adf76',
+            dataset_manifest_id='c993ab1107',
+            status='started',
             leaderbord={'a1': 1, 'a2': 2},
             model_settings={'x': 1, 'y': 2},
             message='Some sort of message'
         )
 
-        self.assertResourceResponse(res, 'project_run')
+        self.assertResourceResponse(res, 'experiment_session')
 
-    @vcr.use_cassette('project_runs/update_valid.yaml')
-    def test_update_project_run_valid(self, sleep_mock):
-        res = self.client.update_project_run(4, status='completed')
-        self.assertResourceResponse(res, 'project_run')
+    @vcr.use_cassette('experiment_sessions/update_valid.yaml')
+    def test_update_experiment_session_valid(self, sleep_mock):
+        res = self.client.update_experiment_session('1984368722', status='completed')
+        self.assertResourceResponse(res, 'experiment_session')
 
     # Pipelines
 
     @vcr.use_cassette('pipelines/show.yaml')
     def test_get_pipeline(self, sleep_mock):
-        res = self.client.get_pipeline(12313, project_run_id=1)
+        res = self.client.get_pipeline('37fec5a5bfa9f3', experiment_session_id='1bf484f7305779')
         self.assertResourceResponse(res, 'pipeline')
 
     @vcr.use_cassette('pipelines/index.yaml')
     def test_get_pipelines(self, sleep_mock):
-        res = self.client.get_pipelines(project_run_id=1)
+        res = self.client.get_pipelines(experiment_session_id='1bf484f7305779')
         self.assertIndexResponse(res, 'pipeline')
 
     @vcr.use_cassette('pipelines/create_valid.yaml')
     def test_create_pipeline_valid(self, sleep_mock):
         res = self.client.create_pipeline(
-            project_run_id=1,
+            experiment_session_id='1bf484f7305779',
             id='pipeline-123',
-            dataset_manifest_id=100500,
+            trial_id='2c9f4cd18e',
             trial={
                 'task_type': 'subdue leather bags',
                 'evaluation_type': 'fastest one',
@@ -149,28 +190,32 @@ class TestHubApiClient(unittest.TestCase):
 
     @vcr.use_cassette('pipelines/update_valid.yaml')
     def test_create_pipeline_valid(self, sleep_mock):
-        res = self.client.update_pipeline('pipeline-123', project_run_id=1, status='packaging')
+        res = self.client.update_pipeline(
+            'pipeline-123',
+            experiment_session_id='1bf484f7305779',
+            status='packaging'
+        )
+
         self.assertResourceResponse(res, 'pipeline')
 
     # Trials
 
     @vcr.use_cassette('trials/show.yaml')
     def test_get_trial(self, sleep_mock):
-        res = self.client.get_trial(3, project_run_id=1)
+        res = self.client.get_trial('2c9f4cd18e', experiment_session_id='1bf484f7305779')
         self.assertResourceResponse(res, 'trial')
 
     @vcr.use_cassette('trials/index.yaml')
     def test_get_trials(self, sleep_mock):
-        res = self.client.get_trials(project_run_id=1)
+        res = self.client.get_trials(experiment_session_id='1bf484f7305779')
         self.assertIndexResponse(res, 'trial')
-
 
     @vcr.use_cassette('trials/update_one_valid.yaml')
     def test_update_trial_valid(self, sleep_mock):
         res = self.client.update_trial(
-            'qwqweqwe',
-            project_run_id=5,
-            task_type='subdue leather bags',
+            '2c9f4cd18e',
+            experiment_session_id='1bf484f7305779',
+            task_type='classification',
             evaluation_type='fastest one',
             score_name='strict one',
             score_value=99.9,
@@ -188,20 +233,22 @@ class TestHubApiClient(unittest.TestCase):
     @vcr.use_cassette('trials/update_valid.yaml')
     def test_update_trials_valid(self, sleep_mock):
         res = self.client.update_trials(
-            project_run_id=1,
-            dataset_manifest_id=100500,
+            experiment_session_id='1bf484f7305779',
             trials=[
                 {
-                    'task_type': 'subdue leather bags',
-                    'evaluation_type': 'fastest one',
-                    'score_name': 'strict one',
-                    'score_value': 99.9,
-                    'hyperparameter': {
-                        'algorithm_name': 'SVM',
-                        'algorithm_params': {
-                            'x': 1,
-                            'y': 2,
-                        }
+                    'crossValidationFolds': 5,
+                    'uid': '3D1E99741D37422',
+                    'classification': True,
+                    'algorithm_name': 'sklearn.ensemble.ExtraTreesClassifier',
+                    'score': 0.96,
+                    'score_name': 'accuracy',
+                    'algorithm_params': {
+                        'bootstrap': False,
+                        'min_samples_leaf': 11,
+                        'n_estimators': 100,
+                        'max_features': 0.9907161412382496,
+                        'criterion': 'gini',
+                        'min_samples_split': 6
                     }
                 }
             ]

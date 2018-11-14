@@ -1,4 +1,5 @@
 [![CircleCI](https://circleci.com/gh/deeplearninc/hub-api-client.svg?style=shield&circle-token=324fac7562a1de7fe4c3e860628e690ef1094d7e)](https://circleci.com/gh/deeplearninc/hub-api-client)
+[![PyPI version](https://badge.fury.io/py/auger-hub-api-client.svg)](https://badge.fury.io/py/auger-hub-api-client)
 
 # API client for Auger Hub API
 
@@ -7,7 +8,7 @@
 ### Install
 
 ```sh
-pip install git+https://github.com/deeplearninc/hub-api-client#egg=auger-hub-api-client
+pip install auger-hub-api-client==0.3.0
 ```
 ### Initialize client
 
@@ -33,13 +34,15 @@ If app has both tokens prefer `hub_project_api_token`
 
 Full set of available resources, required parameters and parent resource names described here https://app.auger.ai/api/v1/docs
 
-This client currently support only next subset:
+This client currently support only next subset of resources:
 
 * dataset_manifest
+* experiment (ex. notebook)
+* experiment_session (ex. project_run)
 * hyperparameter
-* project_run
 * pipeline
 * trial
+* warm_start_request
 
 All resource methods called in next convetions:
 
@@ -47,16 +50,17 @@ All resource methods called in next convetions:
 * `get` - `get_<resource_name>` get resource by id
 * `create` - `create_<resource_name>` creates resource
 * `update` - `update_<resource_name>` updates resource
+* `delete` - `delete_<resource_name>` deletes resource
 * `iterate` - `iterate_all_<resource_name>s` iterate all resources
 
 ### List and iterate resources
 
 ```python
-res = client.get_project_runs()
+res = client.get_experiment_sessions()
 res['data'] # an array of project runs
 
 # For pagination use offset and limit params
-res = client.get_project_runs(offset=100, limit=50)
+res = client.get_experiment_sessions(offset=100, limit=50)
 
 # You can iterate all objects with
 # It will automaticcaly fetch all object and apply a callback to each of them
@@ -66,15 +70,15 @@ client.iterate_all_dataset_manifests(
 
 # Some resources are nested (the have a parent resource), so you have to specify the parent id parameter
 
-res = client.get_pipelines(project_run_id=1)
+res = client.get_pipelines(experiment_session_id=1)
 ```
 
 ### Get resource
 
 ```python
 # Just specify id, and parent id if required
-res = self.client.get_pipeline(12313, project_run_id=1)
-res['data'] # a pipeline object 
+res = self.client.get_pipeline(12313, experiment_session_id=1)
+res['data'] # a pipeline object
 ```
 
 ### Create resource
@@ -83,8 +87,8 @@ res['data'] # a pipeline object
 # Specify all required parameters
 res = client.create_pipeline(
     id='pipeline-123',
-    project_run_id=1,
-    dataset_manifest_id=100500,
+    experiment_session_id='1bf484f7305779',
+    trial_id='2c9f4cd18e',
     trial={
         'task_type': 'subdue leather bags',
         'evaluation_type': 'fastest one',
@@ -100,13 +104,13 @@ res = client.create_pipeline(
     }
 )
 
-res['data'] # a pipeline object 
+res['data'] # a pipeline object
 ```
 
 ### Update resource
 
 ```python
-res = client.update_project_run(4, status='completed')
+res = client.update_experiment_session(4, status='completed')
 res['data'] # a project run object
 ```
 
@@ -116,20 +120,22 @@ res['data'] # a project run object
 # Update a bunch of trials for project run
 # Note trials in plural form
 client.update_trials(
-    project_run_id=1, # project run id
-    dataset_manifest_id=100500,
+    experiment_session_id='1bf484f7305779',
     trials=[ # array of trials data
         {
-            'task_type': 'subdue leather bags',
-            'evaluation_type': 'fastest one',
-            'score_name': 'strict one',
-            'score_value': 99.9,
-            'hyperparameter': {
-                'algorithm_name': 'SVM',
-                'algorithm_params': {
-                    'x': 1,
-                    'y': 2,
-                }
+            'crossValidationFolds': 5,
+            'uid': '3D1E99741D37422',
+            'classification': True,
+            'algorithm_name': 'sklearn.ensemble.ExtraTreesClassifier',
+            'score': 0.96,
+            'score_name': 'accuracy',
+            'algorithm_params': {
+                'bootstrap': False,
+                'min_samples_leaf': 11,
+                'n_estimators': 100,
+                'max_features': 0.9907161412382496,
+                'criterion': 'gini',
+                'min_samples_split': 6
             }
         }
     ]
