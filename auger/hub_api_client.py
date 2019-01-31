@@ -52,6 +52,9 @@ class HubApiClient:
             'actions': ['index', 'show', 'create', 'update'],
             'parent_resource': 'experiment_session'
         },
+        'similar_trials_request': {
+            'actions': ['show', 'create']
+        },
         'trial': {
             'actions': ['index', 'show', 'update'],
             'parent_resource': 'experiment_session'

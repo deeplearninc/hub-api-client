@@ -1,0 +1,31 @@
+interactions:
+- request:
+    body: !!python/unicode '{"project_api_token": "410befdcd606f602c20e5140b94909aeff27800a86459ceb1fc97b7e09bce57b"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['89']
+      Content-type: [application/json]
+      User-Agent: [python-requests/2.19.0]
+    method: GET
+    uri: http://localhost:5000/api/v1/similar_trials_requests/1
+  response:
+    body: {string: !!python/unicode '{"data":{"object":"similar_trials_request","deleted":false,"id":1,"algorithm_name":"auger_ml.ensembles.algorithms.VotingAlgorithm","algorithm_params_hash":"2DD51EA7809C45B","limit":5,"status":"requested","time_consumed_ms":null,"trials":[]},"meta":{"status":200}}'}
+    headers:
+      cache-control: ['max-age=0, private, must-revalidate']
+      content-length: ['263']
+      content-type: [application/json; charset=utf-8]
+      etag: [W/"0869e4ec3efc706fcd72f6951ac5e8b8"]
+      referrer-policy: [strict-origin-when-cross-origin]
+      transfer-encoding: [chunked]
+      vary: [Accept-Encoding]
+      x-content-type-options: [nosniff]
+      x-download-options: [noopen]
+      x-frame-options: [SAMEORIGIN]
+      x-permitted-cross-domain-policies: [none]
+      x-request-id: [70b94497-f9f8-4197-b7d1-7e7286ed35a5]
+      x-runtime: ['0.092763']
+      x-xss-protection: [1; mode=block]
+    status: {code: 200, message: OK}
+version: 1
