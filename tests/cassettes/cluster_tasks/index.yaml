@@ -1,0 +1,32 @@
+interactions:
+- request:
+    body: !!python/unicode '{"limit": 50, "project_api_token": "410befdcd606f602c20e5140b94909aeff27800a86459ceb1fc97b7e09bce57b",
+      "offset": 0}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['115']
+      Content-type: [application/json]
+      User-Agent: [python-requests/2.19.0]
+    method: GET
+    uri: http://localhost:5000/api/v1/cluster_tasks
+  response:
+    body: {string: !!python/unicode '{"data":[{"object":"cluster_task","deleted":false,"id":25,"external_uid":null,"cluster_id":127,"project_id":31,"queue":null,"status":"pending","name":"auger_ml.tasks_queue.tasks.list_project_files","args":null,"result":null,"exception":null}],"meta":{"status":200,"pagination":{"limit":50,"offset":0,"count":1,"total":1}}}'}
+    headers:
+      cache-control: ['max-age=0, private, must-revalidate']
+      content-length: ['322']
+      content-type: [application/json; charset=utf-8]
+      etag: [W/"dfdf5a26f681d1507dfd3bb5192570a9"]
+      referrer-policy: [strict-origin-when-cross-origin]
+      transfer-encoding: [chunked]
+      vary: [Accept-Encoding]
+      x-content-type-options: [nosniff]
+      x-download-options: [noopen]
+      x-frame-options: [SAMEORIGIN]
+      x-permitted-cross-domain-policies: [none]
+      x-request-id: [d2e49ecc-f186-4711-ba86-da4c44faef86]
+      x-runtime: ['0.062750']
+      x-xss-protection: [1; mode=block]
+    status: {code: 200, message: OK}
+version: 1

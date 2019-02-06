@@ -31,6 +31,28 @@ class TestHubApiClient(unittest.TestCase):
         self.assertEquals(res['data']['object'], expected_object)
 
 
+    # Cluster tasks
+
+    @vcr.use_cassette('cluster_tasks/show.yaml')
+    def test_get_cluster_task(self, sleep_mock):
+      res = self.client.get_cluster_task(25)
+      self.assertResourceResponse(res, 'cluster_task')
+
+    @vcr.use_cassette('cluster_tasks/index.yaml')
+    def test_get_cluster_tasks(self, sleep_mock):
+        res = self.client.get_cluster_tasks()
+        self.assertIndexResponse(res, 'cluster_task')
+
+    @vcr.use_cassette('cluster_tasks/create_valid.yaml')
+    def test_create_cluster_task_valid(self, sleep_mock):
+        res = self.client.create_cluster_task(
+            name='auger_ml.tasks_queue.tasks.list_project_files',
+            queue=None,
+            args=None
+        )
+
+        self.assertResourceResponse(res, 'cluster_task')
+
     # Dataset manifests
 
     @vcr.use_cassette('dataset_manifests/show.yaml')
