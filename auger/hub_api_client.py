@@ -36,6 +36,9 @@ class HubApiClient:
         pass
 
     API_SCHEMA = {
+        'cluster_task': {
+            'actions': ['index', 'show', 'create']
+        },
         'dataset_manifest': {
             'actions': ['index', 'show', 'create', 'update']
         },
