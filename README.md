@@ -41,6 +41,7 @@ This client currently support only next subset of resources:
 * experiment_session (ex. project_run)
 * hyperparameter
 * pipeline
+* similar_trials_request
 * trial
 * warm_start_request
 

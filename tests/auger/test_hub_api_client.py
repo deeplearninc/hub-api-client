@@ -175,6 +175,30 @@ class TestHubApiClient(unittest.TestCase):
         res = self.client.update_experiment_session('1984368722', status='completed')
         self.assertResourceResponse(res, 'experiment_session')
 
+    # Hyperparameters
+
+    @vcr.use_cassette('hyperparameters/show.yaml')
+    def test_get_hyperparameter(self, sleep_mock):
+        res = self.client.get_hyperparameter(1)
+        self.assertResourceResponse(res, 'hyperparameter')
+
+    @vcr.use_cassette('hyperparameters/index.yaml')
+    def test_get_hyperparameters(self, sleep_mock):
+        res = self.client.get_hyperparameters()
+        self.assertIndexResponse(res, 'hyperparameter')
+
+    @vcr.use_cassette('hyperparameters/create_valid.yaml')
+    def test_create_hyperparameter_valid(self, sleep_mock):
+        res = self.client.create_hyperparameter(
+            algorithm_name='SVM',
+            algorithm_params={
+                'x': 1,
+                'y': 2,
+            }
+        )
+
+        self.assertResourceResponse(res, 'hyperparameter')
+
     # Pipelines
 
     @vcr.use_cassette('pipelines/show.yaml')
@@ -219,6 +243,24 @@ class TestHubApiClient(unittest.TestCase):
         )
 
         self.assertResourceResponse(res, 'pipeline')
+
+    # Similar trials requests
+
+    @vcr.use_cassette('similar_trials_requests/show.yaml')
+    def test_get_similar_trials_request(self, sleep_mock):
+        res = self.client.get_similar_trials_request(1)
+        self.assertResourceResponse(res, 'similar_trials_request')
+
+    @vcr.use_cassette('similar_trials_requests/create_valid.yaml')
+    def test_create_similar_trials_request_valid(self, sleep_mock):
+        res = self.client.create_similar_trials_request(
+            dataset_manifest_id='fab484c53aec74cf',
+            algorithm_name='auger_ml.ensembles.algorithms.VotingAlgorithm',
+            algorithm_params_hash='2DD51EA7809C45B',
+            limit=5
+        )
+
+        self.assertResourceResponse(res, 'similar_trials_request')
 
     # Trials
 
@@ -277,30 +319,6 @@ class TestHubApiClient(unittest.TestCase):
         )
 
         self.assertIndexResponse(res, 'trial')
-
-    # Hyperparameters
-
-    @vcr.use_cassette('hyperparameters/show.yaml')
-    def test_get_hyperparameter(self, sleep_mock):
-        res = self.client.get_hyperparameter(1)
-        self.assertResourceResponse(res, 'hyperparameter')
-
-    @vcr.use_cassette('hyperparameters/index.yaml')
-    def test_get_hyperparameters(self, sleep_mock):
-        res = self.client.get_hyperparameters()
-        self.assertIndexResponse(res, 'hyperparameter')
-
-    @vcr.use_cassette('hyperparameters/create_valid.yaml')
-    def test_create_hyperparameter_valid(self, sleep_mock):
-        res = self.client.create_hyperparameter(
-            algorithm_name='SVM',
-            algorithm_params={
-                'x': 1,
-                'y': 2,
-            }
-        )
-
-        self.assertResourceResponse(res, 'hyperparameter')
 
     # Warm start requests
 
