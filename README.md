@@ -8,7 +8,7 @@
 ### Install
 
 ```sh
-pip install auger-hub-api-client==0.3.0
+pip install auger-hub-api-client==0.3.2
 ```
 ### Initialize client
 
@@ -178,7 +178,17 @@ make test
 ## Release
 
 Increase version in `setup.py` then build and upload package
+Increase version in **Install** section of readme
+Commit and push changes
 
+Create and push new tag
+
+```bash
+git tag v0.3.2
+git push origin v0.3.2
+```
+
+Then build and uoload new wheel
 ```bash
 python3 setup.py sdist bdist_wheel
 twine upload dist/*
