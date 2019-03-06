@@ -203,42 +203,23 @@ class TestHubApiClient(unittest.TestCase):
 
     @vcr.use_cassette('pipelines/show.yaml')
     def test_get_pipeline(self, sleep_mock):
-        res = self.client.get_pipeline('37fec5a5bfa9f3', experiment_session_id='1bf484f7305779')
+        res = self.client.get_pipeline('c356ff9b6ecc7364')
         self.assertResourceResponse(res, 'pipeline')
 
     @vcr.use_cassette('pipelines/index.yaml')
     def test_get_pipelines(self, sleep_mock):
-        res = self.client.get_pipelines(experiment_session_id='1bf484f7305779')
+        res = self.client.get_pipelines()
         self.assertIndexResponse(res, 'pipeline')
 
     @vcr.use_cassette('pipelines/create_valid.yaml')
     def test_create_pipeline_valid(self, sleep_mock):
-        res = self.client.create_pipeline(
-            experiment_session_id='1bf484f7305779',
-            id='pipeline-123',
-            trial_id='2c9f4cd18e',
-            trial={
-                'task_type': 'subdue leather bags',
-                'evaluation_type': 'fastest one',
-                'score_name': 'strict one',
-                'score_value': 99.9,
-                'hyperparameter': {
-                    'algorithm_name': 'SVM',
-                    'algorithm_params': {
-                        'x': 1,
-                        'y': 2,
-                    }
-                }
-            }
-        )
-
+        res = self.client.create_pipeline(trial_id='1231231')
         self.assertResourceResponse(res, 'pipeline')
 
     @vcr.use_cassette('pipelines/update_valid.yaml')
-    def test_create_pipeline_valid(self, sleep_mock):
+    def test_update_pipeline_valid(self, sleep_mock):
         res = self.client.update_pipeline(
-            'pipeline-123',
-            experiment_session_id='1bf484f7305779',
+            'c356ff9b6ecc7364',
             status='packaging'
         )
 

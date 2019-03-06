@@ -52,8 +52,7 @@ class HubApiClient:
             'actions': ['index', 'show', 'create']
         },
         'pipeline': {
-            'actions': ['index', 'show', 'create', 'update'],
-            'parent_resource': 'experiment_session'
+            'actions': ['index', 'show', 'create', 'update']
         },
         'prediction': {
             'actions': ['index', 'show', 'create']
