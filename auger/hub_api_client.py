@@ -55,6 +55,9 @@ class HubApiClient:
             'actions': ['index', 'show', 'create', 'update'],
             'parent_resource': 'experiment_session'
         },
+        'prediction': {
+            'actions': ['index', 'show', 'create']
+        },
         'similar_trials_request': {
             'actions': ['show', 'create']
         },

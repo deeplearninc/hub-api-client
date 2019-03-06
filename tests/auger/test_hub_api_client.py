@@ -244,6 +244,28 @@ class TestHubApiClient(unittest.TestCase):
 
         self.assertResourceResponse(res, 'pipeline')
 
+    # Predictions
+
+    @vcr.use_cassette('predictions/show.yaml')
+    def test_get_prediction(self, sleep_mock):
+        res = self.client.get_prediction(2)
+        self.assertResourceResponse(res, 'prediction')
+
+    @vcr.use_cassette('predictions/index.yaml')
+    def test_get_predictions(self, sleep_mock):
+        res = self.client.get_predictions()
+        self.assertIndexResponse(res, 'prediction')
+
+    @vcr.use_cassette('predictions/create_valid.yaml')
+    def test_create_prediction_valid(self, sleep_mock):
+        res = self.client.create_prediction(
+            pipeline_id='46188658d308607a',
+            records=[[1.1, 1.2, 1.3], [2.1, 2.2, 2.3]],
+            features=['x1', 'x2', 'x3']
+        )
+
+        self.assertResourceResponse(res, 'prediction')
+
     # Similar trials requests
 
     @vcr.use_cassette('similar_trials_requests/show.yaml')
