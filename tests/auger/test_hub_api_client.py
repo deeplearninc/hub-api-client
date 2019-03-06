@@ -269,25 +269,25 @@ class TestHubApiClient(unittest.TestCase):
 
     @vcr.use_cassette('trials/show.yaml')
     def test_get_trial(self, sleep_mock):
-        res = self.client.get_trial('2c9f4cd18e', experiment_session_id='1bf484f7305779')
+        res = self.client.get_trial('1231231')
         self.assertResourceResponse(res, 'trial')
 
     @vcr.use_cassette('trials/index.yaml')
     def test_get_trials(self, sleep_mock):
-        res = self.client.get_trials(experiment_session_id='1bf484f7305779')
+        res = self.client.get_trials()
         self.assertIndexResponse(res, 'trial')
 
     @vcr.use_cassette('trials/update_one_valid.yaml')
     def test_update_trial_valid(self, sleep_mock):
         res = self.client.update_trial(
-            '2c9f4cd18e',
-            experiment_session_id='1bf484f7305779',
+            '1231231',
             task_type='classification',
             evaluation_type='fastest one',
             score_name='strict one',
             score_value=99.9,
             hyperparameter={
                 'algorithm_name': 'SVM',
+                'algorithm_params_hash': 'svm-07.333',
                 'algorithm_params': {
                     'x': 1,
                     'y': 2,
@@ -300,15 +300,17 @@ class TestHubApiClient(unittest.TestCase):
     @vcr.use_cassette('trials/update_valid.yaml')
     def test_update_trials_valid(self, sleep_mock):
         res = self.client.update_trials(
-            experiment_session_id='1bf484f7305779',
+            experiment_session_id='a2f99b48b6cc5541',
             trials=[
                 {
                     'crossValidationFolds': 5,
                     'uid': '3D1E99741D37422',
                     'classification': True,
-                    'algorithm_name': 'sklearn.ensemble.ExtraTreesClassifier',
                     'score': 0.96,
                     'score_name': 'accuracy',
+                    'task_type': 'regression',
+                    'algorithm_name': 'sklearn.ensemble.ExtraTreesClassifier',
+                    'algorithm_params_hash': 'etc-55.777',
                     'algorithm_params': {
                         'bootstrap': False,
                         'min_samples_leaf': 11,

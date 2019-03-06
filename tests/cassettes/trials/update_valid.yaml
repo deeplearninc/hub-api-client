@@ -1,35 +1,36 @@
 interactions:
 - request:
-    body: '{"experiment_session_id": "1bf484f7305779", "trials": [{"crossValidationFolds":
-      5, "uid": "3D1E99741D37422", "classification": true, "algorithm_name": "sklearn.ensemble.ExtraTreesClassifier",
-      "score": 0.96, "score_name": "accuracy", "algorithm_params": {"bootstrap": false,
-      "min_samples_leaf": 11, "n_estimators": 100, "max_features": 0.9907161412382496,
-      "criterion": "gini", "min_samples_split": 6}}], "project_api_token": "410befdcd606f602c20e5140b94909aeff27800a86459ceb1fc97b7e09bce57b"}'
+    body: !!python/unicode '{"trials": [{"algorithm_params_hash": "etc-55.777", "score":
+      0.96, "algorithm_params": {"bootstrap": false, "min_samples_leaf": 11, "n_estimators":
+      100, "min_samples_split": 6, "criterion": "gini", "max_features": 0.9907161412382496},
+      "uid": "3D1E99741D37422", "classification": true, "algorithm_name": "sklearn.ensemble.ExtraTreesClassifier",
+      "score_name": "accuracy", "task_type": "regression", "crossValidationFolds":
+      5}], "experiment_session_id": "a2f99b48b6cc5541", "project_api_token": "410befdcd606f602c20e5140b94909aeff27800a86459ceb1fc97b7e09bce57b"}'
     headers:
       Accept: ['*/*']
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
-      Content-Length: ['491']
+      Content-Length: ['559']
       Content-type: [application/json]
-      User-Agent: [python-requests/2.20.1]
+      User-Agent: [python-requests/2.19.0]
     method: PATCH
-    uri: http://localhost:5000/api/v1/experiment_sessions/1bf484f7305779/trials
+    uri: http://localhost:5000/api/v1/trials
   response:
-    body: {string: '{"data":[{"object":"trial","deleted":false,"id":"3D1E99741D37422","experiment_session_id":"1bf484f7305779","hyperparameter":{"object":"hyperparameter","deleted":false,"id":12,"algorithm_name":"sklearn.ensemble.ExtraTreesClassifier","algorithm_params":{"bootstrap":false,"min_samples_leaf":11,"n_estimators":100,"max_features":0.9907161412382496,"criterion":"gini","min_samples_split":6}},"score_name":"accuracy","score_value":0.96,"task_type":"classification","raw_data":{"crossValidationFolds":5,"uid":"3D1E99741D37422","classification":true,"algorithm_name":"sklearn.ensemble.ExtraTreesClassifier","score":0.96,"score_name":"accuracy","algorithm_params":{"bootstrap":false,"min_samples_leaf":11,"n_estimators":100,"max_features":0.9907161412382496,"criterion":"gini","min_samples_split":6}},"created_at":"2018-11-14T19:44:16.723Z","updated_at":"2018-11-14T19:44:16.723Z"}],"meta":{"status":200}}'}
+    body: {string: !!python/unicode '{"data":[{"object":"trial","deleted":false,"id":"3D1E99741D37422","experiment_session_id":"a2f99b48b6cc5541","hyperparameter":{"object":"hyperparameter","deleted":false,"id":60,"algorithm_name":"sklearn.ensemble.ExtraTreesClassifier","algorithm_params":{"bootstrap":false,"min_samples_leaf":11,"n_estimators":100,"min_samples_split":6,"criterion":"gini","max_features":0.9907161412382496},"algorithm_params_hash":"etc-55.777"},"score_name":"accuracy","score_value":0.96,"task_type":"regression","metrics":null,"metrics_status":"not_requested","raw_data":{"algorithm_params_hash":"etc-55.777","score":0.96,"algorithm_params":{"bootstrap":false,"min_samples_leaf":11,"n_estimators":100,"min_samples_split":6,"criterion":"gini","max_features":0.9907161412382496},"uid":"3D1E99741D37422","classification":true,"algorithm_name":"sklearn.ensemble.ExtraTreesClassifier","score_name":"accuracy","task_type":"regression","crossValidationFolds":5},"created_at":"2019-03-06T14:51:56.986Z","updated_at":"2019-03-06T14:51:56.986Z"}],"meta":{"status":200}}'}
     headers:
-      Cache-Control: ['max-age=0, private, must-revalidate']
-      Content-Type: [application/json; charset=utf-8]
-      ETag: [W/"4fd2e4c6fe019d7dcd76357c026ed495"]
-      Referrer-Policy: [strict-origin-when-cross-origin]
-      Transfer-Encoding: [chunked]
-      Vary: [Accept-Encoding]
-      X-Content-Type-Options: [nosniff]
-      X-Download-Options: [noopen]
-      X-Frame-Options: [SAMEORIGIN]
-      X-Permitted-Cross-Domain-Policies: [none]
-      X-Request-Id: [0a8f8ab1-5df3-46d0-9fed-447de4f9f34f]
-      X-Runtime: ['0.046529']
-      X-XSS-Protection: [1; mode=block]
-      content-length: ['897']
+      cache-control: ['max-age=0, private, must-revalidate']
+      content-length: ['1042']
+      content-type: [application/json; charset=utf-8]
+      etag: [W/"3fe81dd7cef01d2cfce50913cd5465ae"]
+      referrer-policy: [strict-origin-when-cross-origin]
+      transfer-encoding: [chunked]
+      vary: [Accept-Encoding]
+      x-content-type-options: [nosniff]
+      x-download-options: [noopen]
+      x-frame-options: [SAMEORIGIN]
+      x-permitted-cross-domain-policies: [none]
+      x-request-id: [5c0e2c90-6008-4ec7-9cc4-f3134f0c7015]
+      x-runtime: ['0.274368']
+      x-xss-protection: [1; mode=block]
     status: {code: 200, message: OK}
 version: 1

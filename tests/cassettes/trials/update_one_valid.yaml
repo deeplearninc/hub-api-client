@@ -1,38 +1,38 @@
 interactions:
 - request:
-    body: '{"experiment_session_id": "1bf484f7305779", "task_type": "classification",
-      "evaluation_type": "fastest one", "score_name": "strict one", "score_value":
-      99.9, "hyperparameter": {"algorithm_name": "SVM", "algorithm_params": {"x":
-      1, "y": 2}}, "project_api_token": "410befdcd606f602c20e5140b94909aeff27800a86459ceb1fc97b7e09bce57b"}'
+    body: !!python/unicode '{"task_type": "classification", "score_name": "strict
+      one", "hyperparameter": {"algorithm_name": "SVM", "algorithm_params_hash": "svm-07.333",
+      "algorithm_params": {"y": 2, "x": 1}}, "evaluation_type": "fastest one", "project_api_token":
+      "410befdcd606f602c20e5140b94909aeff27800a86459ceb1fc97b7e09bce57b", "score_value":
+      99.9}'
     headers:
       Accept: ['*/*']
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
-      Content-Length: ['329']
+      Content-Length: ['325']
       Content-type: [application/json]
-      User-Agent: [python-requests/2.20.1]
+      User-Agent: [python-requests/2.19.0]
     method: PATCH
-    uri: http://localhost:5000/api/v1/experiment_sessions/1bf484f7305779/trials/2c9f4cd18e
+    uri: http://localhost:5000/api/v1/trials/1231231
   response:
-    body: {string: '{"data":{"object":"trial","deleted":false,"id":"2c9f4cd18e","experiment_session_id":"1bf484f7305779","hyperparameter":{"object":"hyperparameter","deleted":false,"id":10,"algorithm_name":"sklearn.naive_bayes.BernoulliNB","algorithm_params":{"alpha":38.88019610571887,"fit_prior":true}},"score_name":"strict
-        one","score_value":0.599461091136353,"task_type":"regression","raw_data":{"uid":"2c9f4cd18e","error":null,"ratio":1.0,"score":0.5994610911363535,"budget":null,"scoring":"f1","ensemble":false,"all_scores":{"f1":0.5994610911363535,"recall":0.5076237015674652,"roc_auc":0.9307678557380448,"accuracy":0.8896342039045146,"f1_macro":0.7677303373060739,"f1_micro":0.8896342039045146,"precision":0.7318870894601397,"f1_weighted":0.8812466528751092,"neg_log_loss":-0.2367266878917726,"recall_macro":0.7357426269706364,"recall_micro":0.8896342039045146,"precision_macro":0.8207952796266752,"precision_micro":0.8896342039045146,"recall_weighted":0.8896342039045146,"average_precision":0.7276520336635652,"precision_weighted":0.880773741694883},"score_name":"strict
-        one","trialClass":null,"fold_scores":[0.597210441994157,0.6027565954625111,0.5984162359523924],"algorithm_name":"sklearn.ensemble.RandomForestClassifier","optimizer_name":"auger_ml.optimizers.pso_optimizer.PSOOptimizer","project_run_id":"D6AAC6110357410","evaluation_time":499.3518218994141,"algorithm_params":{"n_jobs":-1,"bootstrap":true,"criterion":"gini","max_features":0.5555568747692685,"n_estimators":100,"min_samples_leaf":4,"min_samples_split":15},"dataset_manifest_id":"63DAECF6D03C404","task_type":"classification","evaluation_type":"fastest
-        one","score_value":99.9,"hyperparameter":{"algorithm_name":"SVM","algorithm_params":{"x":1,"y":2}},"trial":{"experiment_session_id":"1bf484f7305779","score_name":"strict
-        one","score_value":99.9,"task_type":"classification"}},"created_at":"2018-11-14T18:26:58.804Z","updated_at":"2018-11-14T19:38:58.135Z"},"meta":{"status":200}}'}
+    body: {string: !!python/unicode '{"data":{"object":"trial","deleted":false,"id":"1231231","experiment_session_id":"a2f99b48b6cc5541","hyperparameter":{"object":"hyperparameter","deleted":false,"id":58,"algorithm_name":"auger_ml.ensembles.algorithms.GreedySelectionAlgorithm","algorithm_params":{"n_bags":3,"n_best":1,"improve_eps":false,"bag_fraction":0.5,"random_state":42,"_steps_params":{"weights":[1.0],"pipelines":[{"name":"sklearn.ensemble.ExtraTreesClassifier","params":{"n_jobs":1,"bootstrap":false,"criterion":"gini","max_features":0.5023880584658533,"n_estimators":100,"min_samples_leaf":11,"min_samples_split":6}}],"classification":true},"prune_fraction":0.0,"max_bag_pipelines":3},"algorithm_params_hash":""},"score_name":"strict
+        one","score_value":0.8,"task_type":"classification","metrics":null,"metrics_status":"not_requested","raw_data":{"x":1,"task_type":"classification","score_name":"strict
+        one","hyperparameter":{"algorithm_name":"SVM","algorithm_params_hash":"svm-07.333","algorithm_params":{"y":2,"x":1}},"evaluation_type":"fastest
+        one","score_value":99.9,"trial":{"score_name":"strict one","score_value":99.9,"task_type":"classification"}},"created_at":"2019-03-06T14:34:41.727Z","updated_at":"2019-03-06T14:50:16.363Z"},"meta":{"status":200}}'}
     headers:
-      Cache-Control: ['max-age=0, private, must-revalidate']
-      Content-Type: [application/json; charset=utf-8]
-      ETag: [W/"1d10899206c7f2731258037b806eb990"]
-      Referrer-Policy: [strict-origin-when-cross-origin]
-      Transfer-Encoding: [chunked]
-      Vary: [Accept-Encoding]
-      X-Content-Type-Options: [nosniff]
-      X-Download-Options: [noopen]
-      X-Frame-Options: [SAMEORIGIN]
-      X-Permitted-Cross-Domain-Policies: [none]
-      X-Request-Id: [a25427c7-ede8-47ba-ab0b-c990f08f1a33]
-      X-Runtime: ['0.071625']
-      X-XSS-Protection: [1; mode=block]
-      content-length: ['1941']
+      cache-control: ['max-age=0, private, must-revalidate']
+      content-length: ['1233']
+      content-type: [application/json; charset=utf-8]
+      etag: [W/"6c83538f7b203b105315f85cc0624f02"]
+      referrer-policy: [strict-origin-when-cross-origin]
+      transfer-encoding: [chunked]
+      vary: [Accept-Encoding]
+      x-content-type-options: [nosniff]
+      x-download-options: [noopen]
+      x-frame-options: [SAMEORIGIN]
+      x-permitted-cross-domain-policies: [none]
+      x-request-id: [2b78d12b-6c59-4ac7-a253-507d8cecf6f6]
+      x-runtime: ['0.076850']
+      x-xss-protection: [1; mode=block]
     status: {code: 200, message: OK}
 version: 1

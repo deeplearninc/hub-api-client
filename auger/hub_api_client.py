@@ -61,8 +61,7 @@ class HubApiClient:
             'actions': ['show', 'create']
         },
         'trial': {
-            'actions': ['index', 'show', 'update'],
-            'parent_resource': 'experiment_session'
+            'actions': ['index', 'show', 'update']
         },
         'warm_start_request': {
             'actions': ['show', 'create']
