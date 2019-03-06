@@ -52,15 +52,16 @@ class HubApiClient:
             'actions': ['index', 'show', 'create']
         },
         'pipeline': {
-            'actions': ['index', 'show', 'create', 'update'],
-            'parent_resource': 'experiment_session'
+            'actions': ['index', 'show', 'create', 'update']
+        },
+        'prediction': {
+            'actions': ['index', 'show', 'create']
         },
         'similar_trials_request': {
             'actions': ['show', 'create']
         },
         'trial': {
-            'actions': ['index', 'show', 'update'],
-            'parent_resource': 'experiment_session'
+            'actions': ['index', 'show', 'update']
         },
         'warm_start_request': {
             'actions': ['show', 'create']

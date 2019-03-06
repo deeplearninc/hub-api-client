@@ -203,46 +203,49 @@ class TestHubApiClient(unittest.TestCase):
 
     @vcr.use_cassette('pipelines/show.yaml')
     def test_get_pipeline(self, sleep_mock):
-        res = self.client.get_pipeline('37fec5a5bfa9f3', experiment_session_id='1bf484f7305779')
+        res = self.client.get_pipeline('c356ff9b6ecc7364')
         self.assertResourceResponse(res, 'pipeline')
 
     @vcr.use_cassette('pipelines/index.yaml')
     def test_get_pipelines(self, sleep_mock):
-        res = self.client.get_pipelines(experiment_session_id='1bf484f7305779')
+        res = self.client.get_pipelines()
         self.assertIndexResponse(res, 'pipeline')
 
     @vcr.use_cassette('pipelines/create_valid.yaml')
     def test_create_pipeline_valid(self, sleep_mock):
-        res = self.client.create_pipeline(
-            experiment_session_id='1bf484f7305779',
-            id='pipeline-123',
-            trial_id='2c9f4cd18e',
-            trial={
-                'task_type': 'subdue leather bags',
-                'evaluation_type': 'fastest one',
-                'score_name': 'strict one',
-                'score_value': 99.9,
-                'hyperparameter': {
-                    'algorithm_name': 'SVM',
-                    'algorithm_params': {
-                        'x': 1,
-                        'y': 2,
-                    }
-                }
-            }
-        )
-
+        res = self.client.create_pipeline(trial_id='1231231')
         self.assertResourceResponse(res, 'pipeline')
 
     @vcr.use_cassette('pipelines/update_valid.yaml')
-    def test_create_pipeline_valid(self, sleep_mock):
+    def test_update_pipeline_valid(self, sleep_mock):
         res = self.client.update_pipeline(
-            'pipeline-123',
-            experiment_session_id='1bf484f7305779',
+            'c356ff9b6ecc7364',
             status='packaging'
         )
 
         self.assertResourceResponse(res, 'pipeline')
+
+    # Predictions
+
+    @vcr.use_cassette('predictions/show.yaml')
+    def test_get_prediction(self, sleep_mock):
+        res = self.client.get_prediction(2)
+        self.assertResourceResponse(res, 'prediction')
+
+    @vcr.use_cassette('predictions/index.yaml')
+    def test_get_predictions(self, sleep_mock):
+        res = self.client.get_predictions()
+        self.assertIndexResponse(res, 'prediction')
+
+    @vcr.use_cassette('predictions/create_valid.yaml')
+    def test_create_prediction_valid(self, sleep_mock):
+        res = self.client.create_prediction(
+            pipeline_id='46188658d308607a',
+            records=[[1.1, 1.2, 1.3], [2.1, 2.2, 2.3]],
+            features=['x1', 'x2', 'x3']
+        )
+
+        self.assertResourceResponse(res, 'prediction')
 
     # Similar trials requests
 
@@ -266,25 +269,25 @@ class TestHubApiClient(unittest.TestCase):
 
     @vcr.use_cassette('trials/show.yaml')
     def test_get_trial(self, sleep_mock):
-        res = self.client.get_trial('2c9f4cd18e', experiment_session_id='1bf484f7305779')
+        res = self.client.get_trial('1231231')
         self.assertResourceResponse(res, 'trial')
 
     @vcr.use_cassette('trials/index.yaml')
     def test_get_trials(self, sleep_mock):
-        res = self.client.get_trials(experiment_session_id='1bf484f7305779')
+        res = self.client.get_trials()
         self.assertIndexResponse(res, 'trial')
 
     @vcr.use_cassette('trials/update_one_valid.yaml')
     def test_update_trial_valid(self, sleep_mock):
         res = self.client.update_trial(
-            '2c9f4cd18e',
-            experiment_session_id='1bf484f7305779',
+            '1231231',
             task_type='classification',
             evaluation_type='fastest one',
             score_name='strict one',
             score_value=99.9,
             hyperparameter={
                 'algorithm_name': 'SVM',
+                'algorithm_params_hash': 'svm-07.333',
                 'algorithm_params': {
                     'x': 1,
                     'y': 2,
@@ -297,15 +300,17 @@ class TestHubApiClient(unittest.TestCase):
     @vcr.use_cassette('trials/update_valid.yaml')
     def test_update_trials_valid(self, sleep_mock):
         res = self.client.update_trials(
-            experiment_session_id='1bf484f7305779',
+            experiment_session_id='a2f99b48b6cc5541',
             trials=[
                 {
                     'crossValidationFolds': 5,
                     'uid': '3D1E99741D37422',
                     'classification': True,
-                    'algorithm_name': 'sklearn.ensemble.ExtraTreesClassifier',
                     'score': 0.96,
                     'score_name': 'accuracy',
+                    'task_type': 'regression',
+                    'algorithm_name': 'sklearn.ensemble.ExtraTreesClassifier',
+                    'algorithm_params_hash': 'etc-55.777',
                     'algorithm_params': {
                         'bootstrap': False,
                         'min_samples_leaf': 11,

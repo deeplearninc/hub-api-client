@@ -1,0 +1,33 @@
+interactions:
+- request:
+    body: !!python/unicode '{"pipeline_id": "46188658d308607a", "project_api_token":
+      "410befdcd606f602c20e5140b94909aeff27800a86459ceb1fc97b7e09bce57b", "features":
+      ["x1", "x2", "x3"], "records": [[1.1, 1.2, 1.3], [2.1, 2.2, 2.3]]}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['203']
+      Content-type: [application/json]
+      User-Agent: [python-requests/2.19.0]
+    method: POST
+    uri: http://localhost:5000/api/v1/predictions
+  response:
+    body: {string: !!python/unicode '{"data":{"object":"prediction","deleted":false,"id":2,"pipeline_id":"46188658d308607a","status":"requested","records_count":2,"time_consumed_ms":null,"result":null},"meta":{"status":200}}'}
+    headers:
+      cache-control: ['max-age=0, private, must-revalidate']
+      content-length: ['187']
+      content-type: [application/json; charset=utf-8]
+      etag: [W/"64d61f6e1031ca0ae51f0aed360d3e1f"]
+      referrer-policy: [strict-origin-when-cross-origin]
+      transfer-encoding: [chunked]
+      vary: ['Accept-Encoding, Origin']
+      x-content-type-options: [nosniff]
+      x-download-options: [noopen]
+      x-frame-options: [SAMEORIGIN]
+      x-permitted-cross-domain-policies: [none]
+      x-request-id: [2920f899-7573-4c16-8c26-424be6dd1775]
+      x-runtime: ['0.273879']
+      x-xss-protection: [1; mode=block]
+    status: {code: 200, message: OK}
+version: 1
