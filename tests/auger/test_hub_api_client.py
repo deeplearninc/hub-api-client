@@ -268,6 +268,13 @@ class TestHubApiClient(unittest.TestCase):
 
         self.assertResourceResponse(res, 'hyperparameter')
 
+    # Instance types
+
+    @vcr.use_cassette('instance_types/index.yaml')
+    def test_get_instance_types(self, sleep_mock):
+        res = self.client.get_instance_types()
+        self.assertIndexResponse(res, 'instance_type')
+
     # Organizations
 
     @vcr.use_cassette('organizations/show.yaml')
@@ -349,6 +356,48 @@ class TestHubApiClient(unittest.TestCase):
         )
 
         self.assertResourceResponse(res, 'prediction')
+
+    # Projects
+
+    @vcr.use_cassette('projects/show.yaml')
+    def test_get_project(self, sleep_mock):
+      res = self.client.get_project(31)
+      self.assertResourceResponse(res, 'project')
+
+    @vcr.use_cassette('projects/index.yaml')
+    def test_get_projects(self, sleep_mock):
+        res = self.client.get_projects()
+        self.assertIndexResponse(res, 'project')
+
+    @vcr.use_cassette('projects/create_valid.yaml')
+    def test_create_project_valid(self, sleep_mock):
+        res = self.client.create_project(
+            name='my-project',
+            organization_id=23
+        )
+
+        self.assertResourceResponse(res, 'project')
+
+    @vcr.use_cassette('projects/update_valid.yaml')
+    def test_update_project_valid(self, sleep_mock):
+        res = self.client.update_project(
+            43,
+            default_worker_nodes_count=5,
+            default_kubernetes_stack='experimental'
+        )
+
+        self.assertResourceResponse(res, 'project')
+
+    @vcr.use_cassette('projects/delete_valid.yaml')
+    def test_delete_project_valid(self, sleep_mock):
+        res = self.client.delete_project(43)
+        self.assertResourceResponse(res, 'project')
+
+    @vcr.use_cassette('projects/get_logs.yaml')
+    def test_get_project_logs(self, sleep_mock):
+        res = self.client.get_project_logs(31)
+        self.assertIsInstance(res, string_type)
+
 
     # Similar trials requests
 

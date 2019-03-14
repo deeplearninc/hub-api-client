@@ -57,6 +57,9 @@ class HubApiClient:
         'hyperparameter': {
             'actions': ['index', 'show', 'create']
         },
+        'instance_type': {
+            'actions': ['index']
+        },
         'organization': {
             'actions': ['index', 'show', 'create', 'update', 'delete']
         },
@@ -65,6 +68,9 @@ class HubApiClient:
         },
         'prediction': {
             'actions': ['index', 'show', 'create']
+        },
+        'project': {
+            'actions': ['index', 'show', 'create', 'update', 'delete']
         },
         'similar_trials_request': {
             'actions': ['show', 'create']
@@ -79,6 +85,8 @@ class HubApiClient:
             'actions': ['show', 'create']
         }
     }
+
+    API_PREFIX = '/api/v1'
 
     def __init__(self, **config):
         self.base_url = config['hub_app_url']
@@ -122,18 +130,29 @@ class HubApiClient:
         except ConnectionError as e:
             raise self.RetryableApiError(str(e))
 
-    def handle_response(self, res):
+    def handle_response(self, res, plain_text=False):
+        if plain_text:
+            reponse = res.text
+            meta = {}
+        else:
+            try:
+                reponse = res.json()
+                meta = reponse.get('meta')
+            except (JSONDecodeError, ValueError):
+                response = res.text
+                meta = {}
+
         if res.status_code == 200:
-            return res.json()
+            return reponse
         elif res.status_code == 400:
             # Invalid input data, we can't do anyting, consumer should fix source code
-            raise self.InvalidParamsError(self.format_response(res), res.json().get('meta'))
+            raise self.InvalidParamsError(self.format_response(res), meta)
         elif res.status_code == 401 or res.status_code == 403 or res.status_code == 404 or res.status_code == 500:
             # Invalid token or error in source code, we can't do anyting raise error
-            raise self.FatalApiError(self.format_response(res), res.json().get('meta'))
+            raise self.FatalApiError(self.format_response(res), meta)
         else:
             # In case of another error we can retry
-            raise self.RetryableApiError(self.format_response(res), res.json().get('meta'))
+            raise self.RetryableApiError(self.format_response(res), meta)
 
     def format_api_error(self, error):
         return '{param} {message}'.format(
@@ -151,10 +170,10 @@ class HubApiClient:
         except (JSONDecodeError, ValueError) as e:
             raise self.FatalApiError(self.extract_plain_text(res.text))
 
-    def make_and_handle_request(self, method_name, path, payload={}, retries_left=5):
+    def make_and_handle_request(self, method_name, path, payload={}, retries_left=5, plain_text=False):
         try:
             res = self.request(method_name, path, payload)
-            return self.handle_response(res)
+            return self.handle_response(res, plain_text=plain_text)
         except self.RetryableApiError as e:
             if retries_left > 0:
                 time.sleep(self.retry_wait_seconds)
@@ -196,7 +215,10 @@ class HubApiClient:
                 parent_resource_name=parent_resource_name,
             )
         else:
-            return '/api/v1/{resource_name}s'.format(resource_name=resource_name)
+            return '{api_prefix}/{resource_name}s'.format(
+                api_prefix=self.API_PREFIX,
+                resource_name=resource_name
+            )
 
     def define_actions(self):
         for resource_name, options in self.API_SCHEMA.items():
@@ -280,3 +302,7 @@ class HubApiClient:
     # Deviation, not pure RESTfull endpoint, updates a bunch of trials for project run
     def update_trials(self, **kwargs):
         return self.update_trial(id=None, **kwargs)
+
+    def get_project_logs(self, id, **kwargs):
+        path = '{api_prefix}/projects/{id}/logs'.format(api_prefix=self.API_PREFIX, id=id)
+        return self.make_and_handle_request('get', path, plain_text=True)
