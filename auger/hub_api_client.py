@@ -109,7 +109,7 @@ class HubApiClient:
         elif self.system_token:
             return { 'system_token': self.system_token }
         else:
-            raise self.FatalApiError('expect any token to be provided in configuration')
+            return {}
 
     def request(self, method_name, path, payload={}):
         try:
