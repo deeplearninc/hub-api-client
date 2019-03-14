@@ -1,0 +1,32 @@
+interactions:
+- request:
+    body: '{"role_to_assume_arn": "arn:aws:iam::529880471834:role/auger-hub-role-alex",
+      "project_api_token": "410befdcd606f602c20e5140b94909aeff27800a86459ceb1fc97b7e09bce57b"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['165']
+      Content-type: [application/json]
+      User-Agent: [python-requests/2.18.4]
+    method: PATCH
+    uri: http://localhost:5000/api/v1/organizations/50
+  response:
+    body: {string: '{"data":{"object":"organization","deleted":false,"id":50,"name":"my-organization","subdomain":"my-organization","main_bucket":"auger-my-organiz-36tdcc","status":"waiting","state_machine":{"object":"state_machine","deleted":false,"current_state":{"id":"waiting","name":"Waiting"},"possible_transitions":[]},"is_demo":false,"is_jupyter_enabled":true,"error_message":null,"created_at":"2019-03-14T10:58:30.648Z","updated_at":"2019-03-14T11:01:35.614Z"},"meta":{"status":200}}'}
+    headers:
+      Cache-Control: ['max-age=0, private, must-revalidate']
+      Content-Type: [application/json; charset=utf-8]
+      ETag: [W/"04ab5515fe62ea767094ea2556fc5ac8"]
+      Referrer-Policy: [strict-origin-when-cross-origin]
+      Transfer-Encoding: [chunked]
+      Vary: [Accept-Encoding]
+      X-Content-Type-Options: [nosniff]
+      X-Download-Options: [noopen]
+      X-Frame-Options: [SAMEORIGIN]
+      X-Permitted-Cross-Domain-Policies: [none]
+      X-Request-Id: [0b102d40-369f-47ce-9724-c8d7c6dd6436]
+      X-Runtime: ['1.321511']
+      X-XSS-Protection: [1; mode=block]
+      content-length: ['472']
+    status: {code: 200, message: OK}
+version: 1

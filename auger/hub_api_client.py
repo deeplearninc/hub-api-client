@@ -57,6 +57,9 @@ class HubApiClient:
         'hyperparameter': {
             'actions': ['index', 'show', 'create']
         },
+        'organization': {
+            'actions': ['index', 'show', 'create', 'update', 'delete']
+        },
         'pipeline': {
             'actions': ['index', 'show', 'create', 'update']
         },

@@ -1,9 +1,15 @@
 import unittest
 import random
+import sys
 from mock import patch
 
 from auger.hub_api_client import HubApiClient
 from tests.vcr_helper import vcr
+
+if sys.version_info[0] >= 3:
+    string_type = str
+else:
+    string_type = unicode
 
 @patch('time.sleep', return_value=None)
 class TestHubApiClient(unittest.TestCase):
@@ -41,7 +47,7 @@ class TestHubApiClient(unittest.TestCase):
         self.assertEquals(metadata['status'], 401)
         error = metadata['errors'][0]
         self.assertEquals(error['error_type'], 'unauthenticated')
-        self.assertIsInstance(error['message'], str)
+        self.assertIsInstance(error['message'], string_type)
 
     # Auth with token
 
@@ -262,6 +268,40 @@ class TestHubApiClient(unittest.TestCase):
 
         self.assertResourceResponse(res, 'hyperparameter')
 
+    # Organizations
+
+    @vcr.use_cassette('organizations/show.yaml')
+    def test_get_organization(self, sleep_mock):
+      res = self.client.get_organization(23)
+      self.assertResourceResponse(res, 'organization')
+
+    @vcr.use_cassette('organizations/index.yaml')
+    def test_get_organizations(self, sleep_mock):
+        res = self.client.get_organizations()
+        self.assertIndexResponse(res, 'organization')
+
+    @vcr.use_cassette('organizations/create_valid.yaml')
+    def test_create_organization_valid(self, sleep_mock):
+        res = self.client.create_organization(
+            name='my-organization'
+        )
+
+        self.assertResourceResponse(res, 'organization')
+
+    @vcr.use_cassette('organizations/update_valid.yaml')
+    def test_update_organization_valid(self, sleep_mock):
+        res = self.client.update_organization(
+            50,
+            role_to_assume_arn='arn:aws:iam::529880471834:role/auger-hub-role-alex'
+        )
+
+        self.assertResourceResponse(res, 'organization')
+
+    @vcr.use_cassette('organizations/delete_valid.yaml')
+    def test_delete_organization_valid(self, sleep_mock):
+        res = self.client.delete_organization(50)
+        self.assertResourceResponse(res, 'organization')
+
     # Pipelines
 
     @vcr.use_cassette('pipelines/show.yaml')
@@ -337,7 +377,7 @@ class TestHubApiClient(unittest.TestCase):
             password='password'
         )
 
-        self.assertDataResponse(res, {'token': str, 'confirmation_required': bool})
+        self.assertDataResponse(res, {'token': string_type, 'confirmation_required': bool})
 
     @vcr.use_cassette('tokens/create_invalid.yaml')
     def test_create_token_invalid(self, sleep_mock):
