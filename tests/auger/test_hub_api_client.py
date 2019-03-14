@@ -30,6 +30,19 @@ class TestHubApiClient(unittest.TestCase):
         self.assertIsInstance(res['data'], dict)
         self.assertEquals(res['data']['object'], expected_object)
 
+    def assertDataResponse(self, res, expected_keys):
+        self.assertEquals(res['meta']['status'], 200)
+        self.assertIsInstance(res['data'], dict)
+        for expected_key in expected_keys:
+            expected_type = expected_keys[expected_key]
+            self.assertIsInstance(res['data'][expected_key], expected_type)
+
+    def assertUnauthenticatedResponse(self, metadata):
+        self.assertEquals(metadata['status'], 401)
+        error = metadata['errors'][0]
+        self.assertEquals(error['error_type'], 'unauthenticated')
+        self.assertIsInstance(error['message'], str)
+
 
     # Cluster tasks
 
@@ -264,6 +277,27 @@ class TestHubApiClient(unittest.TestCase):
         )
 
         self.assertResourceResponse(res, 'similar_trials_request')
+
+    # Tokens
+
+    @vcr.use_cassette('tokens/create_valid.yaml')
+    def test_create_token_valid(self, sleep_mock):
+        res = self.client.create_token(
+            email='her@mail.com',
+            password='password'
+        )
+
+        self.assertDataResponse(res, {'token': str, 'confirmation_required': bool})
+
+    @vcr.use_cassette('tokens/create_invalid.yaml')
+    def test_create_token_invalid(self, sleep_mock):
+        with self.assertRaises(HubApiClient.FatalApiError) as context:
+            self.client.create_token(
+                email='her@mail.com',
+                password='wrong'
+            )
+
+        self.assertUnauthenticatedResponse(context.exception.metadata())
 
     # Trials
 

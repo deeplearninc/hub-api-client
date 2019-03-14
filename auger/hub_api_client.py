@@ -18,21 +18,24 @@ except ImportError:
 from requests.exceptions import ConnectionError
 
 class HubApiClient:
-    # Means that consumer code can't do nothing with this error
-    # Only changing of comnsumer source code or config parameters can help
-    class FatalApiError(Exception):
-        pass
-
-    # Wrong input, consumer should fix input values
-    class InvalidParamsError(Exception):
+    class BaseError(Exception):
         def metadata(self):
             return self.args[1]
 
-    # Temporary network issue, retry can help
-    class RetryableApiError(Exception):
+    # Means that consumer code can't do nothing with this error
+    # Only changing of comnsumer source code or config parameters can help
+    class FatalApiError(BaseError):
         pass
 
-    class MissingParamError(Exception):
+    # Wrong input, consumer should fix input values
+    class InvalidParamsError(BaseError):
+        pass
+
+    # Temporary network issue, retry can help
+    class RetryableApiError(BaseError):
+        pass
+
+    class MissingParamError(BaseError):
         pass
 
     API_SCHEMA = {
@@ -59,6 +62,9 @@ class HubApiClient:
         },
         'similar_trials_request': {
             'actions': ['show', 'create']
+        },
+        'token': {
+            'actions': ['create']
         },
         'trial': {
             'actions': ['index', 'show', 'update']
@@ -112,13 +118,13 @@ class HubApiClient:
             return res.json()
         elif res.status_code == 400:
             # Invalid input data, we can't do anyting, consumer should fix source code
-            raise self.InvalidParamsError(self.format_response(res), res.json()['meta'])
+            raise self.InvalidParamsError(self.format_response(res), res.json().get('meta'))
         elif res.status_code == 401 or res.status_code == 403 or res.status_code == 404 or res.status_code == 500:
             # Invalid token or error in source code, we can't do anyting raise error
-            raise self.FatalApiError(self.format_response(res))
+            raise self.FatalApiError(self.format_response(res), res.json().get('meta'))
         else:
             # In case of another error we can retry
-            raise self.RetryableApiError(self.format_response(res))
+            raise self.RetryableApiError(self.format_response(res), res.json().get('meta'))
 
     def format_api_error(self, error):
         return '{param} {message}'.format(
@@ -198,7 +204,10 @@ class HubApiClient:
             if parent_id:
                 return path_template.format(parent_id=parent_id)
             else:
-                raise self.MissingParamError('{name} parameter is required'.format(name=parent_id_key))
+                raise self.MissingParamError(
+                    '{name} parameter is required'.format(name=parent_id_key),
+                    res.json().get('meta')
+                )
         elif not parent_resource_name:
             return path_template
         else:
