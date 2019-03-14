@@ -37,6 +37,8 @@ Full set of available resources, required parameters and parent resource names d
 
 This client currently support only next subset of resources:
 
+* cluster
+* cluster_task
 * dataset_manifest
 * experiment (ex. notebook)
 * experiment_session (ex. project_run)
@@ -44,7 +46,7 @@ This client currently support only next subset of resources:
 * pipeline
 * prediction
 * similar_trials_request
-* tokens
+* token
 * trial
 * warm_start_request
 

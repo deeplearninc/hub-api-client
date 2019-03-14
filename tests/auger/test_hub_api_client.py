@@ -67,6 +67,33 @@ class TestHubApiClient(unittest.TestCase):
 
         self.assertUnauthenticatedResponse(context.exception.metadata())
 
+    # Clusters
+
+    @vcr.use_cassette('clusters/show.yaml')
+    def test_get_cluster(self, sleep_mock):
+      res = self.client.get_cluster(127)
+      self.assertResourceResponse(res, 'cluster')
+
+    @vcr.use_cassette('clusters/index.yaml')
+    def test_get_clusters(self, sleep_mock):
+        res = self.client.get_clusters()
+        self.assertIndexResponse(res, 'cluster')
+
+    @vcr.use_cassette('clusters/create_valid.yaml')
+    def test_create_cluster_valid(self, sleep_mock):
+        res = self.client.create_cluster(
+            name='my-cluster',
+            organization_id=23,
+            project_id=31
+        )
+
+        self.assertResourceResponse(res, 'cluster')
+
+    @vcr.use_cassette('clusters/delete_valid.yaml')
+    def test_delete_cluster_valid(self, sleep_mock):
+        res = self.client.delete_cluster(340)
+        self.assertResourceResponse(res, 'cluster')
+
     # Cluster tasks
 
     @vcr.use_cassette('cluster_tasks/show.yaml')
