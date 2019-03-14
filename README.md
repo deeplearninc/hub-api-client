@@ -8,7 +8,7 @@
 ### Install
 
 ```sh
-pip install auger-hub-api-client==0.4.2
+pip install auger-hub-api-client==0.4.3
 ```
 ### Initialize client
 
@@ -192,8 +192,8 @@ Commit and push changes
 Create and push new tag
 
 ```bash
-git tag v0.4.2
-git push origin v0.4.2
+git tag v0.4.3
+git push origin v0.4.3
 ```
 
 Then build and upload new wheel

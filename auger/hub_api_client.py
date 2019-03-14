@@ -186,7 +186,9 @@ class HubApiClient:
 
 
     def get_paginated_response(self, full_path, limit=50, offset=0, **kwargs):
-        return self.get(full_path, { 'limit': limit, 'offset': offset })
+        args = { 'limit': limit, 'offset': offset }
+        args.update(kwargs)
+        return self.get(full_path, args)
 
     def iterate_all_resource_pages(self, method_name, handler, **kwargs):
         offset = 0

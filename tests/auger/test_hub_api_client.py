@@ -212,6 +212,11 @@ class TestHubApiClient(unittest.TestCase):
         res = self.client.get_experiment_sessions()
         self.assertIndexResponse(res, 'experiment_session')
 
+    @vcr.use_cassette('experiment_sessions/index_with_filter.yaml')
+    def test_get_experiment_sessions_with_filter(self, sleep_mock):
+        res = self.client.get_experiment_sessions(project_id=31)
+        self.assertIndexResponse(res, 'experiment_session')
+
     @vcr.use_cassette('experiment_sessions/create_malformed_json.yaml')
     def test_create_experiment_session_malformed_json(self, sleep_mock):
         with self.assertRaises(HubApiClient.FatalApiError) as context:
