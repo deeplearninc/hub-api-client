@@ -25,6 +25,7 @@ client = HubApiClient(
 Client parameters:
 
 * `hub_app_url` - URL of Hub API server (e.g. http://localhost:5000 or https://app.auger.ai/)
+* `token` - user token, can be obtained with `create_token` request with user credentials
 * `hub_project_api_token` - project token (provides project and cluster context to API)
 * `hub_cluster_api_token` - cluster token (provides cluster context to API)
 
@@ -43,6 +44,7 @@ This client currently support only next subset of resources:
 * pipeline
 * prediction
 * similar_trials_request
+* tokens
 * trial
 * warm_start_request
 
@@ -189,7 +191,7 @@ git tag v0.3.3
 git push origin v0.3.3
 ```
 
-Then build and uoload new wheel
+Then build and upload new wheel
 ```bash
 python3 setup.py sdist bdist_wheel
 twine upload dist/*

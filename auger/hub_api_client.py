@@ -76,6 +76,7 @@ class HubApiClient:
 
     def __init__(self, **config):
         self.base_url = config['hub_app_url']
+        self.token = config.get('token', None)
         self.system_token = config.get('hub_system_token', None)
         self.cluster_api_token = config.get('hub_cluster_api_token', None)
         self.project_api_token = config.get('hub_project_api_token', None)
@@ -97,6 +98,8 @@ class HubApiClient:
             return { 'project_api_token': self.project_api_token }
         elif self.cluster_api_token:
             return { 'cluster_api_token': self.cluster_api_token }
+        elif self.token:
+            return { 'token': self.token }
         elif self.system_token:
             return { 'system_token': self.system_token }
         else:

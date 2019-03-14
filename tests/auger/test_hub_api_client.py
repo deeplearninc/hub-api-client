@@ -43,6 +43,29 @@ class TestHubApiClient(unittest.TestCase):
         self.assertEquals(error['error_type'], 'unauthenticated')
         self.assertIsInstance(error['message'], str)
 
+    # Auth with token
+
+    @vcr.use_cassette('auth/token_valid.yaml')
+    def test_auth_token_valid(self, sleep_mock):
+        client = HubApiClient(
+            hub_app_url='http://localhost:5000',
+            token='eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImhlckBtYWlsLmNvbSIsImV4cCI6MTU1NTIzNjI0NH0.SyZ5e1-zbuFEy7Q176fcuToehpdwrSIa-CK-qTs0D_E'
+        )
+
+        res = client.get_experiments()
+        self.assertIndexResponse(res, 'experiment')
+
+    @vcr.use_cassette('auth/token_invalid.yaml')
+    def test_auth_token_invalid(self, sleep_mock):
+        client = HubApiClient(
+            hub_app_url='http://localhost:5000',
+            token='wrong'
+        )
+
+        with self.assertRaises(HubApiClient.FatalApiError) as context:
+            client.get_experiments()
+
+        self.assertUnauthenticatedResponse(context.exception.metadata())
 
     # Cluster tasks
 
