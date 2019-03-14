@@ -1,0 +1,32 @@
+interactions:
+- request:
+    body: '{"limit": 50, "offset": 0, "project_api_token": "410befdcd606f602c20e5140b94909aeff27800a86459ceb1fc97b7e09bce57b"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['115']
+      Content-type: [application/json]
+      User-Agent: [python-requests/2.18.4]
+    method: GET
+    uri: http://localhost:5000/api/v1/clusters
+  response:
+    body: {string: '{"data":[{"object":"cluster","deleted":false,"id":127,"name":"x","status":"terminating","error_message":null,"organization_id":23,"created_by":{"object":"user","deleted":false,"id":2,"email":"x@x.com","unconfirmed_email":null,"created_at":"2017-12-05T16:28:32.958Z","company_name":null,"name":null,"selected_plan":"free","confirmation_required":false},"worker_nodes_count":1,"workers_per_node_count":1,"total_memory_mb":3814,"instance_type":{"object":"instance_type","deleted":false,"id":"t2.medium","description":"2xCPU
+        4.0 GB RAM"},"uptime_seconds":16259607,"seconds_since_created":40068921,"ip_address":null,"file_uploader_service":{"url":null,"params":{"auger_token":"c68c269feb9b53b3453cc6295dca2f7e3f347825dd69b1b79eaa2715c55b3986"}},"components":[],"docker_image_tag":"stable","created_at":"2017-12-05T16:29:31.413Z","updated_at":"2018-06-11T21:03:54.101Z","platform":"aws","project_name":null,"autoterminate_minutes":0,"state_machine":{"object":"state_machine","deleted":false,"current_state":{"id":"terminating","name":"Terminating"},"possible_transitions":[{"id":"terminate","name":"terminate"}]}}],"meta":{"status":200,"pagination":{"limit":50,"offset":0,"count":1,"total":1}}}'}
+    headers:
+      Cache-Control: ['max-age=0, private, must-revalidate']
+      Content-Type: [application/json; charset=utf-8]
+      ETag: [W/"d8015180f1eed80214e0b12e6da54f52"]
+      Referrer-Policy: [strict-origin-when-cross-origin]
+      Transfer-Encoding: [chunked]
+      Vary: [Accept-Encoding]
+      X-Content-Type-Options: [nosniff]
+      X-Download-Options: [noopen]
+      X-Frame-Options: [SAMEORIGIN]
+      X-Permitted-Cross-Domain-Policies: [none]
+      X-Request-Id: [290b033d-399c-4935-bd6a-ce0a7bdae93c]
+      X-Runtime: ['0.035965']
+      X-XSS-Protection: [1; mode=block]
+      content-length: ['1188']
+    status: {code: 200, message: OK}
+version: 1

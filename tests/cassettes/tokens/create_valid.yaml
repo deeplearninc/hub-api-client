@@ -1,0 +1,32 @@
+interactions:
+- request:
+    body: '{"email": "her@mail.com", "password": "password", "project_api_token":
+      "410befdcd606f602c20e5140b94909aeff27800a86459ceb1fc97b7e09bce57b"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['138']
+      Content-type: [application/json]
+      User-Agent: [python-requests/2.18.4]
+    method: POST
+    uri: http://localhost:5000/api/v1/tokens
+  response:
+    body: {string: '{"data":{"token":"eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImhlckBtYWlsLmNvbSIsImV4cCI6MTU1NTIzNjI0NH0.SyZ5e1-zbuFEy7Q176fcuToehpdwrSIa-CK-qTs0D_E","confirmation_required":false},"meta":{"status":200}}'}
+    headers:
+      Cache-Control: ['max-age=0, private, must-revalidate']
+      Content-Type: [application/json; charset=utf-8]
+      ETag: [W/"1fb98d95e0f0fdff8702a9f83254658a"]
+      Referrer-Policy: [strict-origin-when-cross-origin]
+      Transfer-Encoding: [chunked]
+      Vary: [Accept-Encoding]
+      X-Content-Type-Options: [nosniff]
+      X-Download-Options: [noopen]
+      X-Frame-Options: [SAMEORIGIN]
+      X-Permitted-Cross-Domain-Policies: [none]
+      X-Request-Id: [7a041108-5740-4819-8f7a-84f5716e110e]
+      X-Runtime: ['0.661173']
+      X-XSS-Protection: [1; mode=block]
+      content-length: ['193']
+    status: {code: 200, message: OK}
+version: 1

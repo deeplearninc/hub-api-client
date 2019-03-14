@@ -1,0 +1,31 @@
+interactions:
+- request:
+    body: '{"limit": 50, "offset": 0, "project_api_token": "410befdcd606f602c20e5140b94909aeff27800a86459ceb1fc97b7e09bce57b"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['115']
+      Content-type: [application/json]
+      User-Agent: [python-requests/2.18.4]
+    method: GET
+    uri: http://localhost:5000/api/v1/organizations
+  response:
+    body: {string: '{"data":[{"object":"organization","deleted":false,"id":17,"name":"local-test","subdomain":"local-test","main_bucket":"auger-local-test-zzub0u","status":"waiting","state_machine":{"object":"state_machine","deleted":false,"current_state":{"id":"waiting","name":"Waiting"},"possible_transitions":[]},"is_demo":false,"is_jupyter_enabled":true,"error_message":null,"created_at":"2017-10-10T15:00:14.495Z","updated_at":"2017-10-10T15:00:14.495Z"},{"object":"organization","deleted":false,"id":23,"name":"x","subdomain":"x","main_bucket":"auger-x-vx7pn2","status":"waiting","state_machine":{"object":"state_machine","deleted":false,"current_state":{"id":"waiting","name":"Waiting"},"possible_transitions":[]},"is_demo":false,"is_jupyter_enabled":true,"error_message":null,"created_at":"2017-12-05T16:29:08.782Z","updated_at":"2017-12-05T16:29:08.782Z"}],"meta":{"status":200,"pagination":{"limit":50,"offset":0,"count":2,"total":2}}}'}
+    headers:
+      Cache-Control: ['max-age=0, private, must-revalidate']
+      Content-Type: [application/json; charset=utf-8]
+      ETag: [W/"e73463bacf7bf39d6f96f47a287729c0"]
+      Referrer-Policy: [strict-origin-when-cross-origin]
+      Transfer-Encoding: [chunked]
+      Vary: [Accept-Encoding]
+      X-Content-Type-Options: [nosniff]
+      X-Download-Options: [noopen]
+      X-Frame-Options: [SAMEORIGIN]
+      X-Permitted-Cross-Domain-Policies: [none]
+      X-Request-Id: [6a2a03ba-ba5c-4c66-a6c6-dbccfec5c70d]
+      X-Runtime: ['0.054823']
+      X-XSS-Protection: [1; mode=block]
+      content-length: ['926']
+    status: {code: 200, message: OK}
+version: 1

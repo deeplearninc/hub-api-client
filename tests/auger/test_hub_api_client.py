@@ -1,9 +1,15 @@
 import unittest
 import random
+import sys
 from mock import patch
 
 from auger.hub_api_client import HubApiClient
 from tests.vcr_helper import vcr
+
+if sys.version_info[0] >= 3:
+    string_type = str
+else:
+    string_type = unicode
 
 @patch('time.sleep', return_value=None)
 class TestHubApiClient(unittest.TestCase):
@@ -30,6 +36,69 @@ class TestHubApiClient(unittest.TestCase):
         self.assertIsInstance(res['data'], dict)
         self.assertEquals(res['data']['object'], expected_object)
 
+    def assertDataResponse(self, res, expected_keys):
+        self.assertEquals(res['meta']['status'], 200)
+        self.assertIsInstance(res['data'], dict)
+        for expected_key in expected_keys:
+            expected_type = expected_keys[expected_key]
+            self.assertIsInstance(res['data'][expected_key], expected_type)
+
+    def assertUnauthenticatedResponse(self, metadata):
+        self.assertEquals(metadata['status'], 401)
+        error = metadata['errors'][0]
+        self.assertEquals(error['error_type'], 'unauthenticated')
+        self.assertIsInstance(error['message'], string_type)
+
+    # Auth with token
+
+    @vcr.use_cassette('auth/token_valid.yaml')
+    def test_auth_token_valid(self, sleep_mock):
+        client = HubApiClient(
+            hub_app_url='http://localhost:5000',
+            token='eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImhlckBtYWlsLmNvbSIsImV4cCI6MTU1NTIzNjI0NH0.SyZ5e1-zbuFEy7Q176fcuToehpdwrSIa-CK-qTs0D_E'
+        )
+
+        res = client.get_experiments()
+        self.assertIndexResponse(res, 'experiment')
+
+    @vcr.use_cassette('auth/token_invalid.yaml')
+    def test_auth_token_invalid(self, sleep_mock):
+        client = HubApiClient(
+            hub_app_url='http://localhost:5000',
+            token='wrong'
+        )
+
+        with self.assertRaises(HubApiClient.FatalApiError) as context:
+            client.get_experiments()
+
+        self.assertUnauthenticatedResponse(context.exception.metadata())
+
+    # Clusters
+
+    @vcr.use_cassette('clusters/show.yaml')
+    def test_get_cluster(self, sleep_mock):
+      res = self.client.get_cluster(127)
+      self.assertResourceResponse(res, 'cluster')
+
+    @vcr.use_cassette('clusters/index.yaml')
+    def test_get_clusters(self, sleep_mock):
+        res = self.client.get_clusters()
+        self.assertIndexResponse(res, 'cluster')
+
+    @vcr.use_cassette('clusters/create_valid.yaml')
+    def test_create_cluster_valid(self, sleep_mock):
+        res = self.client.create_cluster(
+            name='my-cluster',
+            organization_id=23,
+            project_id=31
+        )
+
+        self.assertResourceResponse(res, 'cluster')
+
+    @vcr.use_cassette('clusters/delete_valid.yaml')
+    def test_delete_cluster_valid(self, sleep_mock):
+        res = self.client.delete_cluster(340)
+        self.assertResourceResponse(res, 'cluster')
 
     # Cluster tasks
 
@@ -199,6 +268,40 @@ class TestHubApiClient(unittest.TestCase):
 
         self.assertResourceResponse(res, 'hyperparameter')
 
+    # Organizations
+
+    @vcr.use_cassette('organizations/show.yaml')
+    def test_get_organization(self, sleep_mock):
+      res = self.client.get_organization(23)
+      self.assertResourceResponse(res, 'organization')
+
+    @vcr.use_cassette('organizations/index.yaml')
+    def test_get_organizations(self, sleep_mock):
+        res = self.client.get_organizations()
+        self.assertIndexResponse(res, 'organization')
+
+    @vcr.use_cassette('organizations/create_valid.yaml')
+    def test_create_organization_valid(self, sleep_mock):
+        res = self.client.create_organization(
+            name='my-organization'
+        )
+
+        self.assertResourceResponse(res, 'organization')
+
+    @vcr.use_cassette('organizations/update_valid.yaml')
+    def test_update_organization_valid(self, sleep_mock):
+        res = self.client.update_organization(
+            50,
+            role_to_assume_arn='arn:aws:iam::529880471834:role/auger-hub-role-alex'
+        )
+
+        self.assertResourceResponse(res, 'organization')
+
+    @vcr.use_cassette('organizations/delete_valid.yaml')
+    def test_delete_organization_valid(self, sleep_mock):
+        res = self.client.delete_organization(50)
+        self.assertResourceResponse(res, 'organization')
+
     # Pipelines
 
     @vcr.use_cassette('pipelines/show.yaml')
@@ -264,6 +367,27 @@ class TestHubApiClient(unittest.TestCase):
         )
 
         self.assertResourceResponse(res, 'similar_trials_request')
+
+    # Tokens
+
+    @vcr.use_cassette('tokens/create_valid.yaml')
+    def test_create_token_valid(self, sleep_mock):
+        res = self.client.create_token(
+            email='her@mail.com',
+            password='password'
+        )
+
+        self.assertDataResponse(res, {'token': string_type, 'confirmation_required': bool})
+
+    @vcr.use_cassette('tokens/create_invalid.yaml')
+    def test_create_token_invalid(self, sleep_mock):
+        with self.assertRaises(HubApiClient.FatalApiError) as context:
+            self.client.create_token(
+                email='her@mail.com',
+                password='wrong'
+            )
+
+        self.assertUnauthenticatedResponse(context.exception.metadata())
 
     # Trials
 

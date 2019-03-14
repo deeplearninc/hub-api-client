@@ -8,7 +8,7 @@
 ### Install
 
 ```sh
-pip install auger-hub-api-client==0.3.3
+pip install auger-hub-api-client==0.4.0
 ```
 ### Initialize client
 
@@ -25,6 +25,7 @@ client = HubApiClient(
 Client parameters:
 
 * `hub_app_url` - URL of Hub API server (e.g. http://localhost:5000 or https://app.auger.ai/)
+* `token` - user token, can be obtained with `create_token` request with user credentials
 * `hub_project_api_token` - project token (provides project and cluster context to API)
 * `hub_cluster_api_token` - cluster token (provides cluster context to API)
 
@@ -36,13 +37,17 @@ Full set of available resources, required parameters and parent resource names d
 
 This client currently support only next subset of resources:
 
+* cluster
+* cluster_task
 * dataset_manifest
 * experiment (ex. notebook)
 * experiment_session (ex. project_run)
 * hyperparameter
+* organization
 * pipeline
 * prediction
 * similar_trials_request
+* token
 * trial
 * warm_start_request
 
@@ -185,11 +190,11 @@ Commit and push changes
 Create and push new tag
 
 ```bash
-git tag v0.3.3
-git push origin v0.3.3
+git tag v0.4.0
+git push origin v0.4.0
 ```
 
-Then build and uoload new wheel
+Then build and upload new wheel
 ```bash
 python3 setup.py sdist bdist_wheel
 twine upload dist/*
