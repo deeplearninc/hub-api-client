@@ -1,0 +1,43 @@
+interactions:
+- request:
+    body: '{"limit": 50, "offset": 0, "project_api_token": "410befdcd606f602c20e5140b94909aeff27800a86459ceb1fc97b7e09bce57b"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['115']
+      Content-type: [application/json]
+      User-Agent: [python-requests/2.18.4]
+    method: GET
+    uri: http://localhost:5000/api/v1/instance_types
+  response:
+    body: {string: '{"data":[{"object":"instance_type","deleted":false,"id":"c5.large","description":"2xCPU
+        4.0 GB RAM"},{"object":"instance_type","deleted":false,"id":"c5.xlarge","description":"4xCPU
+        8.0 GB RAM"},{"object":"instance_type","deleted":false,"id":"c5.2xlarge","description":"8xCPU
+        16.0 GB RAM"},{"object":"instance_type","deleted":false,"id":"c5.4xlarge","description":"16xCPU
+        32.0 GB RAM"},{"object":"instance_type","deleted":false,"id":"c5.9xlarge","description":"36xCPU
+        72.0 GB RAM"},{"object":"instance_type","deleted":false,"id":"c5.18xlarge","description":"72xCPU
+        144.0 GB RAM"},{"object":"instance_type","deleted":false,"id":"r5.large","description":"2xCPU
+        16.0 GB RAM"},{"object":"instance_type","deleted":false,"id":"r5.xlarge","description":"4xCPU
+        32.0 GB RAM"},{"object":"instance_type","deleted":false,"id":"r5.2xlarge","description":"8xCPU
+        64.0 GB RAM"},{"object":"instance_type","deleted":false,"id":"r5.4xlarge","description":"16xCPU
+        128.0 GB RAM"},{"object":"instance_type","deleted":false,"id":"r5.12xlarge","description":"48xCPU
+        384.0 GB RAM"},{"object":"instance_type","deleted":false,"id":"r5.24xlarge","description":"96xCPU
+        768.0 GB RAM"}],"meta":{"status":200,"pagination":{"limit":50,"offset":0,"count":12,"total":12}}}'}
+    headers:
+      Cache-Control: ['max-age=0, private, must-revalidate']
+      Content-Type: [application/json; charset=utf-8]
+      ETag: [W/"1fb83fd15f2def5472e13274f0c98f1d"]
+      Referrer-Policy: [strict-origin-when-cross-origin]
+      Transfer-Encoding: [chunked]
+      Vary: [Accept-Encoding]
+      X-Content-Type-Options: [nosniff]
+      X-Download-Options: [noopen]
+      X-Frame-Options: [SAMEORIGIN]
+      X-Permitted-Cross-Domain-Policies: [none]
+      X-Request-Id: [007e27e8-736f-4d5c-b17e-b6c1fae8d295]
+      X-Runtime: ['1.025259']
+      X-XSS-Protection: [1; mode=block]
+      content-length: ['1236']
+    status: {code: 200, message: OK}
+version: 1

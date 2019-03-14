@@ -1,0 +1,26 @@
+interactions:
+- request:
+    body: '{"project_api_token": "410befdcd606f602c20e5140b94909aeff27800a86459ceb1fc97b7e09bce57b"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['89']
+      Content-type: [application/json]
+      User-Agent: [python-requests/2.18.4]
+    method: GET
+    uri: http://localhost:5000/api/v1/projects/31/logs
+  response:
+    body: {string: 'Some logs
+
+        Some more logs'}
+    headers:
+      Cache-Control: [no-cache]
+      Content-Type: [text/plain; charset=utf-8]
+      Transfer-Encoding: [chunked]
+      Vary: [Accept-Encoding]
+      X-Request-Id: [2918de59-f9cf-453b-add8-12dd7cc5c5fd]
+      X-Runtime: ['0.959515']
+      content-length: ['24']
+    status: {code: 200, message: OK}
+version: 1
