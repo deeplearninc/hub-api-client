@@ -1,0 +1,33 @@
+interactions:
+- request:
+    body: '{"file_name": "my-project_file.csv", "name": "File with data", "project_id":
+      31, "url": "files/data.csv", "project_api_token": "410befdcd606f602c20e5140b94909aeff27800a86459ceb1fc97b7e09bce57b"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['194']
+      Content-type: [application/json]
+      User-Agent: [python-requests/2.18.4]
+    method: POST
+    uri: http://localhost:5000/api/v1/project_files
+  response:
+    body: {string: '{"data":{"object":"project_file","deleted":false,"id":69,"project_id":31,"name":"File
+        with data","url":"files/data.csv","content_type":null,"status":"processing","image_url":null,"industry":null,"description":null,"statistics":null,"error_message":null},"meta":{"status":200}}'}
+    headers:
+      Cache-Control: ['max-age=0, private, must-revalidate']
+      Content-Type: [application/json; charset=utf-8]
+      ETag: [W/"729ad127a59da698060f54493bdb4be5"]
+      Referrer-Policy: [strict-origin-when-cross-origin]
+      Transfer-Encoding: [chunked]
+      Vary: [Accept-Encoding]
+      X-Content-Type-Options: [nosniff]
+      X-Download-Options: [noopen]
+      X-Frame-Options: [SAMEORIGIN]
+      X-Permitted-Cross-Domain-Policies: [none]
+      X-Request-Id: [e6e74caa-04c9-4ca4-94eb-032b4c6777ad]
+      X-Runtime: ['0.148041']
+      X-XSS-Protection: [1; mode=block]
+      content-length: ['276']
+    status: {code: 200, message: OK}
+version: 1

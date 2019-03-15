@@ -403,6 +403,33 @@ class TestHubApiClient(unittest.TestCase):
         res = self.client.get_project_logs(31)
         self.assertIsInstance(res, string_type)
 
+    # Project files
+
+    @vcr.use_cassette('project_files/show.yaml')
+    def test_get_project_file(self, sleep_mock):
+      res = self.client.get_project_file(68)
+      self.assertResourceResponse(res, 'project_file')
+
+    @vcr.use_cassette('project_files/index.yaml')
+    def test_get_project_files(self, sleep_mock):
+        res = self.client.get_project_files()
+        self.assertIndexResponse(res, 'project_file')
+
+    @vcr.use_cassette('project_files/create_valid.yaml')
+    def test_create_project_file_valid(self, sleep_mock):
+        res = self.client.create_project_file(
+            file_name='my-project_file.csv',
+            name='File with data',
+            project_id=31,
+            url='files/data.csv'
+        )
+
+        self.assertResourceResponse(res, 'project_file')
+
+    @vcr.use_cassette('project_files/delete_valid.yaml')
+    def test_delete_project_file_valid(self, sleep_mock):
+        res = self.client.delete_project_file(69)
+        self.assertResourceResponse(res, 'project_file')
 
     # Similar trials requests
 

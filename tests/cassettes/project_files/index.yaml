@@ -1,0 +1,31 @@
+interactions:
+- request:
+    body: '{"limit": 50, "offset": 0, "project_api_token": "410befdcd606f602c20e5140b94909aeff27800a86459ceb1fc97b7e09bce57b"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['115']
+      Content-type: [application/json]
+      User-Agent: [python-requests/2.18.4]
+    method: GET
+    uri: http://localhost:5000/api/v1/project_files
+  response:
+    body: {string: '{"data":[{"object":"project_file","deleted":false,"id":68,"project_id":31,"name":"iris","url":"files/iris_sample.csv","content_type":null,"status":"processed_with_error","image_url":null,"industry":null,"description":null,"statistics":null,"error_message":null}],"meta":{"status":200,"pagination":{"limit":50,"offset":0,"count":1,"total":1}}}'}
+    headers:
+      Cache-Control: ['max-age=0, private, must-revalidate']
+      Content-Type: [application/json; charset=utf-8]
+      ETag: [W/"781036c67409eb93368771ceca7b5b59"]
+      Referrer-Policy: [strict-origin-when-cross-origin]
+      Transfer-Encoding: [chunked]
+      Vary: [Accept-Encoding]
+      X-Content-Type-Options: [nosniff]
+      X-Download-Options: [noopen]
+      X-Frame-Options: [SAMEORIGIN]
+      X-Permitted-Cross-Domain-Policies: [none]
+      X-Request-Id: [2260f55f-31b7-49a8-a1ac-922806e31e8f]
+      X-Runtime: ['0.834220']
+      X-XSS-Protection: [1; mode=block]
+      content-length: ['342']
+    status: {code: 200, message: OK}
+version: 1
