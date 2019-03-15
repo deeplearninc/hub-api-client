@@ -72,6 +72,9 @@ class HubApiClient:
         'project': {
             'actions': ['index', 'show', 'create', 'update', 'delete']
         },
+        'project_file': {
+            'actions': ['index', 'show', 'create', 'delete']
+        },
         'similar_trials_request': {
             'actions': ['show', 'create']
         },

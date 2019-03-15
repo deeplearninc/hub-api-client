@@ -1,0 +1,32 @@
+interactions:
+- request:
+    body: '{"project_api_token": "410befdcd606f602c20e5140b94909aeff27800a86459ceb1fc97b7e09bce57b"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['89']
+      Content-type: [application/json]
+      User-Agent: [python-requests/2.18.4]
+    method: DELETE
+    uri: http://localhost:5000/api/v1/project_files/69
+  response:
+    body: {string: '{"data":{"object":"project_file","deleted":true,"id":69,"project_id":31,"name":"File
+        with data","url":"files/data.csv","content_type":null,"status":"processing","image_url":null,"industry":null,"description":null,"statistics":null,"error_message":null},"meta":{"status":200}}'}
+    headers:
+      Cache-Control: ['max-age=0, private, must-revalidate']
+      Content-Type: [application/json; charset=utf-8]
+      ETag: [W/"4b1b0a2c5c35d04cdee8f1d2c64a3f71"]
+      Referrer-Policy: [strict-origin-when-cross-origin]
+      Transfer-Encoding: [chunked]
+      Vary: [Accept-Encoding]
+      X-Content-Type-Options: [nosniff]
+      X-Download-Options: [noopen]
+      X-Frame-Options: [SAMEORIGIN]
+      X-Permitted-Cross-Domain-Policies: [none]
+      X-Request-Id: [6be178dd-2dfc-4768-a9fa-3967622721d5]
+      X-Runtime: ['0.084788']
+      X-XSS-Protection: [1; mode=block]
+      content-length: ['275']
+    status: {code: 200, message: OK}
+version: 1
