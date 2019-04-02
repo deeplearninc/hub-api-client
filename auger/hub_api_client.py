@@ -66,6 +66,9 @@ class HubApiClient:
         'pipeline': {
             'actions': ['index', 'show', 'create', 'update']
         },
+        'pipeline_file': {
+            'actions': ['index', 'show', 'create', 'update']
+        },
         'prediction': {
             'actions': ['index', 'show', 'create']
         },
