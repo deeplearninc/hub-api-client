@@ -1,0 +1,22 @@
+interactions:
+- request:
+    body: '{"x": "some", "project_api_token": "eyJhbGciOiJIUzI1NiJ9.eyJ4IjoxfQ.NLc1yhn2PDZhJaWTI2dtHkHzn2r8cND1MwiwrVtNlx0"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['113']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.18.4]
+    method: POST
+    uri: http://localhost:7777/next_trials
+  response:
+    body: {string: '{"meta": {"status": 400, "errors": [{"error_param": "optimizer_name",
+        "message": "is required", "error_type": "invalid_param"}]}}'}
+    headers:
+      Content-Length: ['129']
+      Content-Type: [application/json]
+      Date: ['Thu, 04 Apr 2019 13:23:36 GMT']
+      Server: [WSGIServer/0.2 CPython/3.7.0]
+    status: {code: 400, message: Bad Request}
+version: 1

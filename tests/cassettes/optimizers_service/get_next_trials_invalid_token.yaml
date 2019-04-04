@@ -1,0 +1,22 @@
+interactions:
+- request:
+    body: '{"x": 1, "project_api_token": "wrong"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['38']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.18.4]
+    method: POST
+    uri: http://localhost:7777/next_trials
+  response:
+    body: {string: '{"meta": {"status": 401, "errors": [{"message": "authentication
+        required", "error_type": "unauthenticated", "error_param": "token"}]}}'}
+    headers:
+      Content-Length: ['134']
+      Content-Type: [application/json]
+      Date: ['Thu, 04 Apr 2019 13:04:03 GMT']
+      Server: [WSGIServer/0.2 CPython/3.7.0]
+    status: {code: 401, message: Unauthorized}
+version: 1

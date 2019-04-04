@@ -96,18 +96,19 @@ class HubApiClient:
 
     def __init__(self, **config):
         self.base_url = config['hub_app_url']
+        self.optimizers_url = config.get('optimizers_url', None)
         self.token = config.get('token', None)
         self.system_token = config.get('hub_system_token', None)
         self.cluster_api_token = config.get('hub_cluster_api_token', None)
         self.project_api_token = config.get('hub_project_api_token', None)
         self.retries_count = config.get('retries_count', 5)
         self.retry_wait_seconds = config.get('retry_wait_seconds', 5)
-        self.headers = { 'Content-type': 'application/json' }
+        self.headers = { 'Content-Type': 'application/json' }
 
         self.define_actions()
 
-    def full_path(self, relative_path):
-        return urljoin(self.base_url, relative_path)
+    def full_path(self, relative_path, base_url):
+        return urljoin(base_url, relative_path)
 
     def extract_plain_text(self, html):
         clean = re.compile('<.*?>')
@@ -125,14 +126,14 @@ class HubApiClient:
         else:
             return {}
 
-    def request(self, method_name, path, payload={}):
+    def request(self, method_name, path, base_url, payload={}):
         try:
             method = getattr(requests, method_name)
 
             params = payload.copy()
             params.update(self.tokens_payload())
 
-            return method(self.full_path(path), json=params, headers=self.headers)
+            return method(self.full_path(relative_path=path, base_url=base_url), json=params, headers=self.headers)
         except ConnectionError as e:
             raise self.RetryableApiError(str(e))
 
@@ -176,19 +177,22 @@ class HubApiClient:
         except (JSONDecodeError, ValueError) as e:
             raise self.FatalApiError(self.extract_plain_text(res.text))
 
-    def make_and_handle_request(self, method_name, path, payload={}, retries_left=5, plain_text=False):
+    def make_and_handle_request(self, method_name, path, base_url=None, payload={}, retries_left=5, plain_text=False):
+        if not base_url:
+            base_url = self.base_url
+
         try:
-            res = self.request(method_name, path, payload)
+            res = self.request(method_name, path, base_url, payload)
             return self.handle_response(res, plain_text=plain_text)
         except self.RetryableApiError as e:
             if retries_left > 0:
                 time.sleep(self.retry_wait_seconds)
-                return self.make_and_handle_request(method_name, path, payload, retries_left-1)
+                return self.make_and_handle_request(method_name, path, base_url, payload, retries_left-1)
             else:
                 raise e
 
     def get(self, path, payload = {}):
-        return self.make_and_handle_request('get', path, payload, self.retries_count)
+        return self.make_and_handle_request('get', path, payload=payload, retries_left=self.retries_count)
 
 
     def get_paginated_response(self, full_path, limit=50, offset=0, **kwargs):
@@ -281,7 +285,7 @@ class HubApiClient:
 
             def create(self, **kwargs):
                 path = self.format_full_resource_path(path_template, parent_resource_name, kwargs)
-                return self.make_and_handle_request('post', path, kwargs)
+                return self.make_and_handle_request('post', path, payload=kwargs)
 
             setattr(self.__class__, create_proc_name, create)
 
@@ -292,7 +296,7 @@ class HubApiClient:
                 path = self.format_full_resource_path(path_template, parent_resource_name, kwargs)
                 if id:
                     path='{path}/{id}'.format(path=path, id=id)
-                return self.make_and_handle_request('patch', path, kwargs)
+                return self.make_and_handle_request('patch', path, payload=kwargs)
 
             setattr(self.__class__, update_proc_name, update)
         elif action_name == 'delete':
@@ -314,3 +318,11 @@ class HubApiClient:
     def get_project_logs(self, id, **kwargs):
         path = '{api_prefix}/projects/{id}/logs'.format(api_prefix=self.API_PREFIX, id=id)
         return self.make_and_handle_request('get', path, plain_text=True)
+
+    # Optimizers service client
+    def get_next_trials(self, payload={}):
+        if self.optimizers_url:
+            path = '/next_trials'
+            return self.make_and_handle_request('post', path, payload=payload, base_url=self.optimizers_url)
+        else:
+            raise self.MissingParamError('pass optimizers_url in HubApiClient constructor')
