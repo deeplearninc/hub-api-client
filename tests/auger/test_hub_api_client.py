@@ -1,6 +1,7 @@
-import unittest
+import json
 import random
 import sys
+import unittest
 from mock import patch
 
 from auger.hub_api_client import HubApiClient
@@ -15,8 +16,10 @@ else:
 class TestHubApiClient(unittest.TestCase):
     def setUp(self):
         self.hub_project_api_token = '410befdcd606f602c20e5140b94909aeff27800a86459ceb1fc97b7e09bce57b'
+
         self.client = HubApiClient(
           hub_app_url='http://localhost:5000',
+          optimizers_url='http://localhost:7777',
           retries_count=1,
           hub_project_api_token=self.hub_project_api_token
         )
@@ -545,3 +548,51 @@ class TestHubApiClient(unittest.TestCase):
         )
 
         self.assertResourceResponse(res, 'warm_start_request')
+
+    # Optimizers srvice
+
+    # For `SECRET_KEY=strong-secret`
+    def build_hub_client_for_optimizer(self, optimizers_url='http://localhost:7777', token=None):
+        if not token:
+            token = 'eyJhbGciOiJIUzI1NiJ9.eyJ4IjoxfQ.NLc1yhn2PDZhJaWTI2dtHkHzn2r8cND1MwiwrVtNlx0'
+
+        return HubApiClient(
+            hub_app_url='http://localhost:5000',
+            optimizers_url=optimizers_url,
+            retries_count=1,
+            hub_project_api_token=token
+        )
+
+    @vcr.use_cassette('optimizers_service/get_next_trials_missing_optimizers_url.yaml')
+    def test_get_next_trials_missing_optimizers_url(self, sleep_mock):
+        client = self.build_hub_client_for_optimizer(optimizers_url=None)
+
+        with self.assertRaises(HubApiClient.MissingParamError) as context:
+            client.get_next_trials({'x': 1})
+
+        self.assertEquals(str(context.exception), 'pass optimizers_url in HubApiClient constructor')
+
+    @vcr.use_cassette('optimizers_service/get_next_trials_invalid_token.yaml')
+    def test_get_next_trials_invalid_token(self, sleep_mock):
+        client = self.build_hub_client_for_optimizer(token='wrong')
+
+        with self.assertRaises(HubApiClient.FatalApiError) as context:
+            client.get_next_trials({'x': 1})
+
+        self.assertUnauthenticatedResponse(context.exception.metadata())
+
+    @vcr.use_cassette('optimizers_service/get_next_trials_valid.yaml')
+    def test_get_next_trials_valid(self, sleep_mock):
+        client = self.build_hub_client_for_optimizer()
+
+        with open('tests/fixtures/get_next_trials_payload.json', 'r') as file:
+            res = client.get_next_trials(json.loads(file.read()))
+
+    @vcr.use_cassette('optimizers_service/get_next_trials_invalid_request.yaml')
+    def test_get_next_trials_invalid_request(self, sleep_mock):
+        client = self.build_hub_client_for_optimizer()
+
+        with self.assertRaises(HubApiClient.InvalidParamsError) as context:
+            res = client.get_next_trials({'x': 'some'})
+
+        self.assertInvalidParams(context.exception.metadata(), ['optimizer_name'])

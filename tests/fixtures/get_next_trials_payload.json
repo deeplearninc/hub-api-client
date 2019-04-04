@@ -1,0 +1,74 @@
+{
+  "optimizer_params": {
+    "batch_size": 1
+  },
+  "optimizer_name": "optimizers_service.optimizers.tpe_hyperopt_optimizer.TPEHyperoptOptimizer",
+  "search_space": {
+    "auger_ml.algorithms.svm.SVC": {
+      "kernel": {
+        "type": "categorical",
+        "values": [
+          "rbf",
+          "sigmoid"
+        ],
+        "tunable": true
+      },
+      "C": {
+        "type": "float",
+        "bounds": [
+          0.0001,
+          25.0
+        ],
+        "tunable": true,
+        "log": true
+      },
+      "probability": {
+        "type": "categorical",
+        "values": [
+          true
+        ],
+        "log": false,
+        "tunable": false
+      },
+      "coef0": {
+        "type": "float",
+        "bounds": [
+          -10000,
+          10000
+        ],
+        "tunable": true,
+        "log": false
+      },
+      "tol": {
+        "type": "float",
+        "bounds": [
+          0.00001,
+          0.1
+        ],
+        "tunable": true,
+        "log": true
+      },
+      "shrinking": {
+        "type": "categorical",
+        "values": [
+          true,
+          false
+        ],
+        "tunable": true
+      },
+      "gamma": {
+        "type": "float",
+        "bounds": [
+          0.0001,
+          25.0
+        ],
+        "tunable": true,
+        "log": true
+      }
+    }
+  },
+  "trials_history": [],
+  "trial_workers_count": 1,
+  "optimizer_context": {},
+  "tasks_run_parallel": false
+}
