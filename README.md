@@ -29,6 +29,8 @@ Client parameters:
 * `hub_project_api_token` - project token (provides project and cluster context to API)
 * `hub_cluster_api_token` - cluster token (provides cluster context to API)
 * `optimizers_url` - optional, to make `get_next_trials` to optimizers service (requires `hub_project_api_token`)
+* `retries_count` - count of request retries if it makes sense (see `HubApiClient.RetryableApiError`)
+* `retry_wait_seconds` - wait between retries
 
 If app has both tokens prefer `hub_project_api_token`
 
@@ -152,11 +154,11 @@ client.update_trials(
     ]
 )
 ```
-### Excpetions
+### Exceptions
 
 * `HubApiClient.FatalApiError` - retry doesn't make sense in most cases it measn error in source code of consumer or API
 * `HubApiClient.InvalidParamsError` - call with invalid params in most cases can be fixed in consumers source code
-* `HubApiClient.RetryableApiError` - some network related issue when request retry can make sense
+* `HubApiClient.RetryableApiError` - some network related issue when request retry can make sense like 503 error, timeouts and connection errors
 * `HubApiClient.MissingParamError` - client side validation fail, can be fixed only on consumers code side
 
 In all case see exception content it contains more specific details for each case
