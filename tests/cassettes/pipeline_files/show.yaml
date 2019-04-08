@@ -1,0 +1,31 @@
+interactions:
+- request:
+    body: '{"project_api_token": "410befdcd606f602c20e5140b94909aeff27800a86459ceb1fc97b7e09bce57b"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['89']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.18.4]
+    method: GET
+    uri: http://localhost:5000/api/v1/pipeline_files/2
+  response:
+    body: {string: '{"data":{"object":"pipeline_file","deleted":false,"id":2,"model_path":null,"model_path_status":"pending","s3_model_path":null,"s3_model_path_status":"not_requested","signed_s3_model_path":null,"signed_s3_model_path_status":"not_requested","error_message":null,"experiment_session_id":"a2f99b48b6cc5541","trial_id":"3D1E99741D37422","created_at":"2019-04-08T13:07:47.368Z","updated_at":"2019-04-08T13:07:47.665Z"},"meta":{"status":200}}'}
+    headers:
+      Cache-Control: ['max-age=0, private, must-revalidate']
+      Content-Type: [application/json; charset=utf-8]
+      ETag: [W/"d6d8e10bf90b7fb7e86174669188616e"]
+      Referrer-Policy: [strict-origin-when-cross-origin]
+      Transfer-Encoding: [chunked]
+      Vary: [Accept-Encoding]
+      X-Content-Type-Options: [nosniff]
+      X-Download-Options: [noopen]
+      X-Frame-Options: [SAMEORIGIN]
+      X-Permitted-Cross-Domain-Policies: [none]
+      X-Request-Id: [f7b9600a-bc23-4122-b00d-31c901a538cd]
+      X-Runtime: ['0.027433']
+      X-XSS-Protection: [1; mode=block]
+      content-length: ['435']
+    status: {code: 200, message: OK}
+version: 1

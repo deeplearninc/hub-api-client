@@ -343,6 +343,23 @@ class TestHubApiClient(unittest.TestCase):
 
         self.assertResourceResponse(res, 'pipeline')
 
+    # Pipeline file
+
+    @vcr.use_cassette('pipeline_files/show.yaml')
+    def test_get_pipeline_file(self, sleep_mock):
+        res = self.client.get_pipeline_file(2)
+        self.assertResourceResponse(res, 'pipeline_file')
+
+    @vcr.use_cassette('pipeline_files/index.yaml')
+    def test_get_pipeline_files(self, sleep_mock):
+        res = self.client.get_pipeline_files()
+        self.assertIndexResponse(res, 'pipeline_file')
+
+    @vcr.use_cassette('pipeline_files/create_valid.yaml')
+    def test_create_pipeline_file_valid(self, sleep_mock):
+        res = self.client.create_pipeline_file(trial_id='3D1E99741D37422')
+        self.assertResourceResponse(res, 'pipeline_file')
+
     # Predictions
 
     @vcr.use_cassette('predictions/show.yaml')
@@ -563,9 +580,16 @@ class TestHubApiClient(unittest.TestCase):
             hub_project_api_token=token
         )
 
-    @vcr.use_cassette('optimizers_service/get_next_trials_missing_optimizers_url.yaml')
     def test_get_next_trials_missing_optimizers_url(self, sleep_mock):
         client = self.build_hub_client_for_optimizer(optimizers_url=None)
+
+        with self.assertRaises(HubApiClient.MissingParamError) as context:
+            client.get_next_trials({'x': 1})
+
+        self.assertEquals(str(context.exception), 'pass optimizers_url in HubApiClient constructor')
+
+    def test_get_next_trials_blank_optimizers_url(self, sleep_mock):
+        client = self.build_hub_client_for_optimizer(optimizers_url='')
 
         with self.assertRaises(HubApiClient.MissingParamError) as context:
             client.get_next_trials({'x': 1})
