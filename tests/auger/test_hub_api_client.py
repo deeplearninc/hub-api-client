@@ -90,7 +90,7 @@ class TestHubApiClient(unittest.TestCase):
         )
 
         with self.assertRaises(HubApiClient.RetryableApiError) as context:
-            client.get_experiments()
+            client.get_trials()
 
         self.assertServerErrorResponse(context.exception)
 

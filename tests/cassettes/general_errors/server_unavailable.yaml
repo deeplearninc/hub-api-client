@@ -9,7 +9,7 @@ interactions:
       Content-Type: [application/json]
       User-Agent: [python-requests/2.18.4]
     method: GET
-    uri: https://optimizers-service-prod.herokuapp.com/api/v1/experiments
+    uri: https://optimizers-service-prod.herokuapp.com/api/v1/trials
   response:
     body: {string: "<!DOCTYPE html>\n\t<html>\n\t  <head>\n\t\t<meta name=\"viewport\"
         content=\"width=device-width, initial-scale=1\">\n\t\t<meta charset=\"utf-8\">\n\t\t<title>Application
@@ -36,7 +36,7 @@ interactions:
       Content-Type: [application/json]
       User-Agent: [python-requests/2.18.4]
     method: GET
-    uri: https://optimizers-service-prod.herokuapp.com/api/v1/experiments
+    uri: https://optimizers-service-prod.herokuapp.com/api/v1/trials
   response:
     body: {string: "<!DOCTYPE html>\n\t<html>\n\t  <head>\n\t\t<meta name=\"viewport\"
         content=\"width=device-width, initial-scale=1\">\n\t\t<meta charset=\"utf-8\">\n\t\t<title>Application
@@ -63,7 +63,7 @@ interactions:
       Content-Type: [application/json]
       User-Agent: [python-requests/2.18.4]
     method: GET
-    uri: https://optimizers-service-prod.herokuapp.com/api/v1/experiments
+    uri: https://optimizers-service-prod.herokuapp.com/api/v1/trials
   response:
     body: {string: "<!DOCTYPE html>\n\t<html>\n\t  <head>\n\t\t<meta name=\"viewport\"
         content=\"width=device-width, initial-scale=1\">\n\t\t<meta charset=\"utf-8\">\n\t\t<title>Application

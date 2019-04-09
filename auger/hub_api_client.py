@@ -191,9 +191,17 @@ class HubApiClient:
         except (JSONDecodeError, ValueError) as e:
             raise self.FatalApiError(self.extract_plain_text(res.text))
 
-    def make_and_handle_request(self, method_name, path, base_url=None, payload={}, retries_left=5, plain_text=False):
+    def make_and_handle_request(self, method_name, path, base_url=None, payload={}, retries_left=None, plain_text=False):
         if not base_url:
             base_url = self.base_url
+
+        if retries_left is None:
+            # Allow retries for get request, because it deosn't modify any data on server
+            if method_name == 'get':
+                retries_left = self.retries_count
+            # But don't allow to retry another (POST, PUT, DELETE, etc) requests
+            else:
+                retries_left = 0
 
         try:
             res = self.request(method_name, path, base_url, payload)
@@ -206,8 +214,7 @@ class HubApiClient:
                 raise e
 
     def get(self, path, payload = {}):
-        return self.make_and_handle_request('get', path, payload=payload, retries_left=self.retries_count)
-
+        return self.make_and_handle_request('get', path, payload=payload)
 
     def get_paginated_response(self, full_path, limit=50, offset=0, **kwargs):
         args = { 'limit': limit, 'offset': offset }
@@ -336,7 +343,10 @@ class HubApiClient:
     # Optimizers service client
     def get_next_trials(self, payload={}):
         if self.optimizers_url:
-            path = '/next_trials'
-            return self.make_and_handle_request('post', path, payload=payload, base_url=self.optimizers_url)
+            return self.make_and_handle_request('post', '/next_trials',
+                payload=payload,
+                base_url=self.optimizers_url,
+                retries_left=self.retries_count
+            )
         else:
             raise self.MissingParamError('pass optimizers_url in HubApiClient constructor')
