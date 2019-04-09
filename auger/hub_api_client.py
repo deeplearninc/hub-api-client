@@ -110,9 +110,23 @@ class HubApiClient:
     def full_path(self, relative_path, base_url):
         return urljoin(base_url, relative_path)
 
+    WHITE_SPACE_REGEX = re.compile('\s+')
+    STYLE_TAG_REGEX = re.compile('<style.*>.*</style>')
+    ALL_TAG_REGEX = re.compile('<.*?>')
+
     def extract_plain_text(self, html):
-        clean = re.compile('<.*?>')
-        return re.sub(clean, '', html)
+        # Clean whitespaces
+        res = re.sub(self.WHITE_SPACE_REGEX, ' ', html)
+
+        # Clean HTML tags
+        res = re.sub(self.STYLE_TAG_REGEX, '', res)
+
+        # Clean HTML tags
+        res = re.sub(self.ALL_TAG_REGEX, '', res)
+
+        # Clean whitespaces again
+        return re.sub(self.WHITE_SPACE_REGEX, ' ', res).strip()
+
 
     def tokens_payload(self):
         if self.project_api_token:

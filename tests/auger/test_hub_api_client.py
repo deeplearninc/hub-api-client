@@ -52,6 +52,10 @@ class TestHubApiClient(unittest.TestCase):
         self.assertEquals(error['error_type'], 'unauthenticated')
         self.assertIsInstance(error['message'], string_type)
 
+    def assertServerErrorResponse(self, error):
+        self.assertIn('status: 503', str(error))
+        self.assertIn('Application Error', str(error))
+
     # Auth with token
 
     @vcr.use_cassette('auth/token_valid.yaml')
@@ -75,6 +79,20 @@ class TestHubApiClient(unittest.TestCase):
             client.get_experiments()
 
         self.assertUnauthenticatedResponse(context.exception.metadata())
+
+    # 503 error, timeout and similar errors
+    @vcr.use_cassette('general_errors/server_unavailable.yaml')
+    def test_server_unavailable(self, sleep_mock):
+        client = HubApiClient(
+            hub_app_url='https://optimizers-service-prod.herokuapp.com',
+            token='some-token',
+            retries_count=2,
+        )
+
+        with self.assertRaises(HubApiClient.RetryableApiError) as context:
+            client.get_experiments()
+
+        self.assertServerErrorResponse(context.exception)
 
     # Clusters
 
