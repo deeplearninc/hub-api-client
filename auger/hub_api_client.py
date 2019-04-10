@@ -2,6 +2,15 @@ import json
 import re
 import requests
 import time
+import gzip
+
+
+try:
+    # Python 2
+    from StringIO import StringIO
+except ImportError:
+    # Python 3
+    from io import StringIO
 
 try:
     # Python 3
@@ -104,6 +113,8 @@ class HubApiClient:
         self.retries_count = config.get('retries_count', 5)
         self.retry_wait_seconds = config.get('retry_wait_seconds', 5)
         self.headers = { 'Content-Type': 'application/json' }
+        self.gzip_headers = self.headers.copy()
+        self.gzip_headers['Content-Encoding'] = 'gzip'
 
         self.define_actions()
 
@@ -140,16 +151,34 @@ class HubApiClient:
         else:
             return {}
 
-    def request(self, method_name, path, base_url, payload={}):
+    def request(self, method_name, path, base_url, payload={}, gzip=False):
         try:
             method = getattr(requests, method_name)
 
             params = payload.copy()
             params.update(self.tokens_payload())
 
-            return method(self.full_path(relative_path=path, base_url=base_url), json=params, headers=self.headers)
+            full_path = self.full_path(relative_path=path, base_url=base_url)
+
+            if gzip:
+                data = self.compress(json.dumps(params))
+                return method(full_path, data=data, headers=self.gzip_headers)
+            else:
+                return method(full_path, json=params, headers=self.headers)
         except ConnectionError as e:
             raise self.RetryableApiError(str(e))
+
+    def compress(self, data):
+        if hasattr(gzip, 'compress'):
+            # Python 3
+            return gzip.compress(bytes(data, 'utf-8'))
+        else:
+            # Python 2
+            out = StringIO()
+            with gzip.GzipFile(fileobj=out, mode="w") as f:
+              f.write(data)
+
+            return out.getvalue()
 
     def handle_response(self, res, plain_text=False):
         if plain_text:
@@ -191,7 +220,7 @@ class HubApiClient:
         except (JSONDecodeError, ValueError) as e:
             raise self.FatalApiError(self.extract_plain_text(res.text))
 
-    def make_and_handle_request(self, method_name, path, base_url=None, payload={}, retries_left=None, plain_text=False):
+    def make_and_handle_request(self, method_name, path, base_url=None, payload={}, retries_left=None, plain_text=False, gzip=False):
         if not base_url:
             base_url = self.base_url
 
@@ -204,7 +233,7 @@ class HubApiClient:
                 retries_left = 0
 
         try:
-            res = self.request(method_name, path, base_url, payload)
+            res = self.request(method_name, path, base_url, payload, gzip)
             return self.handle_response(res, plain_text=plain_text)
         except self.RetryableApiError as e:
             if retries_left > 0:
@@ -346,7 +375,8 @@ class HubApiClient:
             return self.make_and_handle_request('post', '/next_trials',
                 payload=payload,
                 base_url=self.optimizers_url,
-                retries_left=self.retries_count
+                retries_left=self.retries_count,
+                gzip=True
             )
         else:
             raise self.MissingParamError('pass optimizers_url in HubApiClient constructor')

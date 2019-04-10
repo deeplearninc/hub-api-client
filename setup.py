@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='auger-hub-api-client',
-    version='0.5.1',
+    version='0.5.2',
     description='API client for Auger Hub API',
     long_description='API client for Auger Hub API. Auger is an Automated Machine Learning tool https://auger.ai/',
     url='https://github.com/deeplearninc/',

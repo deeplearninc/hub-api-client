@@ -1,11 +1,15 @@
 interactions:
 - request:
-    body: '{"x": "some", "project_api_token": "eyJhbGciOiJIUzI1NiJ9.eyJ4IjoxfQ.NLc1yhn2PDZhJaWTI2dtHkHzn2r8cND1MwiwrVtNlx0"}'
+    body: !!binary |
+      H4sIAIWzrVwC/6tWqlCyUlAqzs9NVdJRUCooys9KTS6JTyzIjC/Jz07NA0mmVnplJLknZ/pnenmG
+      Vnka+mV6WeoBBU08s/Ir0gL1/HySDSsz8owCXKIyvBLDQzyNUko8sj2q8oyKLJL9XAx9yzPLi8JK
+      /HIqDJRqAYIFebdxAAAA
     headers:
       Accept: ['*/*']
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
-      Content-Length: ['113']
+      Content-Encoding: [gzip]
+      Content-Length: ['129']
       Content-Type: [application/json]
       User-Agent: [python-requests/2.18.4]
     method: POST
@@ -16,7 +20,7 @@ interactions:
     headers:
       Content-Length: ['129']
       Content-Type: [application/json]
-      Date: ['Thu, 04 Apr 2019 13:23:36 GMT']
+      Date: ['Wed, 10 Apr 2019 09:12:37 GMT']
       Server: [WSGIServer/0.2 CPython/3.7.0]
     status: {code: 400, message: Bad Request}
 version: 1
