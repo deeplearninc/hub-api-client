@@ -1,34 +1,33 @@
 interactions:
 - request:
-    body: '{"optimizer_params": {"batch_size": 1}, "optimizer_name": "optimizers_service.optimizers.tpe_hyperopt_optimizer.TPEHyperoptOptimizer",
-      "search_space": {"auger_ml.algorithms.svm.SVC": {"kernel": {"type": "categorical",
-      "values": ["rbf", "sigmoid"], "tunable": true}, "C": {"type": "float", "bounds":
-      [0.0001, 25.0], "tunable": true, "log": true}, "probability": {"type": "categorical",
-      "values": [true], "log": false, "tunable": false}, "coef0": {"type": "float",
-      "bounds": [-10000, 10000], "tunable": true, "log": false}, "tol": {"type": "float",
-      "bounds": [1e-05, 0.1], "tunable": true, "log": true}, "shrinking": {"type":
-      "categorical", "values": [true, false], "tunable": true}, "gamma": {"type":
-      "float", "bounds": [0.0001, 25.0], "tunable": true, "log": true}}}, "trials_history":
-      [], "trial_workers_count": 1, "optimizer_context": {}, "tasks_run_parallel":
-      false, "project_api_token": "eyJhbGciOiJIUzI1NiJ9.eyJ4IjoxfQ.NLc1yhn2PDZhJaWTI2dtHkHzn2r8cND1MwiwrVtNlx0"}'
+    body: !!binary |
+      H4sIAL2zrVwC/62TXW/TMBSG/0qU68xyKiYBtxtaW0E3xBgSU2WduCeJF39EttNP9b9jG9qtGmK9
+      4CrOk/g579Gxd7npvVBii5b1YEG5/GO2yyvwvGUu4PBa7ovsxW8aVKTPxDGHdik4kmdEfI+s3fRo
+      A2NHTu7vPo3/0NsDzIPeIdhYsQeOKQEMTailJAHZGCt8qxxxS0W+PVyl7x1ajTItfRDGQBw8xn85
+      yKhcghwwtvOY26pORUSjjFjk87D2g4ZKxn3eDhg7vDqR1dKAj5sqM+hF0lBCKS2LbHRJ6GtFANI0
+      L3y9NRVUQgq/OS9m3Dg/amqQDk+qJBLN3GBN30p7UYa0tMjS4x9xj1Zv5FvOEi/oZZFRUp7Rv2ut
+      0J3QzfndF7/T/H0+DSgF/3NG+9S1FaEka4XzxsZBPc4PlK2M7eLx5kHv40U4uQfcaI/ryHdJBK5z
+      zA463SMp0+E8DDGchSfknkEvmDcd6hgfN9O2uuHiVkwn37eTciamH0iA7yZPZl1/JbPPvNy0enR3
+      /bOdwo/7yWjhx914q0f2PZ9dl19WYmUf/Eyuab7/BXV18inJAwAA
     headers:
       Accept: ['*/*']
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
-      Content-Length: ['969']
+      Content-Encoding: [gzip]
+      Content-Length: ['438']
       Content-Type: [application/json]
       User-Agent: [python-requests/2.18.4]
     method: POST
     uri: http://localhost:7777/next_trials
   response:
     body: {string: '{"meta": {"status": 200}, "data": [[{"algorithm_name": "auger_ml.algorithms.svm.SVC",
-        "algorithm_params": {"C": 0.12049187002226552, "coef0": 903.3944776619555,
-        "gamma": 0.0005208051182801287, "kernel": "sigmoid", "probability": true,
-        "shrinking": true, "tol": 0.03928957368310633}}], {}]}'}
+        "algorithm_params": {"C": 0.000257507227007221, "coef0": -7381.83944220727,
+        "gamma": 15.25880694176153, "kernel": "sigmoid", "probability": true, "shrinking":
+        false, "tol": 0.00828997321707677}}], {}]}'}
     headers:
-      Content-Length: ['289']
+      Content-Length: ['287']
       Content-Type: [application/json]
-      Date: ['Thu, 04 Apr 2019 12:58:18 GMT']
+      Date: ['Wed, 10 Apr 2019 09:13:34 GMT']
       Server: [WSGIServer/0.2 CPython/3.7.0]
     status: {code: 200, message: OK}
 version: 1
