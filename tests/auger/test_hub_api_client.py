@@ -121,6 +121,13 @@ class TestHubApiClient(unittest.TestCase):
         res = self.client.delete_cluster(340)
         self.assertResourceResponse(res, 'cluster')
 
+    # Cluster statuses
+
+    @vcr.use_cassette('cluster_statuses/index.yaml')
+    def test_get_cluster_statuses(self, sleep_mock):
+        res = self.client.get_cluster_statuses(cluster_id=340)
+        self.assertIndexResponse(res, 'cluster_status')
+
     # Cluster tasks
 
     @vcr.use_cassette('cluster_tasks/show.yaml')

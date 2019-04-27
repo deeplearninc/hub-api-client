@@ -8,7 +8,7 @@
 ### Install
 
 ```sh
-pip install auger-hub-api-client==0.5.2
+pip install auger-hub-api-client==0.5.3
 ```
 ### Initialize client
 
@@ -42,6 +42,7 @@ This client currently support only next subset of resources:
 
 * cluster
 * cluster_task
+* cluster_status
 * dataset_manifest
 * experiment (ex. notebook)
 * experiment_session (ex. project_run)
@@ -196,8 +197,8 @@ Commit and push changes
 Create and push new tag
 
 ```bash
-git tag v0.5.2
-git push origin v0.5.2
+git tag v0.5.3
+git push origin v0.5.3
 ```
 
 Then build and upload new wheel
