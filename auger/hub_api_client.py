@@ -54,6 +54,9 @@ class HubApiClient:
         'cluster_task': {
             'actions': ['index', 'show', 'create']
         },
+        'cluster_status': {
+            'actions': ['index']
+        },
         'dataset_manifest': {
             'actions': ['index', 'show', 'create', 'update']
         },
@@ -272,14 +275,17 @@ class HubApiClient:
 
     def build_full_resource_path(self, resource_name, parent_resource_name):
         if parent_resource_name:
-            return '/api/v1/{parent_resource_name}s/{{parent_id}}/{resource_name}s'.format(
+            return '/api/v1/{parent_resource_name}{parent_ending}/{{parent_id}}/{resource_name}{ending}'.format(
                 resource_name=resource_name,
                 parent_resource_name=parent_resource_name,
+                parent_ending=self.plural_ending(parent_resource_name),
+                ending=self.plural_ending(resource_name),
             )
         else:
-            return '{api_prefix}/{resource_name}s'.format(
+            return '{api_prefix}/{resource_name}{ending}'.format(
                 api_prefix=self.API_PREFIX,
-                resource_name=resource_name
+                resource_name=resource_name,
+                ending=self.plural_ending(resource_name),
             )
 
     def define_actions(self):
@@ -306,10 +312,17 @@ class HubApiClient:
         else:
             raise self.FatalApiError('missing parent_id parameter')
 
+    def plural_ending(self, resource_name):
+        if resource_name.endswith('us'):
+            return 'es'
+        else:
+            return 's'
+
     def define_action(self, action_name, path_template, resource_name, parent_resource_name):
         if action_name == 'index':
-            index_proc_name = 'get_{resource_name}s'.format(resource_name=resource_name)
-            iterate_proc_name = 'iterate_all_{resource_name}s'.format(resource_name=resource_name)
+            ending = self.plural_ending(resource_name)
+            index_proc_name = 'get_{resource_name}{ending}'.format(resource_name=resource_name, ending=ending)
+            iterate_proc_name = 'iterate_all_{resource_name}{ending}'.format(resource_name=resource_name, ending=ending)
 
             def index(self, **kwargs):
                 path = self.format_full_resource_path(path_template, parent_resource_name, kwargs)
