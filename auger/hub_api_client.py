@@ -236,8 +236,8 @@ class HubApiClient:
                 retries_left = 0
 
         try:
-            res = self.request(method_name, path, base_url, payload, gzip)
-            return self.handle_response(res, plain_text=plain_text)
+            with self.request(method_name, path, base_url, payload, gzip) as res:
+                return self.handle_response(res, plain_text=plain_text)
         except self.RetryableApiError as e:
             if retries_left > 0:
                 time.sleep(self.retry_wait_seconds)
