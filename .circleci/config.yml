@@ -1,5 +1,23 @@
 version: 2.1
 jobs:
+  test-2:
+    docker:
+      - image: circleci/python:2.7.15
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run:
+          name: install dependencies
+          command: |
+            pip install -r requirements.txt --user
+      - run:
+          name: run tests
+          command: |
+            python $HOME/.local/lib/python2.7/site-packages/nose2
+      - store_artifacts:
+          path: test-reports
+          destination: test-reports
+
   test:
     parameters:
       python_version:
@@ -12,15 +30,16 @@ jobs:
       - run: sudo chown -R circleci:circleci /usr/local/bin
       - run: sudo chown -R circleci:circleci /usr/local/lib/python<< parameters.python_version >>/site-packages
       - restore_cache:
-          key: dependencies-{{ arch }}-<< parameters.python_version >>-{{ .Branch }}-{{ checksum "requirements.txt" }}
-          key: dependencies-{{ arch }}-<< parameters.python_version >>-{{ .Branch }}
-          key: dependencies-{{ arch }}-<< parameters.python_version >>
+          keys:
+            - dependencies-{{ arch }}-<< parameters.python_version >>-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+            - dependencies-{{ arch }}-<< parameters.python_version >>-{{ .Branch }}
+            - dependencies-{{ arch }}-<< parameters.python_version >>
       - run:
           command: |
             sudo pip install pipenv
-            pipenv install
+            pipenv install --dev
       - save_cache:
-          key: dependencies-{{ arch }}-<< parameters.python_version >>-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          key: dependencies-{{ arch }}-<< parameters.python_version >>-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
           paths:
             - ".venv"
             - "/usr/local/bin"
@@ -30,96 +49,58 @@ jobs:
           path: test-reports
           destination: test-reports
 
-  # python2-tests:
-  #   docker:
-  #     - image: circleci/python:2.7.15
-  #   working_directory: ~/repo
-  #   steps:
-  #     - checkout
-  #     - run:
-  #         name: install dependencies
-  #         command: |
-  #           pip install -r requirements.txt --user
-  #     - run:
-  #         name: run tests
-  #         command: |
-  #           python $HOME/.local/lib/python2.7/site-packages/nose2
-  #     - store_artifacts:
-  #         path: test-reports
-  #         destination: test-reports
-  # python3-tests:
-  #   docker:
-  #     - image: circleci/python:3.6.1
-  #   working_directory: ~/repo
-  #   steps:
-  #     - checkout
-  #     - restore_cache:
-  #         keys:
-  #         - v1-dependencies-{{ checksum "requirements.txt" }}
-  #         - v1-dependencies-
-  #     - run:
-  #         name: install dependencies
-  #         command: |
-  #           python3 -m venv venv
-  #           . venv/bin/activate
-  #           make install
-  #     - save_cache:
-  #         paths:
-  #           - ./venv
-  #         key: v1-dependencies-{{ checksum "requirements.txt" }}
-  #     - run:
-  #         name: run tests
-  #         command: |
-  #           . venv/bin/activate
-  #           make test
-  #     - store_artifacts:
-  #         path: test-reports
-  #         destination: test-reports
+  build_and_release:
+    parameters:
+      python_version:
+        default: "3.7"
+        type: string
+    working_directory: ~/repo
+    docker:
+      - image: circleci/python:3.7
+    steps:
+      - checkout
+      - run: sudo chown -R circleci:circleci /usr/local/bin
+      - run: sudo chown -R circleci:circleci /usr/local/lib/python3.7/site-packages
+      - restore_cache:
+          keys:
+            - dependencies-{{ arch }}-<< parameters.python_version >>-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+            - dependencies-{{ arch }}-<< parameters.python_version >>-{{ .Branch }}
+            - dependencies-{{ arch }}-<< parameters.python_version >>
+      - run:
+          command: |
+            sudo pip install pipenv
+            pipenv install
+      - run: pipenv run python setup.py verify
+      - run:
+          command: |
+            echo -e "[pypi]" >> ~/.pypirc
+            echo -e "username = $PYPI_USERNAME" >> ~/.pypirc
+            echo -e "password = $PYPI_PASSWORD" >> ~/.pypirc
+      - run: pipenv run python setup.py bdist_wheel
+      - run:
+          command: |
+            sudo pip install twine
+            echo "Deploying new package to pypi.org..."
+            twine upload dist/*
 workflows:
-  version: 2.0
-  test_and_deploy:
+  version: 2.1
+  test_build_release:
     jobs:
+      - test-2
       - test:
-        name: build-2.7
-        python_version: "2.7"
+          name: test-3.6
+          python_version: "3.6"
       - test:
-        name: build-3.6
-        python_version: "3.6"
-      - test:
-        name: build-3.7
-        python_version: "3.7"
-  # build_and_deploy:
-  #   jobs:
-  #     - test:
-  #         name: build2.7
-  #         python_version: "2.7"
-  #         filters:
-  #           tags:
-  #             only: /^v.*/
-  #         name: build3.6
-  #         python_version: "3.6"
-  #         filters:
-  #           tags:
-  #             only: /^v.*/
-  #           # branches:
-  #           #   ignore: /.*/
-  #     - test:
-  #         name: build3.7
-  #         python_version: "3.7"
-  #         filters:
-  #           tags:
-  #             only: /^v.*/
-            # branches:
-            #   ignore: /.*/
-      # - deploy:
-      #     requires:
-      #       - build2.7
-      #       - build3.6
-      #       - build3.7
-      #     filters:
-      #       tags:
-      #         only: /^v.*/
-      #       branches:
-      #         ignore: /.*/
-
-
+          name: test-3.7
+          python_version: "3.7"
+      - build_and_release:
+          python_version: "3.7"
+          requires:
+            - test-2
+            - test-3.6
+            - test-3.7
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
