@@ -1,96 +1,125 @@
-# Python CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-python/ for more details
-#
-version: 2
+version: 2.1
 jobs:
-  python2-tests:
-    docker:
-      # specify the version you desire here
-      # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
-      - image: circleci/python:2.7.15
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
-
-    working_directory: ~/repo
-
-    steps:
-      - checkout
-
-      - run:
-          name: install dependencies
-          command: |
-            pip install -r requirements.txt --user
-
-      # run tests!
-      # this example uses Django's built-in test-runner
-      # other common Python testing frameworks include pytest and nose
-      # https://pytest.org
-      # https://nose.readthedocs.io
-      - run:
-          name: run tests
-          command: |
-            python $HOME/.local/lib/python2.7/site-packages/nose2
-
-      - store_artifacts:
-          path: test-reports
-          destination: test-reports
-  python3-tests:
-    docker:
-      # specify the version you desire here
-      # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
-      - image: circleci/python:3.6.1
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
-
-    working_directory: ~/repo
-
-    steps:
-      - checkout
-
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "requirements.txt" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
-
-      - run:
-          name: install dependencies
-          command: |
-            python3 -m venv venv
-            . venv/bin/activate
-            make install
-
-      - save_cache:
-          paths:
-            - ./venv
-          key: v1-dependencies-{{ checksum "requirements.txt" }}
-
-      # run tests!
-      # this example uses Django's built-in test-runner
-      # other common Python testing frameworks include pytest and nose
-      # https://pytest.org
-      # https://nose.readthedocs.io
-      - run:
-          name: run tests
-          command: |
-            . venv/bin/activate
-            make test
-
-      - store_artifacts:
-          path: test-reports
-          destination: test-reports
-
-workflows:
-  version: 2
   test:
+    parameters:
+      python_version:
+        default: "3.7"
+        type: string
+    docker:
+      - image: circleci/python:<< parameters.python_version >>
+    steps:
+      - checkout
+      - run: sudo chown -R circleci:circleci /usr/local/bin
+      - run: sudo chown -R circleci:circleci /usr/local/lib/python<< parameters.python_version >>/site-packages
+      - restore_cache:
+          key: dependencies-{{ arch }}-<< parameters.python_version >>-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          key: dependencies-{{ arch }}-<< parameters.python_version >>-{{ .Branch }}
+          key: dependencies-{{ arch }}-<< parameters.python_version >>
+      - run:
+          command: |
+            sudo pip install pipenv
+            pipenv install
+      - save_cache:
+          key: dependencies-{{ arch }}-<< parameters.python_version >>-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          paths:
+            - ".venv"
+            - "/usr/local/bin"
+            - "/usr/local/lib/python<< parameters.python_version >>/site-packages"
+      - run: pipenv run python setup.py test
+      - store_artifacts:
+          path: test-reports
+          destination: test-reports
+
+  # python2-tests:
+  #   docker:
+  #     - image: circleci/python:2.7.15
+  #   working_directory: ~/repo
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: install dependencies
+  #         command: |
+  #           pip install -r requirements.txt --user
+  #     - run:
+  #         name: run tests
+  #         command: |
+  #           python $HOME/.local/lib/python2.7/site-packages/nose2
+  #     - store_artifacts:
+  #         path: test-reports
+  #         destination: test-reports
+  # python3-tests:
+  #   docker:
+  #     - image: circleci/python:3.6.1
+  #   working_directory: ~/repo
+  #   steps:
+  #     - checkout
+  #     - restore_cache:
+  #         keys:
+  #         - v1-dependencies-{{ checksum "requirements.txt" }}
+  #         - v1-dependencies-
+  #     - run:
+  #         name: install dependencies
+  #         command: |
+  #           python3 -m venv venv
+  #           . venv/bin/activate
+  #           make install
+  #     - save_cache:
+  #         paths:
+  #           - ./venv
+  #         key: v1-dependencies-{{ checksum "requirements.txt" }}
+  #     - run:
+  #         name: run tests
+  #         command: |
+  #           . venv/bin/activate
+  #           make test
+  #     - store_artifacts:
+  #         path: test-reports
+  #         destination: test-reports
+workflows:
+  version: 2.0
+  test_and_deploy:
     jobs:
-      - python2-tests
-      - python3-tests
+      - test:
+        name: build-2.7
+        python_version: "2.7"
+      - test:
+        name: build-3.6
+        python_version: "3.6"
+      - test:
+        name: build-3.7
+        python_version: "3.7"
+  # build_and_deploy:
+  #   jobs:
+  #     - test:
+  #         name: build2.7
+  #         python_version: "2.7"
+  #         filters:
+  #           tags:
+  #             only: /^v.*/
+  #         name: build3.6
+  #         python_version: "3.6"
+  #         filters:
+  #           tags:
+  #             only: /^v.*/
+  #           # branches:
+  #           #   ignore: /.*/
+  #     - test:
+  #         name: build3.7
+  #         python_version: "3.7"
+  #         filters:
+  #           tags:
+  #             only: /^v.*/
+            # branches:
+            #   ignore: /.*/
+      # - deploy:
+      #     requires:
+      #       - build2.7
+      #       - build3.6
+      #       - build3.7
+      #     filters:
+      #       tags:
+      #         only: /^v.*/
+      #       branches:
+      #         ignore: /.*/
+
+
