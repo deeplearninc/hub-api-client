@@ -386,6 +386,10 @@ class HubApiClient:
         path = '{api_prefix}/projects/{id}/deploy'.format(api_prefix=self.API_PREFIX, id=id)
         return self.make_and_handle_request('patch', path, payload=kwargs)
 
+    def undeploy_project(self, id):
+        path = '{api_prefix}/projects/{id}/undeploy'.format(api_prefix=self.API_PREFIX, id=id)
+        return self.make_and_handle_request('patch', path, payload={})
+
     # Optimizers service client
     def get_next_trials(self, payload={}):
         if self.optimizers_url:
