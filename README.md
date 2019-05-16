@@ -197,8 +197,8 @@ Commit and push changes
 Create and push new tag
 
 ```bash
-git tag v0.5.4
-git push origin v0.5.4
+git tag v0.5.5
+git push origin v0.5.5
 ```
 
 Then build and upload new wheel
