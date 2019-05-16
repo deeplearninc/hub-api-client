@@ -14,11 +14,12 @@ except ImportError:
 
 try:
     # Python 3
-    from urllib.parse import urljoin
+    from urllib.parse import urljoin, urlencode
     from json.decoder import JSONDecodeError
 except ImportError:
     # Python 2
     from urlparse import urljoin
+    from urllib import urlencode
 
     # Stub class to unify handler code
     class JSONDecodeError(Exception):
@@ -381,6 +382,17 @@ class HubApiClient:
     def get_project_logs(self, id, **kwargs):
         path = '{api_prefix}/projects/{id}/logs'.format(api_prefix=self.API_PREFIX, id=id)
         return self.make_and_handle_request('get', path, plain_text=True)
+
+    def get_pod_logs(self, id, limit=None, offset=None, pod_name=None):
+        query_params = {
+            'limit': limit,
+            'offset': offset,
+            'pod_name': pod_name
+        }
+        query_params = {key: value for key, value in query_params.items() if value is not None}
+        query_string = '&' + urlencode(query_params)
+        path = '{api_prefix}/pod_logs?project_id={id}{query_string}'.format(api_prefix=self.API_PREFIX, id=id, query_string=query_string)
+        return self.make_and_handle_request('get', path, plain_text=False)
 
     # Optimizers service client
     def get_next_trials(self, payload={}):
