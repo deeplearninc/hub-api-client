@@ -12,6 +12,45 @@ if sys.version_info[0] >= 3:
 else:
     string_type = unicode
 
+class TestRetryCounter(unittest.TestCase):
+    def createCounter(self, retries_count, connection_retries_count):
+        client = HubApiClient(
+            hub_app_url='https://some-url.com',
+            retries_count=retries_count,
+            connection_retries_count=connection_retries_count
+        )
+
+        return HubApiClient.RetryCounter(client)
+
+    def test_none_counter(self):
+        counter = HubApiClient.RetryCounter.none()
+        self.assertEqual(counter.is_retries_available(), False)
+
+    def test_counter_retry(self):
+        counter = self.createCounter(retries_count=1, connection_retries_count=2)
+        self.assertEqual(counter.is_retries_available(), True)
+
+        counter.count_retry(HubApiClient.RetryableApiError('some error'))
+        self.assertEqual(counter.is_retries_available(), False)
+
+    def test_counter_connection_retry(self):
+        counter = self.createCounter(retries_count=1, connection_retries_count=2)
+        self.assertEqual(counter.is_retries_available(), True)
+
+        counter.count_retry(HubApiClient.NetworkError('some error'))
+        self.assertEqual(counter.is_retries_available(), True)
+
+        counter.count_retry(HubApiClient.NetworkError('some error'))
+        self.assertEqual(counter.is_retries_available(), False)
+
+    def test_counter_unlnown_retry(self):
+        counter = self.createCounter(retries_count=1, connection_retries_count=2)
+
+        with self.assertRaises(RuntimeError) as context:
+            counter.count_retry(HubApiClient.InvalidParamsError('some error'))
+            self.assertIn('Unsupported kind of error', str(context.error))
+
+
 @patch('time.sleep', return_value=None)
 class TestHubApiClient(unittest.TestCase):
     def setUp(self):
@@ -80,7 +119,19 @@ class TestHubApiClient(unittest.TestCase):
 
         self.assertUnauthenticatedResponse(context.exception.metadata())
 
-    # 503 error, timeout and similar errors
+    # Connection error, timeout and similar errors
+    @vcr.use_cassette('general_errors/network_unavailable.yaml')
+    def test_network_unavailable(self, sleep_mock):
+        client = HubApiClient(
+            hub_app_url='http://ivalid-url',
+            token='some-token',
+            retries_count=2,
+        )
+
+        with self.assertRaises(HubApiClient.NetworkError) as context:
+            client.get_trials()
+
+    # 503 error and similar errors
     @vcr.use_cassette('general_errors/server_unavailable.yaml')
     def test_server_unavailable(self, sleep_mock):
         client = HubApiClient(
