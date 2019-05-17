@@ -103,6 +103,9 @@ class HubApiClient:
         'project_file': {
             'actions': ['index', 'show', 'create', 'delete']
         },
+        'pod_log': {
+            'actions': ['index']
+        },
         'similar_trials_request': {
             'actions': ['show', 'create']
         },
