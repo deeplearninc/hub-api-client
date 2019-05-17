@@ -41,6 +41,10 @@ class HubApiClient:
         pass
 
     # Temporary network issue, retry can help
+    class NetworkError(BaseError):
+        pass
+
+    # Temporary app server issue, retry can help
     class RetryableApiError(BaseError):
         pass
 
@@ -49,6 +53,32 @@ class HubApiClient:
 
     class DSLError(Exception):
         pass
+
+    class RetryCounter:
+        def __init__(self, hub_api_client=None):
+            if hub_api_client:
+                self.retries_left = hub_api_client.retries_count
+                self.connection_retries_left = hub_api_client.connection_retries_count
+            else:
+                self.retries_left = 0
+                self.connection_retries_left = 0
+
+        def count_retry(self, error):
+            if isinstance(error, HubApiClient.RetryableApiError):
+                self.retries_left -= 1
+            elif isinstance(error, HubApiClient.NetworkError):
+                self.connection_retries_left -= 1
+            else:
+                raise RuntimeError('Unsupported kind of error {error}'.format(error=error))
+
+            return self
+
+        def is_retries_available(self):
+            return self.retries_left > 0 and self.connection_retries_left > 0
+
+        @classmethod
+        def none(cls):
+            return cls()
 
     API_SCHEMA = {
         'cluster': {
@@ -130,6 +160,7 @@ class HubApiClient:
         self.cluster_api_token = config.get('hub_cluster_api_token', None)
         self.project_api_token = config.get('hub_project_api_token', None)
         self.retries_count = config.get('retries_count', 5)
+        self.connection_retries_count = config.get('connection_retries_count', self.retries_count)
         self.retry_wait_seconds = config.get('retry_wait_seconds', 5)
         self.headers = { 'Content-Type': 'application/json' }
         self.gzip_headers = self.headers.copy()
@@ -185,7 +216,7 @@ class HubApiClient:
             else:
                 return method(full_path, json=params, headers=self.headers)
         except ConnectionError as e:
-            raise self.RetryableApiError(str(e))
+            raise self.NetworkError(str(e))
 
     def compress(self, data):
         if hasattr(gzip, 'compress'):
@@ -239,25 +270,25 @@ class HubApiClient:
         except (JSONDecodeError, ValueError) as e:
             raise self.FatalApiError(self.extract_plain_text(res.text))
 
-    def make_and_handle_request(self, method_name, path, base_url=None, payload={}, retries_left=None, plain_text=False, gzip=False):
+    def make_and_handle_request(self, method_name, path, base_url=None, payload={}, retry_counter=None, plain_text=False, gzip=False):
         if not base_url:
             base_url = self.base_url
 
-        if retries_left is None:
+        if retry_counter is None:
             # Allow retries for get request, because it deosn't modify any data on server
             if method_name == 'get':
-                retries_left = self.retries_count
+                retry_counter = self.RetryCounter(self)
             # But don't allow to retry another (POST, PUT, DELETE, etc) requests
             else:
-                retries_left = 0
+                retry_counter = self.RetryCounter.none()
 
         try:
             with self.request(method_name, path, base_url, payload, gzip) as res:
                 return self.handle_response(res, plain_text=plain_text)
         except self.RetryableApiError as e:
-            if retries_left > 0:
+            if retry_counter.is_retries_available():
                 time.sleep(self.retry_wait_seconds)
-                return self.make_and_handle_request(method_name, path, base_url, payload, retries_left-1)
+                return self.make_and_handle_request(method_name, path, base_url, payload, retry_counter.count_retry(e))
             else:
                 raise e
 
@@ -422,7 +453,7 @@ class HubApiClient:
             return self.make_and_handle_request('post', '/next_trials',
                 payload=payload,
                 base_url=self.optimizers_url,
-                retries_left=self.retries_count,
+                retry_counter=self.RetryCounter(self),
                 gzip=True
             )
         else:

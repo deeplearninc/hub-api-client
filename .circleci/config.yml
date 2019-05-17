@@ -87,10 +87,11 @@ workflows:
   test_build_release:
     jobs:
       - test-2:
-        # For all branches and all tags https://circleci.com/docs/2.0/workflows/#executing-workflows-for-a-git-tag
-        filters:
-          tags:
-            only: /.*/
+          name: test-2
+          # For all branches and all tags https://circleci.com/docs/2.0/workflows/#executing-workflows-for-a-git-tag
+          filters:
+            tags:
+              only: /.*/
       - test:
           name: test-3.6
           python_version: "3.6"

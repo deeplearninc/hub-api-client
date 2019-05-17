@@ -8,7 +8,7 @@
 ### Install
 
 ```sh
-pip install auger-hub-api-client==0.5.6
+pip install auger-hub-api-client==0.5.7
 ```
 ### Initialize client
 
@@ -29,6 +29,7 @@ Client parameters:
 * `hub_project_api_token` - project token (provides project and cluster context to API)
 * `hub_cluster_api_token` - cluster token (provides cluster context to API)
 * `optimizers_url` - optional, to make `get_next_trials` to optimizers service (requires `hub_project_api_token`)
+* `connection_retries_count` - count of connection retries if it makes sense (see `HubApiClient.NetworkError`)
 * `retries_count` - count of request retries if it makes sense (see `HubApiClient.RetryableApiError`)
 * `retry_wait_seconds` - wait between retries
 
@@ -197,8 +198,8 @@ Commit and push changes
 Create and push new tag
 
 ```bash
-git tag v0.5.6
-git push origin v0.5.6
+git tag v0.5.7
+git push origin v0.5.7
 ```
 
 Then build and upload new wheel
