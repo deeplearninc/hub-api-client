@@ -26,30 +26,30 @@ class TestHubApiClient(unittest.TestCase):
 
     def assertInvalidParams(self, metadata, expected_params):
         actual_params = list(map(lambda error: error['error_param'], metadata['errors']))
-        self.assertEquals(actual_params, expected_params)
+        self.assertEqual(actual_params, expected_params)
 
     def assertIndexResponse(self, res, expected_object):
-        self.assertEquals(res['meta']['status'], 200)
+        self.assertEqual(res['meta']['status'], 200)
         self.assertIsInstance(res['data'], list)
         self.assertTrue(len(res['data']) > 0)
-        self.assertEquals(res['data'][0]['object'], expected_object)
+        self.assertEqual(res['data'][0]['object'], expected_object)
 
     def assertResourceResponse(self, res, expected_object):
-        self.assertEquals(res['meta']['status'], 200)
+        self.assertEqual(res['meta']['status'], 200)
         self.assertIsInstance(res['data'], dict)
-        self.assertEquals(res['data']['object'], expected_object)
+        self.assertEqual(res['data']['object'], expected_object)
 
     def assertDataResponse(self, res, expected_keys):
-        self.assertEquals(res['meta']['status'], 200)
+        self.assertEqual(res['meta']['status'], 200)
         self.assertIsInstance(res['data'], dict)
         for expected_key in expected_keys:
             expected_type = expected_keys[expected_key]
             self.assertIsInstance(res['data'][expected_key], expected_type)
 
     def assertUnauthenticatedResponse(self, metadata):
-        self.assertEquals(metadata['status'], 401)
+        self.assertEqual(metadata['status'], 401)
         error = metadata['errors'][0]
-        self.assertEquals(error['error_type'], 'unauthenticated')
+        self.assertEqual(error['error_type'], 'unauthenticated')
         self.assertIsInstance(error['message'], string_type)
 
     def assertServerErrorResponse(self, error):
@@ -165,7 +165,7 @@ class TestHubApiClient(unittest.TestCase):
     @vcr.use_cassette('dataset_manifests/all_index.yaml')
     def test_iterate_all_dataset_manifests(self, sleep_mock):
         self.client.iterate_all_dataset_manifests(
-          lambda item: self.assertEquals(item['object'], 'dataset_manifest'),
+          lambda item: self.assertEqual(item['object'], 'dataset_manifest'),
           limit=1
         )
 
@@ -448,6 +448,13 @@ class TestHubApiClient(unittest.TestCase):
         res = self.client.get_project_logs(31)
         self.assertIsInstance(res, string_type)
 
+    # Pod logs for project
+
+    @vcr.use_cassette('pod_logs/index.yaml')
+    def test_get_pod_logs(self, sleep_mock):
+        res = self.client.get_pod_logs(project_id=696)
+        self.assertIndexResponse(res, 'pod_log')
+
     # Project files
 
     @vcr.use_cassette('project_files/show.yaml')
@@ -611,7 +618,7 @@ class TestHubApiClient(unittest.TestCase):
         with self.assertRaises(HubApiClient.MissingParamError) as context:
             client.get_next_trials({'x': 1})
 
-        self.assertEquals(str(context.exception), 'pass optimizers_url in HubApiClient constructor')
+        self.assertEqual(str(context.exception), 'pass optimizers_url in HubApiClient constructor')
 
     def test_get_next_trials_blank_optimizers_url(self, sleep_mock):
         client = self.build_hub_client_for_optimizer(optimizers_url='')
@@ -619,7 +626,7 @@ class TestHubApiClient(unittest.TestCase):
         with self.assertRaises(HubApiClient.MissingParamError) as context:
             client.get_next_trials({'x': 1})
 
-        self.assertEquals(str(context.exception), 'pass optimizers_url in HubApiClient constructor')
+        self.assertEqual(str(context.exception), 'pass optimizers_url in HubApiClient constructor')
 
     @vcr.use_cassette('optimizers_service/get_next_trials_invalid_token.yaml')
     def test_get_next_trials_invalid_token(self, sleep_mock):
