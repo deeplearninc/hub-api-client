@@ -8,7 +8,7 @@
 ### Install
 
 ```sh
-pip install auger-hub-api-client==0.5.4
+pip install auger-hub-api-client==0.5.5
 ```
 ### Initialize client
 
