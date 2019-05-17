@@ -14,12 +14,11 @@ except ImportError:
 
 try:
     # Python 3
-    from urllib.parse import urljoin, urlencode
+    from urllib.parse import urljoin
     from json.decoder import JSONDecodeError
 except ImportError:
     # Python 2
     from urlparse import urljoin
-    from urllib import urlencode
 
     # Stub class to unify handler code
     class JSONDecodeError(Exception):

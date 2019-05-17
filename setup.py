@@ -3,7 +3,7 @@ import sys
 from setuptools import setup
 from setuptools.command.install import install
 
-VERSION = '0.5.5'
+VERSION = '0.5.6'
 
 class VerifyVersionCommand(install):
     """Verify that the git tag matches our version"""
