@@ -47,6 +47,9 @@ class HubApiClient:
     class MissingParamError(BaseError):
         pass
 
+    class DSLError(Exception):
+        pass
+
     API_SCHEMA = {
         'cluster': {
             'actions': ['index', 'show', 'create', 'delete']
@@ -85,7 +88,17 @@ class HubApiClient:
             'actions': ['index', 'show', 'create']
         },
         'project': {
-            'actions': ['index', 'show', 'create', 'update', 'delete']
+            'actions': [
+                'index',
+                'show',
+                'create',
+                'update',
+                'delete',
+                {
+                    'deploy': 'patch',
+                    'undeploy': 'patch'
+                }
+            ]
         },
         'project_file': {
             'actions': ['index', 'show', 'create', 'delete']
@@ -294,7 +307,13 @@ class HubApiClient:
             path = self.build_full_resource_path(resource_name, parent_resource_name)
 
             for action_name in options['actions']:
-                self.define_action(action_name, path, resource_name, parent_resource_name)
+                if isinstance(action_name, str):
+                    self.define_action(action_name, path, resource_name, parent_resource_name)
+                elif isinstance(action_name, dict):
+                    for custom_action_name, http_method in action_name.items():
+                        self.define_action(custom_action_name, path, resource_name, parent_resource_name, http_method)
+                else:
+                    raise self.DSLError('Unsupported action in DSL: `{action_name}`'.format(action_name=action_name))
 
     def format_full_resource_path(self, path_template, parent_resource_name, kwargs):
         if parent_resource_name:
@@ -318,7 +337,7 @@ class HubApiClient:
         else:
             return 's'
 
-    def define_action(self, action_name, path_template, resource_name, parent_resource_name):
+    def define_action(self, action_name, path_template, resource_name, parent_resource_name, http_method=None):
         if action_name == 'index':
             ending = self.plural_ending(resource_name)
             index_proc_name = 'get_{resource_name}{ending}'.format(resource_name=resource_name, ending=ending)
@@ -370,8 +389,20 @@ class HubApiClient:
                 return self.make_and_handle_request('delete', '{path}/{id}'.format(path=path, id=id))
 
             setattr(self.__class__, delete_proc_name, delete)
+        elif http_method:
+            custom_proc_name = '{action_name}_{resource_name}'.format(
+                action_name=action_name,
+                resource_name=resource_name
+            )
+
+            def custom_action(self, id, **kwargs):
+                path = self.format_full_resource_path(path_template, parent_resource_name, kwargs)
+                path = '{path}/{id}/{action_name}'.format(path=path, id=id, action_name=action_name)
+                return self.make_and_handle_request(http_method, path, payload=kwargs)
+
+            setattr(self.__class__, custom_proc_name, custom_action)
         else:
-            raise 'Unsupported REST action `{name}`'.format(name=action_name)
+            raise self.DSLError('Unsupported REST action `{name}`'.format(name=action_name))
 
 
     # Deviation, not pure RESTfull endpoint, updates a bunch of trials for project run

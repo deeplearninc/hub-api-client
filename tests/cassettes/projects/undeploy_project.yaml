@@ -1,0 +1,24 @@
+interactions:
+- request:
+    body: '{"project_api_token": "410befdcd606f602c20e5140b94909aeff27800a86459ceb1fc97b7e09bce57b"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['89']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.22.0]
+    method: PATCH
+    uri: http://localhost:5000/api/v1/projects/1/undeploy
+  response:
+    body: {string: '{"data":{"object":"project","deleted":false,"id":1,"name":"mt-test","url":"https://cluster-dev.auger.test/mt-test-project/?","status":"undeploying","deleting":false,"state_machine":{"object":"state_machine","deleted":false,"current_state":{"id":"undeploying","name":"Stopping"},"possible_transitions":[]},"deploy_progress":{"undeployed":0,"undeploying":4,"deploying":0,"deployed":0,"running":0},"services_status":{"total":4,"running":0},"jobs_status":{"total":0,"done":0},"kube_service_port":null,"organization_id":2,"cluster_id":null,"created_at":"2019-05-15T14:53:40.118Z","updated_at":"2019-05-17T12:17:21.558Z","components":[{"object":"component","deleted":false,"id":8,"name":"flower-api","status":"undeploying","cluster_id":null,"project_id":1,"created_at":"2019-05-15T15:40:19.032Z","updated_at":"2019-05-17T12:22:06.113Z"},{"object":"component","deleted":false,"id":7,"name":"redis","status":"undeploying","cluster_id":null,"project_id":1,"created_at":"2019-05-15T15:40:18.963Z","updated_at":"2019-05-17T12:22:06.118Z"},{"object":"component","deleted":false,"id":5,"name":"credentials","status":"undeploying","cluster_id":null,"project_id":1,"created_at":"2019-05-15T15:40:18.810Z","updated_at":"2019-05-17T12:22:06.124Z"},{"object":"component","deleted":false,"id":6,"name":"augerml","status":"undeploying","cluster_id":null,"project_id":1,"created_at":"2019-05-15T15:40:18.897Z","updated_at":"2019-05-17T12:22:06.131Z"}],"default_worker_nodes_count":null,"default_workers_per_node_count":0,"default_instance_type":null,"default_kubernetes_stack":"experimental","cluster_autoterminate_minutes":5,"default_workers_count":2,"default_worker_type_id":1},"meta":{"status":200}}'}
+    headers:
+      Cache-Control: [no-cache]
+      Content-Type: [application/json; charset=utf-8]
+      Transfer-Encoding: [chunked]
+      Vary: [Accept-Encoding]
+      X-Request-Id: [e35d0f7c-44a0-44c8-a093-61b77bd3aa83]
+      X-Runtime: ['0.152926']
+      content-length: ['15225']
+    status: {code: 200, message: OK}
+version: 1
