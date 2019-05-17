@@ -455,6 +455,16 @@ class TestHubApiClient(unittest.TestCase):
         res = self.client.get_pod_logs(project_id=696)
         self.assertIndexResponse(res, 'pod_log')
 
+    @vcr.use_cassette('projects/deploy_project.yaml')
+    def test_deploy_project(self, sleep_mock):
+        res = self.client.deploy_project(1, worker_type_id=1, workers_count=2)
+        self.assertResourceResponse(res, 'project')
+
+    @vcr.use_cassette('projects/undeploy_project.yaml')
+    def test_deploy_project(self, sleep_mock):
+        res = self.client.undeploy_project(1)
+        self.assertResourceResponse(res, 'project')
+
     # Project files
 
     @vcr.use_cassette('project_files/show.yaml')
