@@ -28,7 +28,7 @@ setup(
     author_email='alex@dplrn.com',
     license='MIT',
     packages=[
-        'auger',
+        'auger.hub_api_client',
     ],
     install_requires=[
         'requests'
