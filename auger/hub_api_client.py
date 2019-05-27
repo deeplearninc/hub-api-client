@@ -133,6 +133,9 @@ class HubApiClient:
         'project_file': {
             'actions': ['index', 'show', 'create', 'delete']
         },
+        'project_file_url': {
+            'actions': ['create']
+        },
         'pod_log': {
             'actions': ['index']
         },
@@ -242,7 +245,7 @@ class HubApiClient:
                 response = res.text
                 meta = {}
 
-        if res.status_code == 200:
+        if res.status_code == 200 or res.status_code == 201:
             return reponse
         elif res.status_code == 400:
             # Invalid input data, we can't do anyting, consumer should fix source code

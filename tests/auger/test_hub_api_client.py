@@ -1,5 +1,6 @@
 import json
 import random
+import re
 import sys
 import unittest
 from mock import patch
@@ -543,6 +544,21 @@ class TestHubApiClient(unittest.TestCase):
     def test_delete_project_file_valid(self, sleep_mock):
         res = self.client.delete_project_file(69)
         self.assertResourceResponse(res, 'project_file')
+
+    # Project file URLs
+
+    @vcr.use_cassette('project_file_urls/create_valid.yaml')
+    def test_create_project_file_url_valid(self, sleep_mock):
+        res = self.client.create_project_file_url(
+            project_id=1,
+            file_path='workspace/projects/testproj/files/test.csv',
+        )
+
+        self.assertEqual(res['meta']['status'], 201)
+        self.assertIsInstance(res['data'], dict)
+        self.assertTrue(re.match(r'https://[\w\d\-]+.s3.[\w\d\-]+.amazonaws.com', res['data']['url']))
+        self.assertIsInstance(res['data']['fields'], dict)
+        self.assertEqual(res['data']['fields']['key'], 'workspace/projects/testproj/files/test.csv')
 
     # Similar trials requests
 
