@@ -1,0 +1,31 @@
+interactions:
+- request:
+    body: '{"project_id": 1, "file_path": "test.csv", "project_api_token": "410befdcd606f602c20e5140b94909aeff27800a86459ceb1fc97b7e09bce57b"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['131']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.22.0]
+    method: POST
+    uri: http://localhost:5000/api/v1/project_file_urls
+  response:
+    body: {string: '{"data":{"fields":{"key":"workspace/projects/mt-test/files/test.csv","success_action_status":"201","policy":"eyJleHBpcmF0aW9uIjoiMjAxOS0wNi0wNVQxMTozODoxNFoiLCJjb25kaXRpb25zIjpbeyJidWNrZXQiOiJhdWdlci1tdC1vcmctY2lucG5zIn0seyJrZXkiOiJ3b3Jrc3BhY2UvcHJvamVjdHMvbXQtdGVzdC9maWxlcy90ZXN0LmNzdiJ9LHsic3VjY2Vzc19hY3Rpb25fc3RhdHVzIjoiMjAxIn0seyJ4LWFtei1jcmVkZW50aWFsIjoiQVNJQTVMSlZURUNPVllKM0xCVUkvMjAxOTA2MDUvdXMtd2VzdC0xL3MzL2F3czRfcmVxdWVzdCJ9LHsieC1hbXotYWxnb3JpdGhtIjoiQVdTNC1ITUFDLVNIQTI1NiJ9LHsieC1hbXotZGF0ZSI6IjIwMTkwNjA1VDExMjMxNFoifSx7IngtYW16LXNlY3VyaXR5LXRva2VuIjoiRlFvR1pYSXZZWGR6RVAzLy8vLy8vLy8vL3dFYURGSlIwbTR3b1UydFBGQm8yU0x6QWRnazBhYTBld1p4ZFYzUXFaSnV5K3ZidjhUQVVpTHE0dTVxU2htSnlLV2lLbVBpTE9DaVVmUGVCdWZGTzM4L09ib3NCMmtsbXBRRHV1KzBmdWwrYlNWTVVYMG55anRXdUQ4LzJ5b2dVS1JJdmVEd2Nmd3FmTnBmalc4Wk5CY3Vuc29NSXBza2tJYWYwdTREU3ljcmw2cG1MSGZqUXlRSmJxN2t3a0hBdWNPN00yYmVVeVZ5TmF0dzZvYng1bDhwSlh5eklwQ2Mwb0hva2hsWUszanVBVzI3TVhIQjhxYmpablorUXU0dTJ0bXVkYVBmaUd5R0pBYy8yNmdNWUdzeFMybkJnMXM0TkwzODBONDdKaldFaWJHcTNkRmpvNHBCVVJZOEQybVUvK1RWSHVEeUNGdG9JU1VYUXdVbFU2OGdvRlZFOENpaXpON25CUT09In1dfQ==","x-amz-credential":"ASIA5LJVTECOVYJ3LBUI/20190605/us-west-1/s3/aws4_request","x-amz-algorithm":"AWS4-HMAC-SHA256","x-amz-date":"20190605T112314Z","x-amz-security-token":"FQoGZXIvYXdzEP3//////////wEaDFJR0m4woU2tPFBo2SLzAdgk0aa0ewZxdV3QqZJuy+vbv8TAUiLq4u5qShmJyKWiKmPiLOCiUfPeBufFO38/ObosB2klmpQDuu+0ful+bSVMUX0nyjtWuD8/2yogUKRIveDwcfwqfNpfjW8ZNBcunsoMIpskkIaf0u4DSycrl6pmLHfjQyQJbq7kwkHAucO7M2beUyVyNatw6obx5l8pJXyzIpCc0oHokhlYK3juAW27MXHB8qbjZnZ+Qu4u2tmudaPfiGyGJAc/26gMYGsxS2nBg1s4NL380N47JjWEibGq3dFjo4pBURY8D2mU/+TVHuDyCFtoISUXQwUlU68goFVE8CiizN7nBQ==","x-amz-signature":"edbc8a1f107b876541efb97b451be97a8cb4e74d455a6f1ab1866f4b0b898875"},"url":"https://auger-mt-org-cinpns.s3.us-west-1.amazonaws.com"},"meta":{"status":201}}'}
+    headers:
+      Cache-Control: ['max-age=0, private, must-revalidate']
+      Content-Type: [application/json; charset=utf-8]
+      ETag: [W/"74cdadab3c46d3835ba1d794b7e44d71"]
+      Referrer-Policy: [strict-origin-when-cross-origin]
+      Transfer-Encoding: [chunked]
+      Vary: [Accept-Encoding]
+      X-Content-Type-Options: [nosniff]
+      X-Download-Options: [noopen]
+      X-Frame-Options: [SAMEORIGIN]
+      X-Permitted-Cross-Domain-Policies: [none]
+      X-Request-Id: [e72c5a58-9d10-4a17-964f-76df99b7f5f6]
+      X-Runtime: ['1.937708']
+      X-XSS-Protection: [1; mode=block]
+      content-length: ['1819']
+    status: {code: 201, message: Created}
+version: 1

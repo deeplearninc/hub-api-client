@@ -1,0 +1,32 @@
+interactions:
+- request:
+    body: '{"limit": 50, "offset": 0, "project_id": 1, "file_path": "test.csv", "project_api_token":
+      "410befdcd606f602c20e5140b94909aeff27800a86459ceb1fc97b7e09bce57b"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['157']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.22.0]
+    method: GET
+    uri: http://localhost:5000/api/v1/project_file_urls
+  response:
+    body: {string: '{"data":{"url":"https://auger-org-1-pu4p9p.s3.us-west-1.amazonaws.com/workspace/projects/some-project-0/files/test.csv?X-Amz-Algorithm=AWS4-HMAC-SHA256\u0026X-Amz-Credential=access_key%2F20190605%2Fus-west-1%2Fs3%2Faws4_request\u0026X-Amz-Date=20190605T103523Z\u0026X-Amz-Expires=3600\u0026X-Amz-SignedHeaders=host\u0026X-Amz-Security-Token=session_token\u0026X-Amz-Signature=285a9cf4e1f2dd96dee80b8f3d17da54ff94dd96dd2981ffa61b860f3cc27406"},"meta":{"status":200}}'}
+    headers:
+      Cache-Control: ['max-age=0, private, must-revalidate']
+      Content-Type: [application/json; charset=utf-8]
+      ETag: [W/"e64be233814c9cd8d6ea2eef7b8a18a2"]
+      Referrer-Policy: [strict-origin-when-cross-origin]
+      Transfer-Encoding: [chunked]
+      Vary: [Accept-Encoding]
+      X-Content-Type-Options: [nosniff]
+      X-Download-Options: [noopen]
+      X-Frame-Options: [SAMEORIGIN]
+      X-Permitted-Cross-Domain-Policies: [none]
+      X-Request-Id: [6b69367b-f034-42db-85ba-f3f11542b0ad]
+      X-Runtime: ['0.463715']
+      X-XSS-Protection: [1; mode=block]
+      content-length: ['465']
+    status: {code: 200, message: OK}
+version: 1
