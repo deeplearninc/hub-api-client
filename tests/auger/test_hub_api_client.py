@@ -551,14 +551,39 @@ class TestHubApiClient(unittest.TestCase):
     def test_create_project_file_url_valid(self, sleep_mock):
         res = self.client.create_project_file_url(
             project_id=1,
-            file_path='workspace/projects/testproj/files/test.csv',
+            file_path='workspace/projects/mt-test/files/test.csv',
         )
 
         self.assertEqual(res['meta']['status'], 201)
         self.assertIsInstance(res['data'], dict)
         self.assertTrue(re.match(r'https://[\w\d\-]+.s3.[\w\d\-]+.amazonaws.com', res['data']['url']))
         self.assertIsInstance(res['data']['fields'], dict)
-        self.assertEqual(res['data']['fields']['key'], 'workspace/projects/testproj/files/test.csv')
+        self.assertEqual(res['data']['fields']['key'], 'workspace/projects/mt-test/files/test.csv')
+
+    @vcr.use_cassette('project_file_urls/create_valid_relative.yaml')
+    def test_create_project_file_url_valid_relative(self, sleep_mock):
+        res = self.client.create_project_file_url(
+            project_id=1,
+            file_path='test.csv',
+        )
+
+        self.assertEqual(res['meta']['status'], 201)
+        self.assertIsInstance(res['data'], dict)
+        self.assertTrue(re.match(r'https://[\w\d\-]+.s3.[\w\d\-]+.amazonaws.com', res['data']['url']))
+        self.assertIsInstance(res['data']['fields'], dict)
+        self.assertEqual(res['data']['fields']['key'], 'workspace/projects/mt-test/files/test.csv')
+
+    @vcr.use_cassette('project_file_urls/show.yaml')
+    def test_show_project_file_url(self, sleep_mock):
+        res = self.client.get_project_file_url(
+            project_id=1,
+            file_path='test.csv',
+        )
+
+        self.assertEqual(res['meta']['status'], 200)
+        self.assertIsInstance(res['data'], dict)
+        matcher = r'https://[\w\d\-]+.s3.[\w\d\-]+.amazonaws.com.*files/test.csv?'
+        self.assertTrue(re.match(matcher, res['data']['url']))
 
     # Similar trials requests
 

@@ -134,7 +134,7 @@ class HubApiClient:
             'actions': ['index', 'show', 'create', 'delete']
         },
         'project_file_url': {
-            'actions': ['create']
+            'actions': ['create', 'index']
         },
         'pod_log': {
             'actions': ['index']
@@ -449,6 +449,9 @@ class HubApiClient:
     def get_project_logs(self, id, **kwargs):
         path = '{api_prefix}/projects/{id}/logs'.format(api_prefix=self.API_PREFIX, id=id)
         return self.make_and_handle_request('get', path, plain_text=True)
+
+    def get_project_file_url(self, **kwargs):
+        return self.get_project_file_urls(**kwargs)
 
     # Optimizers service client
     def get_next_trials(self, payload={}):
