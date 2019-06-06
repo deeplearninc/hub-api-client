@@ -1,0 +1,31 @@
+interactions:
+- request:
+    body: '{"object": "Project", "id": 1, "project_api_token": "410befdcd606f602c20e5140b94909aeff27800a86459ceb1fc97b7e09bce57b"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['119']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.22.0]
+    method: GET
+    uri: http://localhost:5000/api/v1/status
+  response:
+    body: {string: '{"data":{"status":"undeployed"},"meta":{"status":200}}'}
+    headers:
+      Cache-Control: ['max-age=0, private, must-revalidate']
+      Content-Type: [application/json; charset=utf-8]
+      ETag: [W/"09087619b05f4c6966d2361174d00ff0"]
+      Referrer-Policy: [strict-origin-when-cross-origin]
+      Transfer-Encoding: [chunked]
+      Vary: [Accept-Encoding]
+      X-Content-Type-Options: [nosniff]
+      X-Download-Options: [noopen]
+      X-Frame-Options: [SAMEORIGIN]
+      X-Permitted-Cross-Domain-Policies: [none]
+      X-Request-Id: [2921bc93-3a8e-41fc-aa15-8c50d6455fe0]
+      X-Runtime: ['1.261475']
+      X-XSS-Protection: [1; mode=block]
+      content-length: ['54']
+    status: {code: 200, message: OK}
+version: 1

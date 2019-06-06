@@ -12,7 +12,7 @@ interactions:
     method: POST
     uri: http://localhost:5000/api/v1/project_file_urls
   response:
-    body: {string: '{"data":{"fields":{"key":"workspace/projects/mt-test/files/test.csv","success_action_status":"201","policy":"eyJleHBpcmF0aW9uIjoiMjAxOS0wNS0yN1QxMTowMjo0OFoiLCJjb25kaXRpb25zIjpbeyJidWNrZXQiOiJhdWdlci1vcmctMS1seXl2MHcifSx7ImtleSI6IndvcmtzcGFjZS9wcm9qZWN0cy90ZXN0cHJvai9maWxlcy90ZXN0LmNzdiJ9LHsic3VjY2Vzc19hY3Rpb25fc3RhdHVzIjoiMjAxIn0seyJ4LWFtei1jcmVkZW50aWFsIjoiYWNjZXNzX2tleS8yMDE5MDUyNy91cy13ZXN0LTEvczMvYXdzNF9yZXF1ZXN0In0seyJ4LWFtei1hbGdvcml0aG0iOiJBV1M0LUhNQUMtU0hBMjU2In0seyJ4LWFtei1kYXRlIjoiMjAxOTA1MjdUMTA0NzQ4WiJ9LHsieC1hbXotc2VjdXJpdHktdG9rZW4iOiJzZXNzaW9uX3Rva2VuIn1dfQ==","x-amz-credential":"access_key/20190527/us-west-1/s3/aws4_request","x-amz-algorithm":"AWS4-HMAC-SHA256","x-amz-date":"20190527T104748Z","x-amz-security-token":"session_token","x-amz-signature":"7a6b12c9b1e2fdbe4d307a7e1e553c552909a44ad900efa9deed73d807730eba"},"url":"https://auger-org-1-lyyv0w.s3.us-west-1.amazonaws.com"},"meta":{"status":201}}'}
+    body: {string: '{"data":{"fields":{"key":"workspace/projects/mt-test/files/test.csv","success_action_status":"201","policy":"eyJleHBpcmF0aW9uIjoiMjAxOS0wNS0yN1QxMTowMjo0OFoiLCJjb25kaXRpb25zIjpbeyJidWNrZXQiOiJhdWdlci1vcmctMS1seXl2MHcifSx7ImtleSI6IndvcmtzcGFjZS9wcm9qZWN0cy90ZXN0cHJvai9maWxlcy90ZXN0LmNzdiJ9LHsic3VjY2Vzc19hY3Rpb25fc3RhdHVzIjoiMjAxIn0seyJ4LWFtei1jcmVkZW50aWFsIjoiYWNjZXNzX2tleS8yMDE5MDUyNy91cy13ZXN0LTEvczMvYXdzNF9yZXF1ZXN0In0seyJ4LWFtei1hbGdvcml0aG0iOiJBV1M0LUhNQUMtU0hBMjU2In0seyJ4LWFtei1kYXRlIjoiMjAxOTA1MjdUMTA0NzQ4WiJ9LHsieC1hbXotc2VjdXJpdHktdG9rZW4iOiJzZXNzaW9uX3Rva2VuIn1dfQ==","x-amz-credential":"access_key/20190527/us-west-1/s3/aws4_request","x-amz-algorithm":"AWS4-HMAC-SHA256","x-amz-date":"20190527T104748Z","x-amz-security-token":"session_token","x-amz-signature":"7a6b12c9b1e2fdbe4d307a7e1e553c552909a44ad900efa9deed73d807730eba"},"url":"https://auger-org-1-lyyv0w.s3.us-west-1.amazonaws.com"},"meta":{"status":200}}'}
     headers:
       Cache-Control: ['max-age=0, private, must-revalidate']
       Content-Type: [application/json; charset=utf-8]
@@ -28,5 +28,5 @@ interactions:
       X-Runtime: ['0.824077']
       X-XSS-Protection: [1; mode=block]
       content-length: ['930']
-    status: {code: 201, message: Created}
+    status: {code: 200, message: Created}
 version: 1

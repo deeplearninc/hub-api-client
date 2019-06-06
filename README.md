@@ -8,7 +8,7 @@
 ### Install
 
 ```sh
-pip install auger-hub-api-client==0.5.9
+pip install auger-hub-api-client==0.5.10
 ```
 ### Initialize client
 
@@ -157,6 +157,30 @@ client.update_trials(
     ]
 )
 ```
+
+### Get resource status
+
+Lightweight endpoint returns only status obf the requested object
+
+```python
+client.get_status(object='Project', id=1)
+```
+
+Next resources supported:
+```
+Cluster
+ClusterTask
+Component
+ExperimentSession
+Organization
+Pipeline
+Project
+ProjectFile
+SimilarTrialsRequest
+Subscription
+WarmStartRequest
+```
+
 ### Exceptions
 
 * `HubApiClient.FatalApiError` - retry doesn't make sense in most cases it measn error in source code of consumer or API
@@ -199,8 +223,8 @@ Commit and push changes
 Create and push new tag
 
 ```bash
-git tag v0.5.9
-git push origin v0.5.9
+git tag v0.5.10
+git push origin v0.5.10
 ```
 
 Then build and upload new wheel

@@ -83,8 +83,11 @@ class TestHubApiClient(unittest.TestCase):
         self.assertEqual(res['meta']['status'], 200)
         self.assertIsInstance(res['data'], dict)
         for expected_key in expected_keys:
-            expected_type = expected_keys[expected_key]
-            self.assertIsInstance(res['data'][expected_key], expected_type)
+            expected_value = expected_keys[expected_key]
+            if isinstance(expected_value, type):
+                self.assertIsInstance(res['data'][expected_key], expected_value)
+            else:
+                self.assertEqual(res['data'][expected_key], expected_value)
 
     def assertUnauthenticatedResponse(self, metadata):
         self.assertEqual(metadata['status'], 401)
@@ -554,7 +557,7 @@ class TestHubApiClient(unittest.TestCase):
             file_path='workspace/projects/mt-test/files/test.csv',
         )
 
-        self.assertEqual(res['meta']['status'], 201)
+        self.assertEqual(res['meta']['status'], 200)
         self.assertIsInstance(res['data'], dict)
         self.assertTrue(re.match(r'https://[\w\d\-]+.s3.[\w\d\-]+.amazonaws.com', res['data']['url']))
         self.assertIsInstance(res['data']['fields'], dict)
@@ -567,7 +570,7 @@ class TestHubApiClient(unittest.TestCase):
             file_path='test.csv',
         )
 
-        self.assertEqual(res['meta']['status'], 201)
+        self.assertEqual(res['meta']['status'], 200)
         self.assertIsInstance(res['data'], dict)
         self.assertTrue(re.match(r'https://[\w\d\-]+.s3.[\w\d\-]+.amazonaws.com', res['data']['url']))
         self.assertIsInstance(res['data']['fields'], dict)
@@ -602,6 +605,21 @@ class TestHubApiClient(unittest.TestCase):
         )
 
         self.assertResourceResponse(res, 'similar_trials_request')
+
+    # Status
+
+    @vcr.use_cassette('status/get_status_project_valid.yaml')
+    def test_get_status_project_valid(self, sleep_mock):
+        res = self.client.get_status(object='Project', id=1)
+
+        self.assertDataResponse(res, {'status': 'undeployed'})
+
+    @vcr.use_cassette('status/get_status_invalid.yaml')
+    def test_get_status_invalid(self, sleep_mock):
+        with self.assertRaises(HubApiClient.InvalidParamsError) as context:
+            res = self.client.get_status(object='User', id=1)
+
+        self.assertInvalidParams(context.exception.metadata(), ['object'])
 
     # Tokens
 
