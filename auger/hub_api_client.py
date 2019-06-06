@@ -442,7 +442,9 @@ class HubApiClient:
             raise self.DSLError('Unsupported REST action `{name}`'.format(name=action_name))
 
 
-    # Deviation, not pure RESTfull endpoint, updates a bunch of trials for project run
+    # Deviations, not pure RESTfull endpoints
+
+    # Updates a bunch of trials for project run
     def update_trials(self, **kwargs):
         return self.update_trial(id=None, **kwargs)
 
@@ -452,6 +454,10 @@ class HubApiClient:
 
     def get_project_file_url(self, **kwargs):
         return self.get_project_file_urls(**kwargs)
+
+    def get_status(self, object, id):
+        path = '{api_prefix}/status'.format(api_prefix=self.API_PREFIX)
+        return self.make_and_handle_request('get', path, payload={'object': object, 'id': id})
 
     # Optimizers service client
     def get_next_trials(self, payload={}):
