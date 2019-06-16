@@ -1,22 +1,5 @@
 version: 2.1
 jobs:
-  test-2:
-    docker:
-      - image: circleci/python:2.7.15
-    working_directory: ~/repo
-    steps:
-      - checkout
-      - run:
-          name: install dependencies
-          command: |
-            pip install -r requirements.txt --user
-      - run:
-          name: run tests
-          command: |
-            python $HOME/.local/lib/python2.7/site-packages/nose2
-      - store_artifacts:
-          path: test-reports
-          destination: test-reports
 
   test:
     parameters:
@@ -86,12 +69,6 @@ workflows:
   version: 2.1
   test_build_release:
     jobs:
-      - test-2:
-          name: test-2
-          # For all branches and all tags https://circleci.com/docs/2.0/workflows/#executing-workflows-for-a-git-tag
-          filters:
-            tags:
-              only: /.*/
       - test:
           name: test-3.6
           python_version: "3.6"
@@ -107,7 +84,6 @@ workflows:
       - build_and_release:
           python_version: "3.7"
           requires:
-            - test-2
             - test-3.6
             - test-3.7
           # Only for v tags
