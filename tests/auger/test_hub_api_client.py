@@ -8,10 +8,7 @@ from mock import patch
 from auger.hub_api_client import HubApiClient
 from tests.vcr_helper import vcr
 
-if sys.version_info[0] >= 3:
-    string_type = str
-else:
-    string_type = unicode
+string_type = str
 
 class TestRetryCounter(unittest.TestCase):
     def createCounter(self, retries_count, connection_retries_count):
