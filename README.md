@@ -8,7 +8,7 @@
 ### Install
 
 ```sh
-pip install auger-hub-api-client==0.5.10
+pip install auger-hub-api-client==0.6.0
 ```
 ### Initialize client
 
@@ -190,6 +190,10 @@ WarmStartRequest
 
 In all case see exception content it contains more specific details for each case
 
+## Releases
+
+* 0.6.0 - Drop Python 2 support
+
 ## Development
 
 Create virtualenv:
@@ -223,8 +227,7 @@ Commit and push changes
 Create and push new tag
 
 ```bash
-git tag v0.5.10
-git push origin v0.5.10
+git tag v0.6.0 && git push origin v0.6.0
 ```
 
 Then build and upload new wheel

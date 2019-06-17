@@ -4,25 +4,10 @@ import requests
 import time
 import gzip
 
-
-try:
-    # Python 2
-    from StringIO import StringIO
-except ImportError:
-    # Python 3
-    from io import StringIO
-
-try:
-    # Python 3
-    from urllib.parse import urljoin
-    from json.decoder import JSONDecodeError
-except ImportError:
-    # Python 2
-    from urlparse import urljoin
-
-    # Stub class to unify handler code
-    class JSONDecodeError(Exception):
-        pass
+# Python 3
+from io import StringIO
+from urllib.parse import urljoin
+from json.decoder import JSONDecodeError
 
 from requests.exceptions import ConnectionError
 
@@ -225,13 +210,6 @@ class HubApiClient:
         if hasattr(gzip, 'compress'):
             # Python 3
             return gzip.compress(bytes(data, 'utf-8'))
-        else:
-            # Python 2
-            out = StringIO()
-            with gzip.GzipFile(fileobj=out, mode="w") as f:
-              f.write(data)
-
-            return out.getvalue()
 
     def handle_response(self, res, plain_text=False):
         if plain_text:
