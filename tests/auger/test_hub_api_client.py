@@ -729,6 +729,8 @@ class TestHubApiClient(unittest.TestCase):
             hub_project_api_token=token
         )
 
+    # POST /next_trials
+
     def test_get_next_trials_missing_optimizers_url(self, sleep_mock):
         client = self.build_hub_client_for_optimizer(optimizers_url=None)
 
@@ -769,3 +771,41 @@ class TestHubApiClient(unittest.TestCase):
             res = client.get_next_trials({'x': 'some'})
 
         self.assertInvalidParams(context.exception.metadata(), ['optimizer_name'])
+
+    # POST /fte
+    @vcr.use_cassette('optimizers_service/get_fte_valid.yaml')
+    def test_get_fte_valid(self, sleep_mock):
+        client = self.build_hub_client_for_optimizer()
+
+        payload = {
+            'alg_name': "sklearn.ensemble.RandomForestClassifier",
+            'alg_params': {
+                "bootstrap": True,
+                "min_samples_leaf": 13,
+                "n_estimators": 100,
+                "min_samples_split": 3,
+                "criterion": "gini",
+                "max_features": 0.08361531837907793
+            },
+            'ncols': 100,
+            'nrows': 10000
+        }
+
+        res = client.get_fte(payload)
+
+        self.assertIsInstance(res['data']['estimated_time'], float)
+
+    @vcr.use_cassette('optimizers_service/get_fte_invalid.yaml')
+    def test_get_fte_invalid(self, sleep_mock):
+        client = self.build_hub_client_for_optimizer()
+
+        payload = {
+            'alg_name': "sklearn.ensemble.RandomForestClassifier",
+            'ncols': 100,
+            'nrows': 10000
+        }
+
+        with self.assertRaises(HubApiClient.InvalidParamsError) as context:
+            res = client.get_fte(payload)
+
+        self.assertInvalidParams(context.exception.metadata(), ['alg_params'])

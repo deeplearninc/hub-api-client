@@ -8,7 +8,7 @@
 ### Install
 
 ```sh
-pip install auger-hub-api-client==0.6.0
+pip install auger-hub-api-client==0.6.1
 ```
 ### Initialize client
 
@@ -190,8 +190,48 @@ WarmStartRequest
 
 In all case see exception content it contains more specific details for each case
 
+## Optimizers service 
+
+### Get next trials
+
+```python
+client.get_next_trials(
+    "optimizer_name": "optimizers_service.optimizers.tpe_hyperopt_optimizer.TPEHyperoptOptimizer",
+    "optimizer_params": {
+        "batch_size": 1
+    },
+    "search_space": { /*...*/ },
+    "trials_history": [],
+    "trial_workers_count": 1,
+    "optimizer_context": {},
+    "tasks_run_parallel": false
+)
+```
+
+### Get FTE
+
+```python
+res = client.get_fte(
+    'alg_name': "sklearn.ensemble.RandomForestClassifier",
+    'alg_params': {
+        "bootstrap": True,
+        "min_samples_leaf": 13,
+        "n_estimators": 100,
+        "min_samples_split": 3,
+        "criterion": "gini",
+        "max_features": 0.08361531837907793
+    },
+    'ncols': 100,
+    'nrows': 10000
+)
+
+# res['data']['estimated_time'] - result
+```
+
+
 ## Releases
 
+* 0.6.1 - Add `get_fte` endpoint
 * 0.6.0 - Drop Python 2 support
 
 ## Development
@@ -227,7 +267,7 @@ Commit and push changes
 Create and push new tag
 
 ```bash
-git tag v0.6.0 && git push origin v0.6.0
+git tag v0.6.1 && git push origin v0.6.1
 ```
 
 Then build and upload new wheel

@@ -438,9 +438,9 @@ class HubApiClient:
         return self.make_and_handle_request('get', path, payload={'object': object, 'id': id})
 
     # Optimizers service client
-    def get_next_trials(self, payload={}):
+    def _post_optimizer_service(self, url, payload={}):
         if self.optimizers_url:
-            return self.make_and_handle_request('post', '/next_trials',
+            return self.make_and_handle_request('post', url,
                 payload=payload,
                 base_url=self.optimizers_url,
                 retry_counter=self.RetryCounter(self),
@@ -448,3 +448,9 @@ class HubApiClient:
             )
         else:
             raise self.MissingParamError('pass optimizers_url in HubApiClient constructor')
+
+    def get_next_trials(self, payload={}):
+        return self._post_optimizer_service('/next_trials', payload)
+
+    def get_fte(self, payload={}):
+        return self._post_optimizer_service('/fte', payload)

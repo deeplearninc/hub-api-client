@@ -1,0 +1,27 @@
+interactions:
+- request:
+    body: !!binary |
+      H4sIAN1YE10C/y3MWwuCMBjG8a8Suw5x0kV1m5STWgc6QDcy52tO5ybbwEP03dPo8veH53kjJl+J
+      YjWg9QzZSgIzygNloU4leBemMl1vtQHrNpJZK3IBBs1nSHEt7bjBvj/J6PavnxujS+AuYY1InK5A
+      Te/Qx0W64+IoYnIbCKYiXnljXJBSd/nZo3uO+0IFp/BZxOxxJUHmoioaVGCWnIb40IrW3B2VnY8+
+      X6Vce+65AAAA
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Encoding: [gzip]
+      Content-Length: ['180']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.22.0]
+    method: POST
+    uri: http://localhost:7777/fte
+  response:
+    body: {string: '{"meta": {"status": 400, "errors": [{"error_param": "alg_params",
+        "message": "is required", "error_type": "invalid_param"}]}}'}
+    headers:
+      Content-Length: ['125']
+      Content-Type: [application/json]
+      Date: ['Wed, 26 Jun 2019 11:37:01 GMT']
+      Server: [WSGIServer/0.2 CPython/3.7.0]
+    status: {code: 400, message: Bad Request}
+version: 1
