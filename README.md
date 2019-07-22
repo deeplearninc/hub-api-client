@@ -8,7 +8,7 @@
 ### Install
 
 ```sh
-pip install auger-hub-api-client==0.6.1
+pip install auger-hub-api-client==0.6.2
 ```
 ### Initialize client
 
@@ -58,6 +58,7 @@ This client currently support only next subset of resources:
 * similar_trials_request
 * token
 * trial
+* trial_search
 * warm_start_request
 
 All resource methods called in next convetions:
@@ -231,7 +232,7 @@ res = client.get_fte(
 
 ## Releases
 
-* 0.6.1 - Add `get_fte` endpoint
+* 0.6.2 - Add `get_fte` endpoint
 * 0.6.0 - Drop Python 2 support
 
 ## Development
@@ -267,7 +268,7 @@ Commit and push changes
 Create and push new tag
 
 ```bash
-git tag v0.6.1 && git push origin v0.6.1
+git tag v0.6.2 && git push origin v0.6.2
 ```
 
 Then build and upload new wheel

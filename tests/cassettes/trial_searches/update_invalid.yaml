@@ -1,0 +1,39 @@
+interactions:
+- request:
+    body: '{"trials_limit": 12, "trials_history": [{"uid": "83D2FE5F2B0A42F", "score":
+      0.43478260869565216, "evaluation_time": 0.40130186080932617, "algorithm_name":
+      "sklearn.ensemble.RandomForestClassifier", "algorithm_params": {"bootstrap":
+      true, "max_features": 0.7951475142804721, "min_samples_leaf": 13, "min_samples_split":
+      18, "n_estimators": 219, "n_jobs": 1}}, {"uid": "EAD1243A66A7419", "score":
+      0.5869565217391305, "ratio": 1.0, "evaluation_time": 0.37141990661621094, "algorithm_name":
+      "sklearn.ensemble.RandomForestClassifier", "algorithm_params": {"bootstrap":
+      true, "max_features": 0.5384972025139909, "min_samples_leaf": 8, "min_samples_split":
+      12, "n_estimators": 188, "n_jobs": 1}}], "project_api_token": "0d5a55cb795f2039922689e647cb3c5d24a0992bf58d941dad864ef7c371f8fc"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['779']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.22.0]
+    method: PATCH
+    uri: http://localhost:5000/api/v1/trial_searches/2
+  response:
+    body: {string: '{"meta":{"status":400,"errors":[{"error_type":"invalid_param","error_param":"id","message":"trial
+        search can be continued only when previous iteration is done"}]}}'}
+    headers:
+      Cache-Control: [no-cache]
+      Content-Type: [application/json; charset=utf-8]
+      Referrer-Policy: [strict-origin-when-cross-origin]
+      Transfer-Encoding: [chunked]
+      Vary: [Accept-Encoding]
+      X-Content-Type-Options: [nosniff]
+      X-Download-Options: [noopen]
+      X-Frame-Options: [SAMEORIGIN]
+      X-Permitted-Cross-Domain-Policies: [none]
+      X-Request-Id: [4f9bf8e3-efed-4d00-899c-2bb02b72b43b]
+      X-Runtime: ['0.065415']
+      X-XSS-Protection: [1; mode=block]
+      content-length: ['163']
+    status: {code: 400, message: Bad Request}
+version: 1
