@@ -867,6 +867,15 @@ class TestHubApiClient(unittest.TestCase):
 
         self.assertInvalidParams(context.exception.metadata(), ['optimizer_name'])
 
+    # POST /v2/next_trials
+
+    @vcr.use_cassette('optimizers_service/get_next_trials_v2_valid.yaml')
+    def test_get_next_trials_v2_valid(self, sleep_mock):
+        client = self.build_hub_client_for_optimizer()
+
+        with open('tests/fixtures/get_next_trials_v2_payload.json', 'r') as file:
+            res = client.get_next_trials_v2(json.loads(file.read()))
+
     # POST /fte
     @vcr.use_cassette('optimizers_service/get_fte_valid.yaml')
     def test_get_fte_valid(self, sleep_mock):

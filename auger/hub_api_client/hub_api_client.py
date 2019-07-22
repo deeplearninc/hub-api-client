@@ -455,5 +455,8 @@ class HubApiClient:
     def get_next_trials(self, payload={}):
         return self._post_optimizer_service('/next_trials', payload)
 
+    def get_next_trials_v2(self, payload={}):
+        return self._post_optimizer_service('/v2/next_trials', payload)
+
     def get_fte(self, payload={}):
         return self._post_optimizer_service('/fte', payload)

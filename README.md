@@ -8,7 +8,7 @@
 ### Install
 
 ```sh
-pip install auger-hub-api-client==0.6.2
+pip install auger-hub-api-client==0.6.3
 ```
 ### Initialize client
 
@@ -209,6 +209,18 @@ client.get_next_trials(
 )
 ```
 
+### Get next trials V2
+
+```python
+client.get_next_trials_v2(
+    "trials_total_count": 999,
+    "trials_limit": 10,
+    "search_space": { /*...*/ },
+    "trials_history": [ /*...*/ ],
+    "optimizer_context": { /*...*/ }
+)
+```
+
 ### Get FTE
 
 ```python
@@ -232,7 +244,7 @@ res = client.get_fte(
 
 ## Releases
 
-* 0.6.2 - Add `get_fte` endpoint
+* 0.6.3 - Add `get_fte` endpoint
 * 0.6.0 - Drop Python 2 support
 
 ## Development
@@ -268,7 +280,7 @@ Commit and push changes
 Create and push new tag
 
 ```bash
-git tag v0.6.2 && git push origin v0.6.2
+git tag v0.6.3 && git push origin v0.6.3
 ```
 
 Then build and upload new wheel
