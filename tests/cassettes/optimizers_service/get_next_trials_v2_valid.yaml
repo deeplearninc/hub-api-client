@@ -1,7 +1,7 @@
 interactions:
 - request:
     body: !!binary |
-      H4sIAJJ0NV0C/+1bW2/buBL+K4WfF4IkX2Lvm9u4bYrNZeN2F+cUBUFLtMSGIlWSiuMG+e87pK62
+      H4sIAFarNV0C/+1bW2/buBL+K4WfF4IkX2Lvm9u4bYrNZeN2F+cUBUFLtMSGIlWSiuMG+e87pK62
       5KyT5mB7FnqIQw7Jj8MZcmY4tO8HWlLMFNJCY4YCkXE9+PWV57q/vCqbGE1oTgSaIlgGMVIpDgjQ
       7ge3RCoquGmHZpFq6P0daI0uOIuIRAlz6lYnVQJVVedqeXlZVuyQNKYRFFxnDKBQSauKSEiE89oD
       VCvsDZaJ0ljqBuyfQFsa2i44zxKUr82uagemwWJIGlCniyXWmcQa1tpitWJOxsKWT47EXBjZ8h8F
@@ -49,16 +49,17 @@ interactions:
     method: POST
     uri: http://localhost:7777/v2/next_trials
   response:
-    body: {string: '{"meta": {"status": 200}, "data": [{"algorithm_name": "sklearn.ensemble.RandomForestClassifier",
-        "algorithm_params": {"bootstrap": true, "max_features": 0.7951475142804721,
-        "min_samples_leaf": 13, "min_samples_split": 18, "n_estimators": 219, "n_jobs":
-        1}}, {"algorithm_name": "sklearn.ensemble.RandomForestClassifier", "algorithm_params":
-        {"bootstrap": true, "max_features": 0.5384972025139909, "min_samples_leaf":
-        8, "min_samples_split": 12, "n_estimators": 188, "n_jobs": 1}}]}'}
+    body: {string: '{"meta": {"status": 200}, "data": {"trials": [{"algorithm_name":
+        "sklearn.ensemble.RandomForestClassifier", "algorithm_params": {"bootstrap":
+        true, "max_features": 0.7951475142804721, "min_samples_leaf": 13, "min_samples_split":
+        18, "n_estimators": 219, "n_jobs": 1}}, {"algorithm_name": "sklearn.ensemble.RandomForestClassifier",
+        "algorithm_params": {"bootstrap": true, "max_features": 0.5384972025139909,
+        "min_samples_leaf": 8, "min_samples_split": 12, "n_estimators": 188, "n_jobs":
+        1}}], "optimizer_context": {"some-parameter": "some-value"}}}'}
     headers:
-      Content-Length: ['480']
+      Content-Length: ['547']
       Content-Type: [application/json]
-      Date: ['Mon, 22 Jul 2019 08:32:18 GMT']
+      Date: ['Mon, 22 Jul 2019 12:25:58 GMT']
       Server: [WSGIServer/0.2 CPython/3.7.0]
     status: {code: 200, message: OK}
 version: 1
