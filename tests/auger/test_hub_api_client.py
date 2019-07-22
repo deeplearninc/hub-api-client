@@ -701,6 +701,39 @@ class TestHubApiClient(unittest.TestCase):
 
     # Trial searches
 
+    def trial_history(self):
+      return [
+        {
+          'uid': '83D2FE5F2B0A42F',
+          'score': 0.43478260869565216,
+          'evaluation_time': 0.40130186080932617,
+          'algorithm_name': 'sklearn.ensemble.RandomForestClassifier',
+          'algorithm_params': {
+            'bootstrap': True,
+            'max_features': 0.7951475142804721,
+            'min_samples_leaf': 13,
+            'min_samples_split': 18,
+            'n_estimators': 219,
+            'n_jobs': 1
+          }
+        },
+        {
+          'uid': 'EAD1243A66A7419',
+          'score': 0.5869565217391305,
+          'ratio': 1.0,
+          'evaluation_time': 0.37141990661621094,
+          'algorithm_name': 'sklearn.ensemble.RandomForestClassifier',
+          'algorithm_params': {
+            'bootstrap': True,
+            'max_features': 0.5384972025139909,
+            'min_samples_leaf': 8,
+            'min_samples_split': 12,
+            'n_estimators': 188,
+            'n_jobs': 1
+          }
+        }
+      ]
+
     @vcr.use_cassette('trial_searches/show.yaml')
     def test_get_trial_search(self, sleep_mock):
         res = self.client.get_trial_search('1')
@@ -735,43 +768,10 @@ class TestHubApiClient(unittest.TestCase):
 
         self.assertResourceResponse(res, 'trial_search')
 
-    def trial_history(self):
-      return [
-        {
-          'uid': '83D2FE5F2B0A42F',
-          'score': 0.43478260869565216,
-          'evaluation_time': 0.40130186080932617,
-          'algorithm_name': 'sklearn.ensemble.RandomForestClassifier',
-          'algorithm_params': {
-            'bootstrap': True,
-            'max_features': 0.7951475142804721,
-            'min_samples_leaf': 13,
-            'min_samples_split': 18,
-            'n_estimators': 219,
-            'n_jobs': 1
-          }
-        },
-        {
-          'uid': 'EAD1243A66A7419',
-          'score': 0.5869565217391305,
-          'ratio': 1.0,
-          'evaluation_time': 0.37141990661621094,
-          'algorithm_name': 'sklearn.ensemble.RandomForestClassifier',
-          'algorithm_params': {
-            'bootstrap': True,
-            'max_features': 0.5384972025139909,
-            'min_samples_leaf': 8,
-            'min_samples_split': 12,
-            'n_estimators': 188,
-            'n_jobs': 1
-          }
-        }
-      ]
-
     @vcr.use_cassette('trial_searches/update_valid.yaml')
     def test_update_trial_search_valid(self, sleep_mock):
         res = self.client.update_trial_search(
-            id=2,
+            id=1,
             trials_limit=12,
             trials_history=self.trial_history()
         )
@@ -782,7 +782,7 @@ class TestHubApiClient(unittest.TestCase):
     def test_update_trial_search_invalid(self, sleep_mock):
         with self.assertRaises(HubApiClient.InvalidParamsError) as context:
           res = self.client.update_trial_search(
-              id=2,
+              id=1,
               trials_limit=12,
               trials_history=self.trial_history()
           )

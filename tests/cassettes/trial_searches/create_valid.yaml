@@ -15,11 +15,11 @@ interactions:
     method: POST
     uri: http://localhost:5000/api/v1/trial_searches
   response:
-    body: {string: '{"data":{"object":"trial_search","deleted":false,"id":2,"status":"requested","trials_total_count":125,"trials_limit":10,"search_space":{"version":1,"optimizers_space":{"auger_ml.optimizers.pso_optimizer.PSOOptimizer":{"phig":0.5,"phip":0.5,"omega":0.5}}},"dataset_metafeatures":{"ClassEntropy":1.584962500721156,"Dimensionality":0.02666666666666667,"AutoCorrelation":0.9865771812080537,"NumberOfClasses":3},"trials_history":[],"next_trials":null},"meta":{"status":200}}'}
+    body: {string: '{"data":{"object":"trial_search","deleted":false,"id":1,"status":"requested","trials_total_count":125,"trials_limit":10,"search_space":{"version":1,"optimizers_space":{"auger_ml.optimizers.pso_optimizer.PSOOptimizer":{"phig":0.5,"phip":0.5,"omega":0.5}}},"dataset_metafeatures":{"ClassEntropy":1.584962500721156,"Dimensionality":0.02666666666666667,"AutoCorrelation":0.9865771812080537,"NumberOfClasses":3},"trials_history":[],"next_trials":null},"meta":{"status":200}}'}
     headers:
       Cache-Control: ['max-age=0, private, must-revalidate']
       Content-Type: [application/json; charset=utf-8]
-      ETag: [W/"880ac8a62231b8c217e604a44ada3485"]
+      ETag: [W/"0ba0fe28dd7616d291ef07224b54f23a"]
       Referrer-Policy: [strict-origin-when-cross-origin]
       Transfer-Encoding: [chunked]
       Vary: [Accept-Encoding]
@@ -27,8 +27,8 @@ interactions:
       X-Download-Options: [noopen]
       X-Frame-Options: [SAMEORIGIN]
       X-Permitted-Cross-Domain-Policies: [none]
-      X-Request-Id: [5263e5f9-2144-4563-b73e-29b4480fc9a2]
-      X-Runtime: ['0.102248']
+      X-Request-Id: [eed6868f-3656-48a0-883a-43bb21f135bc]
+      X-Runtime: ['0.635098']
       X-XSS-Protection: [1; mode=block]
       content-length: ['469']
     status: {code: 200, message: OK}

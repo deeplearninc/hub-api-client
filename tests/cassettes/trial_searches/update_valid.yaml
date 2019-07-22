@@ -17,13 +17,13 @@ interactions:
       Content-Type: [application/json]
       User-Agent: [python-requests/2.22.0]
     method: PATCH
-    uri: http://localhost:5000/api/v1/trial_searches/2
+    uri: http://localhost:5000/api/v1/trial_searches/1
   response:
-    body: {string: '{"data":{"object":"trial_search","deleted":false,"id":2,"status":"requested","trials_total_count":125,"trials_limit":12,"search_space":{"version":1,"optimizers_space":{"auger_ml.optimizers.pso_optimizer.PSOOptimizer":{"phig":0.5,"phip":0.5,"omega":0.5}}},"dataset_metafeatures":{"ClassEntropy":1.584962500721156,"Dimensionality":0.02666666666666667,"AutoCorrelation":0.9865771812080537,"NumberOfClasses":3},"trials_history":[],"next_trials":[{"algorithm_name":"sklearn.ensemble.RandomForestClassifier","algorithm_params":{"n_jobs":1,"bootstrap":true,"max_features":0.7951475142804721,"n_estimators":219,"min_samples_leaf":13,"min_samples_split":18}},{"algorithm_name":"sklearn.ensemble.RandomForestClassifier","algorithm_params":{"n_jobs":1,"bootstrap":true,"max_features":0.5384972025139909,"n_estimators":188,"min_samples_leaf":8,"min_samples_split":12}}]},"meta":{"status":200}}'}
+    body: {string: '{"data":{"object":"trial_search","deleted":false,"id":1,"status":"requested","trials_total_count":125,"trials_limit":12,"search_space":{"version":1,"optimizers_space":{"auger_ml.optimizers.pso_optimizer.PSOOptimizer":{"phig":0.5,"phip":0.5,"omega":0.5}}},"dataset_metafeatures":{"ClassEntropy":1.584962500721156,"Dimensionality":0.02666666666666667,"AutoCorrelation":0.9865771812080537,"NumberOfClasses":3},"trials_history":[],"next_trials":[{"algorithm_name":"sklearn.ensemble.RandomForestClassifier","algorithm_params":{"n_jobs":1,"bootstrap":true,"max_features":0.7951475142804721,"n_estimators":219,"min_samples_leaf":13,"min_samples_split":18}},{"algorithm_name":"sklearn.ensemble.RandomForestClassifier","algorithm_params":{"n_jobs":1,"bootstrap":true,"max_features":0.5384972025139909,"n_estimators":188,"min_samples_leaf":8,"min_samples_split":12}}]},"meta":{"status":200}}'}
     headers:
       Cache-Control: ['max-age=0, private, must-revalidate']
       Content-Type: [application/json; charset=utf-8]
-      ETag: [W/"094ca3412f65c48aa6c18da45c76bef6"]
+      ETag: [W/"cb33ef0e8b72af78a9b8d13002209e0b"]
       Referrer-Policy: [strict-origin-when-cross-origin]
       Transfer-Encoding: [chunked]
       Vary: [Accept-Encoding]
@@ -31,8 +31,8 @@ interactions:
       X-Download-Options: [noopen]
       X-Frame-Options: [SAMEORIGIN]
       X-Permitted-Cross-Domain-Policies: [none]
-      X-Request-Id: [ef84ac73-f1d4-4978-ac02-51007eadcff5]
-      X-Runtime: ['0.115941']
+      X-Request-Id: [c04021d0-14fc-4dee-9847-59ee569f3114]
+      X-Runtime: ['0.298678']
       X-XSS-Protection: [1; mode=block]
       content-length: ['881']
     status: {code: 200, message: OK}

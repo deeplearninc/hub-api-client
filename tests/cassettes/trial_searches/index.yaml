@@ -11,11 +11,11 @@ interactions:
     method: GET
     uri: http://localhost:5000/api/v1/trial_searches
   response:
-    body: {string: '{"data":[{"object":"trial_search","deleted":false,"id":1,"status":"done","trials_total_count":199,"trials_limit":12,"search_space":{"x":1},"dataset_metafeatures":{"ClassEntropy":1.584962500721156,"Dimensionality":0.02666666666666667,"AutoCorrelation":0.9865771812080537,"NumberOfClasses":3,"NumberOfFeatures":4},"trials_history":[],"next_trials":[{"algorithm_name":"sklearn.ensemble.RandomForestClassifier","algorithm_params":{"n_jobs":1,"bootstrap":true,"max_features":0.7951475142804721,"n_estimators":219,"min_samples_leaf":13,"min_samples_split":18}},{"algorithm_name":"sklearn.ensemble.RandomForestClassifier","algorithm_params":{"n_jobs":1,"bootstrap":true,"max_features":0.5384972025139909,"n_estimators":188,"min_samples_leaf":8,"min_samples_split":12}}]}],"meta":{"status":200,"pagination":{"limit":50,"offset":0,"count":1,"total":1}}}'}
+    body: {string: '{"data":[{"object":"trial_search","deleted":false,"id":1,"status":"done","trials_total_count":125,"trials_limit":12,"search_space":{"version":1,"optimizers_space":{"auger_ml.optimizers.pso_optimizer.PSOOptimizer":{"phig":0.5,"phip":0.5,"omega":0.5}}},"dataset_metafeatures":{"ClassEntropy":1.584962500721156,"Dimensionality":0.02666666666666667,"AutoCorrelation":0.9865771812080537,"NumberOfClasses":3},"trials_history":[],"next_trials":[{"algorithm_name":"sklearn.ensemble.RandomForestClassifier","algorithm_params":{"n_jobs":1,"bootstrap":true,"max_features":0.7951475142804721,"n_estimators":219,"min_samples_leaf":13,"min_samples_split":18}},{"algorithm_name":"sklearn.ensemble.RandomForestClassifier","algorithm_params":{"n_jobs":1,"bootstrap":true,"max_features":0.5384972025139909,"n_estimators":188,"min_samples_leaf":8,"min_samples_split":12}}]}],"meta":{"status":200,"pagination":{"limit":50,"offset":0,"count":1,"total":1}}}'}
     headers:
       Cache-Control: ['max-age=0, private, must-revalidate']
       Content-Type: [application/json; charset=utf-8]
-      ETag: [W/"09a2fdae95cf63dfbf3d5fe7f7274506"]
+      ETag: [W/"8acf42e5b05055e6b75b6fbcec89cd98"]
       Referrer-Policy: [strict-origin-when-cross-origin]
       Transfer-Encoding: [chunked]
       Vary: [Accept-Encoding]
@@ -23,9 +23,9 @@ interactions:
       X-Download-Options: [noopen]
       X-Frame-Options: [SAMEORIGIN]
       X-Permitted-Cross-Domain-Policies: [none]
-      X-Request-Id: [ace15e76-21a5-4bca-8764-8f3e197097be]
-      X-Runtime: ['0.022306']
+      X-Request-Id: [ea9219b6-cfad-43b2-a1e6-ff50d9a12cd0]
+      X-Runtime: ['0.023986']
       X-XSS-Protection: [1; mode=block]
-      content-length: ['844']
+      content-length: ['935']
     status: {code: 200, message: OK}
 version: 1

@@ -11,11 +11,11 @@ interactions:
     method: GET
     uri: http://localhost:5000/api/v1/trial_searches/1
   response:
-    body: {string: '{"data":{"object":"trial_search","deleted":false,"id":1,"status":"done","trials_total_count":199,"trials_limit":12,"search_space":{"x":1},"dataset_metafeatures":{"ClassEntropy":1.584962500721156,"Dimensionality":0.02666666666666667,"AutoCorrelation":0.9865771812080537,"NumberOfClasses":3,"NumberOfFeatures":4},"trials_history":[],"next_trials":[{"algorithm_name":"sklearn.ensemble.RandomForestClassifier","algorithm_params":{"n_jobs":1,"bootstrap":true,"max_features":0.7951475142804721,"n_estimators":219,"min_samples_leaf":13,"min_samples_split":18}},{"algorithm_name":"sklearn.ensemble.RandomForestClassifier","algorithm_params":{"n_jobs":1,"bootstrap":true,"max_features":0.5384972025139909,"n_estimators":188,"min_samples_leaf":8,"min_samples_split":12}}]},"meta":{"status":200}}'}
+    body: {string: '{"data":{"object":"trial_search","deleted":false,"id":1,"status":"done","trials_total_count":125,"trials_limit":12,"search_space":{"version":1,"optimizers_space":{"auger_ml.optimizers.pso_optimizer.PSOOptimizer":{"phig":0.5,"phip":0.5,"omega":0.5}}},"dataset_metafeatures":{"ClassEntropy":1.584962500721156,"Dimensionality":0.02666666666666667,"AutoCorrelation":0.9865771812080537,"NumberOfClasses":3},"trials_history":[],"next_trials":[{"algorithm_name":"sklearn.ensemble.RandomForestClassifier","algorithm_params":{"n_jobs":1,"bootstrap":true,"max_features":0.7951475142804721,"n_estimators":219,"min_samples_leaf":13,"min_samples_split":18}},{"algorithm_name":"sklearn.ensemble.RandomForestClassifier","algorithm_params":{"n_jobs":1,"bootstrap":true,"max_features":0.5384972025139909,"n_estimators":188,"min_samples_leaf":8,"min_samples_split":12}}]},"meta":{"status":200}}'}
     headers:
       Cache-Control: ['max-age=0, private, must-revalidate']
       Content-Type: [application/json; charset=utf-8]
-      ETag: [W/"c07254b74c90067551143512606de7a4"]
+      ETag: [W/"0184e58b9f8484ec36b75dc36aff4109"]
       Referrer-Policy: [strict-origin-when-cross-origin]
       Transfer-Encoding: [chunked]
       Vary: [Accept-Encoding]
@@ -23,9 +23,9 @@ interactions:
       X-Download-Options: [noopen]
       X-Frame-Options: [SAMEORIGIN]
       X-Permitted-Cross-Domain-Policies: [none]
-      X-Request-Id: [363565d7-e7d1-4c90-b272-124cbe0b2feb]
-      X-Runtime: ['0.063750']
+      X-Request-Id: [f312a44b-e5af-4dfd-bc19-ebb1cf464824]
+      X-Runtime: ['0.024207']
       X-XSS-Protection: [1; mode=block]
-      content-length: ['785']
+      content-length: ['876']
     status: {code: 200, message: OK}
 version: 1
