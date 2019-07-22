@@ -133,6 +133,9 @@ class HubApiClient:
         'trial': {
             'actions': ['index', 'show', 'update']
         },
+        'trial_search': {
+            'actions': ['index', 'show', 'create', 'update']
+        },
         'warm_start_request': {
             'actions': ['show', 'create']
         }
@@ -347,7 +350,7 @@ class HubApiClient:
             raise self.FatalApiError('missing parent_id parameter')
 
     def plural_ending(self, resource_name):
-        if resource_name.endswith('us'):
+        if resource_name.endswith('us') or resource_name.endswith('ch'):
             return 'es'
         else:
             return 's'

@@ -1,0 +1,31 @@
+interactions:
+- request:
+    body: '{"limit": 50, "offset": 0, "project_api_token": "0d5a55cb795f2039922689e647cb3c5d24a0992bf58d941dad864ef7c371f8fc"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['115']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.22.0]
+    method: GET
+    uri: http://localhost:5000/api/v1/trial_searches
+  response:
+    body: {string: '{"data":[{"object":"trial_search","deleted":false,"id":1,"status":"done","trials_total_count":199,"trials_limit":12,"search_space":{"x":1},"dataset_metafeatures":{"ClassEntropy":1.584962500721156,"Dimensionality":0.02666666666666667,"AutoCorrelation":0.9865771812080537,"NumberOfClasses":3,"NumberOfFeatures":4},"trials_history":[],"next_trials":[{"algorithm_name":"sklearn.ensemble.RandomForestClassifier","algorithm_params":{"n_jobs":1,"bootstrap":true,"max_features":0.7951475142804721,"n_estimators":219,"min_samples_leaf":13,"min_samples_split":18}},{"algorithm_name":"sklearn.ensemble.RandomForestClassifier","algorithm_params":{"n_jobs":1,"bootstrap":true,"max_features":0.5384972025139909,"n_estimators":188,"min_samples_leaf":8,"min_samples_split":12}}]}],"meta":{"status":200,"pagination":{"limit":50,"offset":0,"count":1,"total":1}}}'}
+    headers:
+      Cache-Control: ['max-age=0, private, must-revalidate']
+      Content-Type: [application/json; charset=utf-8]
+      ETag: [W/"09a2fdae95cf63dfbf3d5fe7f7274506"]
+      Referrer-Policy: [strict-origin-when-cross-origin]
+      Transfer-Encoding: [chunked]
+      Vary: [Accept-Encoding]
+      X-Content-Type-Options: [nosniff]
+      X-Download-Options: [noopen]
+      X-Frame-Options: [SAMEORIGIN]
+      X-Permitted-Cross-Domain-Policies: [none]
+      X-Request-Id: [ace15e76-21a5-4bca-8764-8f3e197097be]
+      X-Runtime: ['0.022306']
+      X-XSS-Protection: [1; mode=block]
+      content-length: ['844']
+    status: {code: 200, message: OK}
+version: 1

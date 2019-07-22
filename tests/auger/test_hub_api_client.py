@@ -52,7 +52,7 @@ class TestRetryCounter(unittest.TestCase):
 @patch('time.sleep', return_value=None)
 class TestHubApiClient(unittest.TestCase):
     def setUp(self):
-        self.hub_project_api_token = '410befdcd606f602c20e5140b94909aeff27800a86459ceb1fc97b7e09bce57b'
+        self.hub_project_api_token = '0d5a55cb795f2039922689e647cb3c5d24a0992bf58d941dad864ef7c371f8fc'
 
         self.client = HubApiClient(
           hub_app_url='http://localhost:5000',
@@ -698,6 +698,101 @@ class TestHubApiClient(unittest.TestCase):
         )
 
         self.assertIndexResponse(res, 'trial')
+
+    # Trial searches
+
+    @vcr.use_cassette('trial_searches/show.yaml')
+    def test_get_trial_search(self, sleep_mock):
+        res = self.client.get_trial_search('1')
+        self.assertResourceResponse(res, 'trial_search')
+
+    @vcr.use_cassette('trial_searches/index.yaml')
+    def test_get_trial_searches(self, sleep_mock):
+        res = self.client.get_trial_searches()
+        self.assertIndexResponse(res, 'trial_search')
+
+    @vcr.use_cassette('trial_searches/create_valid.yaml')
+    def test_create_trial_search_valid(self, sleep_mock):
+        res = self.client.create_trial_search(
+            trials_total_count=125,
+            search_space={
+              "version": 1,
+              "optimizers_space": {
+                "auger_ml.optimizers.pso_optimizer.PSOOptimizer": {
+                  "phig": 0.5,
+                  "phip": 0.5,
+                  "omega": 0.5
+                }
+              }
+            },
+            dataset_metafeatures={
+              "ClassEntropy": 1.584962500721156,
+              "Dimensionality": 0.02666666666666667,
+              "AutoCorrelation": 0.9865771812080537,
+              "NumberOfClasses": 3,
+            }
+          )
+
+        self.assertResourceResponse(res, 'trial_search')
+
+    def trial_history(self):
+      return [
+        {
+          'uid': '83D2FE5F2B0A42F',
+          'score': 0.43478260869565216,
+          'evaluation_time': 0.40130186080932617,
+          'algorithm_name': 'sklearn.ensemble.RandomForestClassifier',
+          'algorithm_params': {
+            'bootstrap': True,
+            'max_features': 0.7951475142804721,
+            'min_samples_leaf': 13,
+            'min_samples_split': 18,
+            'n_estimators': 219,
+            'n_jobs': 1
+          }
+        },
+        {
+          'uid': 'EAD1243A66A7419',
+          'score': 0.5869565217391305,
+          'ratio': 1.0,
+          'evaluation_time': 0.37141990661621094,
+          'algorithm_name': 'sklearn.ensemble.RandomForestClassifier',
+          'algorithm_params': {
+            'bootstrap': True,
+            'max_features': 0.5384972025139909,
+            'min_samples_leaf': 8,
+            'min_samples_split': 12,
+            'n_estimators': 188,
+            'n_jobs': 1
+          }
+        }
+      ]
+
+    @vcr.use_cassette('trial_searches/update_valid.yaml')
+    def test_update_trial_search_valid(self, sleep_mock):
+        res = self.client.update_trial_search(
+            id=2,
+            trials_limit=12,
+            trials_history=self.trial_history()
+        )
+
+        self.assertResourceResponse(res, 'trial_search')
+
+    @vcr.use_cassette('trial_searches/update_invalid.yaml')
+    def test_update_trial_search_invalid(self, sleep_mock):
+        with self.assertRaises(HubApiClient.InvalidParamsError) as context:
+          res = self.client.update_trial_search(
+              id=2,
+              trials_limit=12,
+              trials_history=self.trial_history()
+          )
+
+        self.assertInvalidParams(context.exception.metadata(), ['id'])
+
+        self.assertIn(
+          'trial search can be continued only when previous iteration is done',
+          str(context.exception)
+        )
 
     # Warm start requests
 
