@@ -459,6 +459,17 @@ class TestHubApiClient(unittest.TestCase):
 
         self.assertResourceResponse(res, 'prediction')
 
+    @vcr.use_cassette('predictions/create_invalid.yaml')
+    def test_create_prediction_valid(self, sleep_mock):
+        with self.assertRaises(HubApiClient.FatalApiError) as context:
+            self.client.create_prediction(
+                pipeline_id='46188658d308607a',
+                records=[[1.1, 1.2, 1.3], [2.1, 2.2, 2.3]],
+                features=['x1', 'x2', 'x3']
+            )
+
+        self.assertEqual('some validation error', str(context.exception))
+
     # Projects
 
     @vcr.use_cassette('projects/show.yaml')
