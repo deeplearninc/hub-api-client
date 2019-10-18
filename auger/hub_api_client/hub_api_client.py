@@ -14,11 +14,24 @@ from requests.exceptions import ConnectionError
 
 class HubApiClient:
     class BaseError(Exception):
+        def __init__(self, *args):
+            super().__init__(*args)
+            self.request_details = None
+
         def metadata(self):
             return self.args[1]
 
+        # First arg is error message
+        # Second arg is metadata
         def __str__(self):
-            return '\n'.join(map(lambda arg: arg if isinstance(arg, str) else json.dumps(arg), self.args))
+            message = list(map(lambda arg: arg if isinstance(arg, str) else json.dumps(arg), self.args))
+            if self.request_details:
+                message.append(self.request_details)
+
+            return ' '.join(message)
+
+        def add_request_details(self, method, path, payload):
+            self.request_details = ' '.join(['on:', method.upper(), path, json.dumps(payload)])
 
     # Means that consumer code can't do nothing with this error
     # Only changing of comnsumer source code or config parameters can help
@@ -303,7 +316,11 @@ class HubApiClient:
                 time.sleep(self.retry_wait_seconds)
                 return self.make_and_handle_request(method_name, path, base_url, payload, retry_counter.count_retry(e))
             else:
+                e.add_request_details(method_name, path, payload)
                 raise e
+        except self.BaseError as e:
+            e.add_request_details(method_name, path, payload)
+            raise e
 
     def get(self, path, payload = {}):
         return self.make_and_handle_request('get', path, payload=payload)
