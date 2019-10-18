@@ -459,16 +459,35 @@ class TestHubApiClient(unittest.TestCase):
 
         self.assertResourceResponse(res, 'prediction')
 
+    @vcr.use_cassette('predictions/create_valid_with_nils.yaml')
+    def test_create_prediction_valid_with_nils(self, sleep_mock):
+        res = self.client.create_prediction(
+            pipeline_id='46188658d308607a',
+            records=[[1.1, 1.2, 1.3], [2.1, None, None]],
+            features=['x1', 'x2', 'x3']
+        )
+
+        self.assertResourceResponse(res, 'prediction')
+
     @vcr.use_cassette('predictions/create_invalid.yaml')
     def test_create_prediction_invalid(self, sleep_mock):
-        with self.assertRaises(HubApiClient.FatalApiError) as context:
+        with self.assertRaises(HubApiClient.InvalidParamsError) as context:
             self.client.create_prediction(
                 pipeline_id='46188658d308607a',
-                records=[[1.1, 1.2, 1.3], [2.1, 2.2, 2.3]],
+                records=[[1.1, 1.2, 1.3], [2.1, 2.2]],
                 features=['x1', 'x2', 'x3']
             )
 
-        self.assertEqual('some validation error', str(context.exception))
+        self.assertIn('each records size should be equal to the features count', str(context.exception))
+        self.assertIn('"request_params": {', str(context.exception))
+
+        self.assertIsInstance(context.exception.metadata()['request_params'], dict)
+        self.assertEqual(
+            json.dumps(context.exception.metadata()['request_params']),
+            '{"pipeline_id": "46188658d308607a", "records": [[1.1, 1.2, 1.3], [2.1, 2.2]],'
+            ' "features": ["x1", "x2", "x3"], "project_api_token": "****",'
+            ' "prediction": {"pipeline_id": "46188658d308607a"}, "project_id": 1}'
+        )
 
     # Response from server in dev mode
     @vcr.use_cassette('predictions/create_invalid_with_nans.yaml')

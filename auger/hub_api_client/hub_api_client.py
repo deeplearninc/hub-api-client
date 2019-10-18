@@ -17,6 +17,9 @@ class HubApiClient:
         def metadata(self):
             return self.args[1]
 
+        def __str__(self):
+            return '\n'.join(map(lambda arg: arg if isinstance(arg, str) else json.dumps(arg), self.args))
+
     # Means that consumer code can't do nothing with this error
     # Only changing of comnsumer source code or config parameters can help
     class FatalApiError(BaseError):
@@ -231,7 +234,7 @@ class HubApiClient:
     def handle_response(self, res, plain_text=False):
         if plain_text:
             reponse = res.text
-            meta = {}
+            meta = None
         else:
             try:
                 reponse = res.json()
