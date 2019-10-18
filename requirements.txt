@@ -1,6 +1,8 @@
 # Runtime dependancies
 
 requests
+beautifulsoup4
+lxml
 
 # Development dependancies
 

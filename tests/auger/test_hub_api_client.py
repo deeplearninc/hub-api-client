@@ -460,7 +460,7 @@ class TestHubApiClient(unittest.TestCase):
         self.assertResourceResponse(res, 'prediction')
 
     @vcr.use_cassette('predictions/create_invalid.yaml')
-    def test_create_prediction_valid(self, sleep_mock):
+    def test_create_prediction_invalid(self, sleep_mock):
         with self.assertRaises(HubApiClient.FatalApiError) as context:
             self.client.create_prediction(
                 pipeline_id='46188658d308607a',
@@ -469,6 +469,30 @@ class TestHubApiClient(unittest.TestCase):
             )
 
         self.assertEqual('some validation error', str(context.exception))
+
+    # Response from server in dev mode
+    @vcr.use_cassette('predictions/create_invalid_with_nans.yaml')
+    def test_create_prediction_invalid_with_nans(self, sleep_mock):
+        with self.assertRaises(HubApiClient.FatalApiError) as context:
+            self.client.create_prediction(
+                pipeline_id='46188658d308607a',
+                records=[[1.1, 1.2, 1.3], [2.1, float('NaN'), float('NaN')]],
+                features=['x1', 'x2', 'x3']
+            )
+
+        self.assertIn('ActionDispatch::Http::Parameters::ParseError', str(context.exception))
+
+    # Response from server in production mode
+    @vcr.use_cassette('predictions/create_invalid_with_nan_blank_response.yaml')
+    def test_create_prediction_invalid_with_nans_blank_response(self, sleep_mock):
+        with self.assertRaises(HubApiClient.FatalApiError) as context:
+            self.client.create_prediction(
+                pipeline_id='46188658d308607a',
+                records=[[1.1, 1.2, 1.3], [2.1, float('NaN'), float('NaN')]],
+                features=['x1', 'x2', 'x3']
+            )
+
+        self.assertIn('Bad Request', str(context.exception))
 
     # Projects
 

@@ -8,6 +8,7 @@ import gzip
 from io import StringIO
 from urllib.parse import urljoin
 from json.decoder import JSONDecodeError
+from bs4 import BeautifulSoup
 
 from requests.exceptions import ConnectionError
 
@@ -166,19 +167,32 @@ class HubApiClient:
     STYLE_TAG_REGEX = re.compile('<style.*>.*</style>')
     ALL_TAG_REGEX = re.compile('<.*?>')
 
-    def extract_plain_text(self, html):
-        # Clean whitespaces
-        res = re.sub(self.WHITE_SPACE_REGEX, ' ', html)
+    def extract_plain_text(self, response):
+        html = response.text
 
-        # Clean HTML tags
-        res = re.sub(self.STYLE_TAG_REGEX, '', res)
+        if html:
+            soup = BeautifulSoup(html, features='lxml') # create a new bs4 object from the html data loaded
 
-        # Clean HTML tags
-        res = re.sub(self.ALL_TAG_REGEX, '', res)
+            for script in soup(["script", "style"]): # remove all javascript and stylesheet code
+                script.extract()
 
-        # Clean whitespaces again
-        return re.sub(self.WHITE_SPACE_REGEX, ' ', res).strip()
+            # get text
+            text = soup.get_text()
 
+            # Drop stack trace (from Riails dev mode)
+            text = text.split('Extracted source (around line')[0]
+
+            # break into lines and remove leading and trailing space on each
+            lines = (line.strip() for line in text.splitlines())
+
+            # break multi-headlines into a line each
+            chunks = (phrase.strip() for line in lines for phrase in line.split("  "))
+
+            # drop blank lines
+            text = '\n'.join(chunk for chunk in chunks if chunk)
+            return text
+        else:
+            return str(response) + ' ' + response.reason
 
     def tokens_payload(self):
         if self.project_api_token:
@@ -250,9 +264,9 @@ class HubApiClient:
                 errors = res.json()['meta']['errors']
                 return ', '.join(map(lambda error: self.format_api_error(error), errors))
             else:
-                return 'status: {}, body: {}'.format(res.status_code, self.extract_plain_text(res.text))
+                return 'status: {}, body: {}'.format(res.status_code, self.extract_plain_text(res))
         except (JSONDecodeError, ValueError) as e:
-            raise self.FatalApiError(self.extract_plain_text(res.text))
+            raise self.FatalApiError(self.extract_plain_text(res))
 
     def make_and_handle_request(self, method_name, path, base_url=None, payload={}, retry_counter=None, plain_text=False, gzip=False):
         if not base_url:
