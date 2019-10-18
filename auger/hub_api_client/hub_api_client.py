@@ -1,13 +1,14 @@
+import gzip
 import json
 import re
 import requests
 import time
-import gzip
 
 # Python 3
 from io import StringIO
 from urllib.parse import urljoin
 from json.decoder import JSONDecodeError
+from bs4 import BeautifulSoup
 
 from requests.exceptions import ConnectionError
 
@@ -15,6 +16,9 @@ class HubApiClient:
     class BaseError(Exception):
         def metadata(self):
             return self.args[1]
+
+        def __str__(self):
+            return '\n'.join(map(lambda arg: arg if isinstance(arg, str) else json.dumps(arg), self.args))
 
     # Means that consumer code can't do nothing with this error
     # Only changing of comnsumer source code or config parameters can help
@@ -153,11 +157,21 @@ class HubApiClient:
         self.retries_count = config.get('retries_count', 5)
         self.connection_retries_count = config.get('connection_retries_count', self.retries_count)
         self.retry_wait_seconds = config.get('retry_wait_seconds', 5)
+        self.debug = config.get('debug', False)
+
         self.headers = { 'Content-Type': 'application/json' }
         self.gzip_headers = self.headers.copy()
         self.gzip_headers['Content-Encoding'] = 'gzip'
 
         self.define_actions()
+
+    def log_request(self, method, path, payload):
+        if self.debug:
+            print('HAC.Req: ' + method.upper() + ' ' + path + ' params: ' + json.dumps(payload))
+
+    def log_response(self, method, path, response):
+        if self.debug:
+            print('HAC.Res: ' + method.upper() + ' ' + path + ' response: ' + response.text)
 
     def full_path(self, relative_path, base_url):
         return urljoin(base_url, relative_path)
@@ -166,19 +180,32 @@ class HubApiClient:
     STYLE_TAG_REGEX = re.compile('<style.*>.*</style>')
     ALL_TAG_REGEX = re.compile('<.*?>')
 
-    def extract_plain_text(self, html):
-        # Clean whitespaces
-        res = re.sub(self.WHITE_SPACE_REGEX, ' ', html)
+    def extract_plain_text(self, response):
+        html = response.text
 
-        # Clean HTML tags
-        res = re.sub(self.STYLE_TAG_REGEX, '', res)
+        if html:
+            soup = BeautifulSoup(html, features='lxml') # create a new bs4 object from the html data loaded
 
-        # Clean HTML tags
-        res = re.sub(self.ALL_TAG_REGEX, '', res)
+            for script in soup(["script", "style"]): # remove all javascript and stylesheet code
+                script.extract()
 
-        # Clean whitespaces again
-        return re.sub(self.WHITE_SPACE_REGEX, ' ', res).strip()
+            # get text
+            text = soup.get_text()
 
+            # Drop stack trace (from Riails dev mode)
+            text = text.split('Extracted source (around line')[0]
+
+            # break into lines and remove leading and trailing space on each
+            lines = (line.strip() for line in text.splitlines())
+
+            # break multi-headlines into a line each
+            chunks = (phrase.strip() for line in lines for phrase in line.split("  "))
+
+            # drop blank lines
+            text = '\n'.join(chunk for chunk in chunks if chunk)
+            return text
+        else:
+            return str(response) + ' ' + response.reason
 
     def tokens_payload(self):
         if self.project_api_token:
@@ -217,7 +244,7 @@ class HubApiClient:
     def handle_response(self, res, plain_text=False):
         if plain_text:
             reponse = res.text
-            meta = {}
+            meta = None
         else:
             try:
                 reponse = res.json()
@@ -250,9 +277,9 @@ class HubApiClient:
                 errors = res.json()['meta']['errors']
                 return ', '.join(map(lambda error: self.format_api_error(error), errors))
             else:
-                return 'status: {}, body: {}'.format(res.status_code, self.extract_plain_text(res.text))
+                return 'status: {}, body: {}'.format(res.status_code, self.extract_plain_text(res))
         except (JSONDecodeError, ValueError) as e:
-            raise self.FatalApiError(self.extract_plain_text(res.text))
+            raise self.FatalApiError(self.extract_plain_text(res))
 
     def make_and_handle_request(self, method_name, path, base_url=None, payload={}, retry_counter=None, plain_text=False, gzip=False):
         if not base_url:
@@ -267,7 +294,9 @@ class HubApiClient:
                 retry_counter = self.RetryCounter.none()
 
         try:
+            self.log_request(method_name, path, payload)
             with self.request(method_name, path, base_url, payload, gzip) as res:
+                self.log_response(method_name, path, res)
                 return self.handle_response(res, plain_text=plain_text)
         except self.RetryableApiError as e:
             if retry_counter.is_retries_available():
