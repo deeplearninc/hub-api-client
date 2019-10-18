@@ -31,7 +31,9 @@ setup(
         'auger.hub_api_client',
     ],
     install_requires=[
-        'requests'
+        'requests',
+        'beautifulsoup4',
+        'lxml'
     ],
     zip_safe=False,
     cmdclass={
