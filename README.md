@@ -32,6 +32,7 @@ Client parameters:
 * `connection_retries_count` - count of connection retries if it makes sense (see `HubApiClient.NetworkError`)
 * `retries_count` - count of request retries if it makes sense (see `HubApiClient.RetryableApiError`)
 * `retry_wait_seconds` - wait between retries
+* `debug` - if `True` then log request and response to stdout, by default `False`
 
 If app has both tokens prefer `hub_project_api_token`
 

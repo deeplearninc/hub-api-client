@@ -1,8 +1,8 @@
+import gzip
 import json
 import re
 import requests
 import time
-import gzip
 
 # Python 3
 from io import StringIO
@@ -157,11 +157,21 @@ class HubApiClient:
         self.retries_count = config.get('retries_count', 5)
         self.connection_retries_count = config.get('connection_retries_count', self.retries_count)
         self.retry_wait_seconds = config.get('retry_wait_seconds', 5)
+        self.debug = config.get('debug', False)
+
         self.headers = { 'Content-Type': 'application/json' }
         self.gzip_headers = self.headers.copy()
         self.gzip_headers['Content-Encoding'] = 'gzip'
 
         self.define_actions()
+
+    def log_request(self, method, path, payload):
+        if self.debug:
+            print('HAC.Req: ' + method.upper() + ' ' + path + ' params: ' + json.dumps(payload))
+
+    def log_response(self, method, path, response):
+        if self.debug:
+            print('HAC.Res: ' + method.upper() + ' ' + path + ' response: ' + response.text)
 
     def full_path(self, relative_path, base_url):
         return urljoin(base_url, relative_path)
@@ -284,7 +294,9 @@ class HubApiClient:
                 retry_counter = self.RetryCounter.none()
 
         try:
+            self.log_request(method_name, path, payload)
             with self.request(method_name, path, base_url, payload, gzip) as res:
+                self.log_response(method_name, path, res)
                 return self.handle_response(res, plain_text=plain_text)
         except self.RetryableApiError as e:
             if retry_counter.is_retries_available():

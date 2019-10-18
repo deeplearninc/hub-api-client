@@ -12,3 +12,5 @@ wheel = "*"
 [packages]
 auger-hub-api-client = {editable = true,path = "."}
 requests = "*"
+beautifulsoup4 = "*"
+lxml = "*"
