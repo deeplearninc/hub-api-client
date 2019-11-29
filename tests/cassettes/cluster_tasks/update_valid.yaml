@@ -1,0 +1,31 @@
+interactions:
+- request:
+    body: '{"status": "success", "result": {"x": 1, "y": 2}, "traceback": "Some str\nSome
+      more data", "project_api_token": "0d5a55cb795f2039922689e647cb3c5d24a0992bf58d941dad864ef7c371f8fc"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['179']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.22.0]
+    method: PATCH
+    uri: http://localhost:5000/api/v1/cluster_tasks/55
+  response:
+    body: {string: '{"data":{"object":"cluster_task","deleted":false,"id":55,"external_uid":"2e8c1c86-9249-44f6-b827-d2427636f5bc","cluster_id":1,"project_id":54,"queue":null,"status":"success","name":"auger_ml.tasks_queue.tasks.evaluate_start_task","args":[{"augerInfo":{"experiment_id":"19853a0f967d41e6","dataset_manifest_id":"5223edda41480534","experiment_session_id":"b203298b3edd3ccf"},"data_path":"s3://auger-lars-free--yfxijh/workspace/projects/my-rmq-creds/files/iris.csv","content_type":"text/csv","data_extension":".csv","data_compression":"infer"}],"result":{"x":1,"y":2},"exception":null},"meta":{"status":200}}'}
+    headers:
+      Cache-Control: ['max-age=0, private, must-revalidate']
+      Content-Type: [application/json; charset=utf-8]
+      ETag: [W/"401346c53001e33ef58ee00a90803f57"]
+      Referrer-Policy: [strict-origin-when-cross-origin]
+      Transfer-Encoding: [chunked]
+      Vary: [Origin]
+      X-Content-Type-Options: [nosniff]
+      X-Download-Options: [noopen]
+      X-Frame-Options: [SAMEORIGIN]
+      X-Permitted-Cross-Domain-Policies: [none]
+      X-Request-Id: [94fd6bb6-799f-4712-a7b9-2e1a0d580478]
+      X-Runtime: ['4.063573']
+      X-XSS-Protection: [1; mode=block]
+    status: {code: 200, message: OK}
+version: 1

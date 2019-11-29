@@ -202,6 +202,17 @@ class TestHubApiClient(unittest.TestCase):
 
         self.assertResourceResponse(res, 'cluster_task')
 
+    @vcr.use_cassette('cluster_tasks/update_valid.yaml')
+    def test_update_cluster_task_valid(self, sleep_mock):
+        res = self.client.update_cluster_task(
+            id=55,
+            status='success',
+            result={ 'x': 1, 'y': 2 },
+            traceback='Some str\nSome more data'
+        )
+
+        self.assertResourceResponse(res, 'cluster_task')
+
     # Dataset manifests
 
     @vcr.use_cassette('dataset_manifests/show.yaml')

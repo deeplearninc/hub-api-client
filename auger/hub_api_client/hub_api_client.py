@@ -87,7 +87,7 @@ class HubApiClient:
             'actions': ['index', 'show', 'create', 'delete']
         },
         'cluster_task': {
-            'actions': ['index', 'show', 'create']
+            'actions': ['index', 'show', 'create', 'update']
         },
         'cluster_status': {
             'actions': ['index']
@@ -189,7 +189,7 @@ class HubApiClient:
     def full_path(self, relative_path, base_url):
         return urljoin(base_url, relative_path)
 
-    WHITE_SPACE_REGEX = re.compile('\s+')
+    WHITE_SPACE_REGEX = re.compile(r'\s+')
     STYLE_TAG_REGEX = re.compile('<style.*>.*</style>')
     ALL_TAG_REGEX = re.compile('<.*?>')
 

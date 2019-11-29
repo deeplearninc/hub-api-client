@@ -8,7 +8,7 @@
 ### Install
 
 ```sh
-pip install auger-hub-api-client==0.6.6
+pip install auger-hub-api-client==0.6.7
 ```
 ### Initialize client
 
@@ -245,6 +245,7 @@ res = client.get_fte(
 
 ## Releases
 
+* 0.6.7 - Add cluster task update
 * 0.6.6 - Add missing dependencies
 * 0.6.5 - Add request details to exceptions
 * 0.6.4 - Improved error handling. Debug mode
@@ -284,7 +285,7 @@ Commit and push changes
 Create and push new tag
 
 ```bash
-git tag v0.6.6 && git push origin v0.6.6
+git tag v0.6.7 && git push origin v0.6.7
 ```
 
 Then build and upload new wheel
