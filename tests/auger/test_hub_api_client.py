@@ -468,8 +468,8 @@ class TestHubApiClient(unittest.TestCase):
     def test_create_actuals_valid(self, sleep_mock):
         res = self.client.create_actual(
             pipeline_id='46188658d308607a',
-            actuals=[{'prediction_id': '1', 'targetFeature': 1},
-                     {'prediction_id': '2', 'targetFeature': 1}]
+            actuals=[{'prediction_id': '1', 'actual': 1},
+                     {'prediction_id': '2', 'actual': 1}]
         )
 
         self.assertResourceEmptyResponse(res, 'actual')

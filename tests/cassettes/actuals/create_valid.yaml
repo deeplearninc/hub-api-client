@@ -1,8 +1,8 @@
 interactions:
 - request:
-    body: !!python/unicode '{"pipeline_id": "46188658d308607a", "project_api_token": 
+    body: !!python/unicode '{"pipeline_id": "46188658d308607a", "project_api_token":
       "410befdcd606f602c20e5140b94909aeff27800a86459ceb1fc97b7e09bce57b", "actuals":
-        [{prediction_id:"ab8d3190-7e05-4af7-8d92-f21ffd90f669",targetFeature: "0.75"}]}'
+        [{prediction_id:"ab8d3190-7e05-4af7-8d92-f21ffd90f669",actual: "0.75"}]}'
     headers:
       Accept: ['*/*']
       Accept-Encoding: ['gzip, deflate']
