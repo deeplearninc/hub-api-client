@@ -41,7 +41,7 @@ If app has both tokens prefer `hub_project_api_token`
 Full set of available resources, required parameters and parent resource names described here https://app.auger.ai/api/v1/docs
 
 This client currently support only next subset of resources:
-
+* actual
 * cluster
 * cluster_task
 * cluster_status
