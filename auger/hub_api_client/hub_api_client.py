@@ -83,6 +83,9 @@ class HubApiClient:
             return cls()
 
     API_SCHEMA = {
+        'actual': {
+            'actions': ['create']
+        },
         'cluster': {
             'actions': ['index', 'show', 'create', 'delete']
         },

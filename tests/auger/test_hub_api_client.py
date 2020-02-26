@@ -76,6 +76,10 @@ class TestHubApiClient(unittest.TestCase):
         self.assertIsInstance(res['data'], dict)
         self.assertEqual(res['data']['object'], expected_object)
 
+    def assertResourceEmptyResponse(self, res, expected_object):
+        self.assertEqual(res['meta']['status'], 200)
+        self.assertIsInstance(res['data'], dict)
+
     def assertDataResponse(self, res, expected_keys):
         self.assertEqual(res['meta']['status'], 200)
         self.assertIsInstance(res['data'], dict)
@@ -460,15 +464,15 @@ class TestHubApiClient(unittest.TestCase):
         res = self.client.get_predictions()
         self.assertIndexResponse(res, 'prediction')
 
-    @vcr.use_cassette('predictions/create_valid.yaml')
-    def test_create_prediction_valid(self, sleep_mock):
-        res = self.client.create_prediction(
+    @vcr.use_cassette('actuals/create_valid.yaml')
+    def test_create_actuals_valid(self, sleep_mock):
+        res = self.client.create_actual(
             pipeline_id='46188658d308607a',
-            records=[[1.1, 1.2, 1.3], [2.1, 2.2, 2.3]],
-            features=['x1', 'x2', 'x3']
+            actuals=[{'prediction_id': '1', 'actual': 1},
+                     {'prediction_id': '2', 'actual': 1}]
         )
 
-        self.assertResourceResponse(res, 'prediction')
+        self.assertResourceEmptyResponse(res, 'actual')
 
     @vcr.use_cassette('predictions/create_valid_with_nils.yaml')
     def test_create_prediction_valid_with_nils(self, sleep_mock):

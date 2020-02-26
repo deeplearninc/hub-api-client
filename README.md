@@ -8,7 +8,7 @@
 ### Install
 
 ```sh
-pip install auger-hub-api-client==0.6.7
+pip install auger-hub-api-client==0.6.8
 ```
 ### Initialize client
 
@@ -41,7 +41,7 @@ If app has both tokens prefer `hub_project_api_token`
 Full set of available resources, required parameters and parent resource names described here https://app.auger.ai/api/v1/docs
 
 This client currently support only next subset of resources:
-
+* actual
 * cluster
 * cluster_task
 * cluster_status
@@ -245,6 +245,7 @@ res = client.get_fte(
 
 ## Releases
 
+* 0.6.8 - Add create actuals endpoint
 * 0.6.7 - Add cluster task update
 * 0.6.6 - Add missing dependencies
 * 0.6.5 - Add request details to exceptions
