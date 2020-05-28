@@ -284,6 +284,42 @@ class TestHubApiClient(unittest.TestCase):
         res = self.client.delete_endpoint_pipeline(3)
         self.assertResourceResponse(res, 'endpoint_pipeline')
 
+    # Endpoint predictions + actuals
+
+    @vcr.use_cassette('endpoint_predictions/show.yaml')
+    def test_get_endpoint_prediction(self, sleep_mock):
+        res = self.client.get_endpoint_prediction(
+            '46da6a3f-085b-4169-8157-4d20deba3bd1',
+            endpoint_id='ddc968ac-43d5-4aa4-9929-1edba7cefc8f'
+        )
+        self.assertResourceResponse(res, 'prediction_group')
+
+    @vcr.use_cassette('endpoint_predictions/index.yaml')
+    def test_get_endpoint_predictions(self, sleep_mock):
+        res = self.client.get_endpoint_predictions(endpoint_id='ddc968ac-43d5-4aa4-9929-1edba7cefc8f')
+        self.assertIndexResponse(res, 'prediction_group')
+
+    @vcr.use_cassette('endpoint_predictions/create_valid.yaml')
+    def test_create_endpoint_prediction_valid(self, sleep_mock):
+        res = self.client.create_endpoint_prediction(
+            endpoint_id='ddc968ac-43d5-4aa4-9929-1edba7cefc8f',
+            records=[[1.1, 1.2, 1.3, 1.4]],
+            features=['sepal_length', 'sepal_length', 'petal_length', 'petal_width']
+        )
+
+        self.assertResourceResponse(res, 'prediction_group')
+
+    @vcr.use_cassette('endpoint_actuals/create_valid.yaml')
+    def test_create_endpoint_actuals_valid(self, sleep_mock):
+        res = self.client.create_endpoint_actual(
+            endpoint_id='ddc968ac-43d5-4aa4-9929-1edba7cefc8f',
+            prediction_group_id='46da6a3f-085b-4169-8157-4d20deba3bd1',
+            actuals=[{'prediction_id': '1', 'endpoint_actual': 1},
+                     {'prediction_id': '2', 'endpoint_actual': 1}]
+        )
+
+        self.assertResourceEmptyResponse(res, 'actual')
+
     # Experiments
 
     @vcr.use_cassette('experiments/show.yaml')

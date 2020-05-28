@@ -101,8 +101,16 @@ class HubApiClient:
         'endpoint_pipeline': {
             'actions': ['create', 'update', 'delete']
         },
-        # /api/v1/endpoints/:endpoint_id/actuals
-        # /api/v1/endpoints/:endpoint_id/predictions
+        'endpoint_actual': {
+            'actions': ['create'],
+            'resource_name': 'actual',
+            'parent_resource': 'endpoint',
+        },
+        'endpoint_prediction': {
+            'actions': ['index', 'show', 'create'],
+            'resource_name': 'prediction',
+            'parent_resource': 'endpoint',
+        },
         'experiment': {
             'actions': ['index', 'show', 'create', 'update', 'delete']
         },
@@ -378,8 +386,9 @@ class HubApiClient:
 
     def define_actions(self):
         for resource_name, options in self.API_SCHEMA.items():
+            url_resource_name = options.get('resource_name', resource_name)
             parent_resource_name = options.get('parent_resource', None)
-            path = self.build_full_resource_path(resource_name, parent_resource_name)
+            path = self.build_full_resource_path(url_resource_name, parent_resource_name)
 
             for action_name in options['actions']:
                 if isinstance(action_name, str):
@@ -398,8 +407,7 @@ class HubApiClient:
                 return path_template.format(parent_id=parent_id)
             else:
                 raise self.MissingParamError(
-                    '{name} parameter is required'.format(name=parent_id_key),
-                    res.json().get('meta')
+                    '{name} parameter is required'.format(name=parent_id_key)
                 )
         elif not parent_resource_name:
             return path_template
