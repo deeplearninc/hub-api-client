@@ -1,0 +1,33 @@
+interactions:
+- request:
+    body: '{"limit": 50, "offset": 0, "project_api_token": "0d5a55cb795f2039922689e647cb3c5d24a0992bf58d941dad864ef7c371f8fc"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['115']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.22.0]
+    method: GET
+    uri: http://localhost:5000/api/v1/prediction_groups
+  response:
+    body: {string: '{"data":[{"object":"prediction_group","deleted":false,"id":"46da6a3f-085b-4169-8157-4d20deba3bd1","pipeline_id":"118DCF6B1A2A44A","endpoint_id":"ddc968ac-43d5-4aa4-9929-1edba7cefc8f","status":"running","records_count":1,"time_consumed_ms":null,"result":null,"error_message":null,"created_at":"2020-05-28T13:21:20.426Z","predicted_at":"2020-05-28T13:21:20.426Z"},{"object":"prediction_group","deleted":false,"id":"11862b99-a834-4bd6-8984-1a026044a63e","pipeline_id":"118DCF6B1A2A44A","endpoint_id":null,"status":"requested","records_count":null,"time_consumed_ms":null,"result":null,"error_message":null,"created_at":"2019-12-16T14:24:26.431Z","predicted_at":"2019-12-16T14:24:26.431Z"},{"object":"prediction_group","deleted":false,"id":"60e31197-2ec5-4e1e-b5d1-5c509b48d8a2","pipeline_id":"46188658d308607a","endpoint_id":null,"status":"error","records_count":2,"time_consumed_ms":null,"result":null,"error_message":"an
+        internal error occurred, please try again, if it doesn''t help contact support","created_at":"2019-11-18T15:24:15.349Z","predicted_at":"2019-11-18T15:24:15.349Z"},{"object":"prediction_group","deleted":false,"id":"d0777fe6-0dda-4eb7-b663-8293c23ea362","pipeline_id":"118DCF6B1A2A44A","endpoint_id":null,"status":"requested","records_count":null,"time_consumed_ms":null,"result":null,"error_message":null,"created_at":"2019-12-16T14:13:22.089Z","predicted_at":"2019-12-16T14:13:22.089Z"},{"object":"prediction_group","deleted":false,"id":"80fb9e77-dc38-41bc-8cba-0326854d1471","pipeline_id":"118DCF6B1A2A44A","endpoint_id":null,"status":"done","records_count":1,"time_consumed_ms":24589,"result":null,"error_message":null,"created_at":"2019-12-11T15:15:58.742Z","predicted_at":"2019-12-11T15:15:58.742Z"},{"object":"prediction_group","deleted":false,"id":"85e58b3e-2661-45c1-939d-36470a649be0","pipeline_id":"46188658d308607a","endpoint_id":null,"status":"error","records_count":58,"time_consumed_ms":null,"result":null,"error_message":"an
+        internal error occurred, please try again, if it doesn''t help contact support","created_at":"2019-11-18T15:38:32.742Z","predicted_at":"2019-11-18T15:38:32.742Z"},{"object":"prediction_group","deleted":false,"id":"3b81fe3f-139f-435d-8f54-cc71bba22f34","pipeline_id":"46188658d308607a","endpoint_id":null,"status":"error","records_count":2,"time_consumed_ms":null,"result":null,"error_message":"an
+        internal error occurred, please try again, if it doesn''t help contact support","created_at":"2019-10-18T08:52:59.266Z","predicted_at":"2019-10-18T08:52:59.266Z"}],"meta":{"status":200,"pagination":{"limit":50,"offset":0,"count":7,"total":7}}}'}
+    headers:
+      Cache-Control: ['max-age=0, private, must-revalidate']
+      Content-Type: [application/json; charset=utf-8]
+      ETag: [W/"5a98756210973e9c2d115ca5021b07c2"]
+      Referrer-Policy: [strict-origin-when-cross-origin]
+      Transfer-Encoding: [chunked]
+      Vary: [Origin]
+      X-Content-Type-Options: [nosniff]
+      X-Download-Options: [noopen]
+      X-Frame-Options: [SAMEORIGIN]
+      X-Permitted-Cross-Domain-Policies: [none]
+      X-Request-Id: [999f9943-2d56-4bcd-9e1a-ae230082c563]
+      X-Runtime: ['0.029539']
+      X-XSS-Protection: [1; mode=block]
+    status: {code: 200, message: OK}
+version: 1

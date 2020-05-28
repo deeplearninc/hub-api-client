@@ -132,10 +132,14 @@ class HubApiClient:
         'pipeline_file': {
             'actions': ['index', 'show', 'create']
         },
+        # Legacy endpoint
         'prediction': {
             'actions': ['index', 'show', 'create']
         },
-        # /api/v1/prediction_groups
+        # New endpoint
+        'prediction_group': {
+            'actions': ['index', 'show', 'create']
+        },
         'project': {
             'actions': [
                 'index',

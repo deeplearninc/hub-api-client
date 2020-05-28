@@ -590,6 +590,28 @@ class TestHubApiClient(unittest.TestCase):
 
         self.assertIn('Bad Request', str(context.exception))
 
+    # Prediction groups
+
+    @vcr.use_cassette('prediction_groups/show.yaml')
+    def test_get_prediction_group(self, sleep_mock):
+        res = self.client.get_prediction_group(7)
+        self.assertResourceResponse(res, 'prediction_group')
+
+    @vcr.use_cassette('prediction_groups/index.yaml')
+    def test_get_prediction_groups(self, sleep_mock):
+        res = self.client.get_prediction_groups()
+        self.assertIndexResponse(res, 'prediction_group')
+
+    @vcr.use_cassette('prediction_groups/create_valid.yaml')
+    def test_create_prediction_group_valid(self, sleep_mock):
+        res = self.client.create_prediction_group(
+            pipeline_id='118DCF6B1A2A44A',
+            records=[[1.1, 1.2, 1.3, 1.4]],
+            features=['sepal_length', 'sepal_length', 'petal_length', 'petal_width']
+        )
+
+        self.assertResourceResponse(res, 'prediction_group')
+
     # Projects
 
     @vcr.use_cassette('projects/show.yaml')
