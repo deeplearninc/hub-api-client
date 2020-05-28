@@ -1,0 +1,44 @@
+interactions:
+- request:
+    body: '{"limit": 50, "offset": 0, "project_api_token": "0d5a55cb795f2039922689e647cb3c5d24a0992bf58d941dad864ef7c371f8fc"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['115']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.22.0]
+    method: GET
+    uri: http://localhost:5000/api/v1/endpoints
+  response:
+    body: {string: '{"data":[{"object":"endpoint","deleted":false,"id":"ddc968ac-43d5-4aa4-9929-1edba7cefc8f","name":null,"project_id":1,"dataset_signature":"e4b90f2ee26cf0c642ce937517980a07","organization_id":2,"primary_pipeline_id":"118DCF6B1A2A44A","primary_experiment_session_id":"f4dcb6d9c95658e4","avg_prediction_time_ms":null,"created_at":"2020-04-22T10:40:40.526Z","updated_at":"2020-04-29T13:41:20.793Z","endpoint_pipelines":[{"object":"endpoint_pipeline","deleted":false,"id":5,"endpoint_id":"ddc968ac-43d5-4aa4-9929-1edba7cefc8f","pipeline_id":"46188658d308607a","active":false,"created_at":"2020-05-01T10:47:31.847Z","updated_at":"2020-05-01T10:47:31.847Z"},{"object":"endpoint_pipeline","deleted":false,"id":3,"endpoint_id":"ddc968ac-43d5-4aa4-9929-1edba7cefc8f","pipeline_id":"118DCF6B1A2A44A","active":true,"created_at":"2020-04-22T10:45:13.717Z","updated_at":"2020-04-22T10:45:13.717Z"}]}],"meta":{"status":200,"pagination":{"limit":50,"offset":0,"count":1,"total":1}}}'}
+    headers:
+      Cache-Control: ['max-age=0, private, must-revalidate']
+      Content-Type: [application/json; charset=utf-8]
+      ETag: [W/"bc066e601c727e7d864ba47feba6c9d4"]
+      Referrer-Policy: [strict-origin-when-cross-origin]
+      Transfer-Encoding: [chunked]
+      Vary: [Origin]
+      X-Content-Type-Options: [nosniff]
+      X-Download-Options: [noopen]
+      X-Frame-Options: [SAMEORIGIN]
+      X-Permitted-Cross-Domain-Policies: [none]
+      X-Request-Id: [3131b5bb-2a82-454a-96d3-c22146a78090]
+      X-Runtime: ['0.049916']
+      X-XSS-Protection: [1; mode=block]
+      X-bullet-console-text: ['["user: alex\nUSE eager loading detected\n  Pipeline
+          =\u003e [:experiment_session]\n  Add to your query: .includes([:experiment_session])\nCall
+          stack\n  /Users/alex/soft/hub/backend/app/serializers/api/v1/endpoint_serializer.rb:19:in
+          `primary_experiment_session_id''\n  /Users/alex/soft/hub/backend/app/serializers/api/v1/endpoint_serializer.rb:11:in
+          `attributes''\n  /Users/alex/soft/hub/backend/app/helpers/api/v1/response_helper.rb:42:in
+          `render''\n  /Users/alex/soft/hub/backend/app/helpers/api/v1/response_helper.rb:14:in
+          `respond''\n  /Users/alex/soft/hub/backend/app/controllers/api/v1/endpoints_controller.rb:14:in
+          `block (2 levels) in \u003cclass:EndpointsController\u003e''\n  /Users/alex/soft/hub/backend/app/controllers/api/v1/dsl/api_actions_definer.rb:56:in
+          `instance_eval''\n  /Users/alex/soft/hub/backend/app/controllers/api/v1/dsl/api_actions_definer.rb:56:in
+          `block (2 levels) in define_action''\n  /Users/alex/soft/hub/backend/app/controllers/api/v1/api_controller.rb:72:in
+          `block in use_zero_timezone''\n  /Users/alex/soft/hub/backend/app/controllers/api/v1/api_controller.rb:71:in
+          `use_zero_timezone''\n\n","user: alex\nAVOID eager loading detected\n  Endpoint
+          =\u003e [:pipelines]\n  Remove from your query: .includes([:pipelines])\nCall
+          stack\n\n"]']
+    status: {code: 200, message: OK}
+version: 1

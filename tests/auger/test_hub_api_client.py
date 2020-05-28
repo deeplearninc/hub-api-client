@@ -231,6 +231,59 @@ class TestHubApiClient(unittest.TestCase):
         res = self.client.update_dataset_manifest(123123, dataset_url='s3://bucket/path')
         self.assertResourceResponse(res, 'dataset_manifest')
 
+    # Endpoints
+
+    @vcr.use_cassette('endpoints/show.yaml')
+    def test_get_endpoint(self, sleep_mock):
+      res = self.client.get_endpoint('ddc968ac-43d5-4aa4-9929-1edba7cefc8f')
+      self.assertResourceResponse(res, 'endpoint')
+
+    @vcr.use_cassette('endpoints/index.yaml')
+    def test_get_endpoints(self, sleep_mock):
+        res = self.client.get_endpoints()
+        self.assertIndexResponse(res, 'endpoint')
+
+    @vcr.use_cassette('endpoints/create_valid.yaml')
+    def test_create_endpoint_valid(self, sleep_mock):
+        res = self.client.create_endpoint(
+            pipeline_id='118DCF6B1A2A44A',
+            name='test-endpoint',
+        )
+
+        self.assertResourceResponse(res, 'endpoint')
+
+    @vcr.use_cassette('endpoints/update_valid.yaml')
+    def test_update_endpoint_valid(self, sleep_mock):
+        res = self.client.update_endpoint('3a0cfb34-b03b-468c-8e13-2befe3e78819', name='my super endpoint')
+        self.assertResourceResponse(res, 'endpoint')
+
+    @vcr.use_cassette('endpoints/delete.yaml')
+    def test_delete_endpoint_valid(self, sleep_mock):
+        res = self.client.delete_endpoint('3a0cfb34-b03b-468c-8e13-2befe3e78819')
+        self.assertResourceResponse(res, 'endpoint')
+
+    # Endpoint pipelines
+
+    @vcr.use_cassette('endpoint_pipelines/create_valid.yaml')
+    def test_create_endpoint_pipeline_valid(self, sleep_mock):
+        res = self.client.create_endpoint_pipeline(
+            endpoint_id='ddc968ac-43d5-4aa4-9929-1edba7cefc8f',
+            pipeline_id='118DCF6B1A2A44A',
+            active=True,
+        )
+
+        self.assertResourceResponse(res, 'endpoint_pipeline')
+
+    @vcr.use_cassette('endpoint_pipelines/update_valid.yaml')
+    def test_update_endpoint_pipeline_valid(self, sleep_mock):
+        res = self.client.update_endpoint_pipeline(7, active=True)
+        self.assertResourceResponse(res, 'endpoint_pipeline')
+
+    @vcr.use_cassette('endpoint_pipelines/delete.yaml')
+    def test_delete_endpoint_pipeline_valid(self, sleep_mock):
+        res = self.client.delete_endpoint_pipeline(3)
+        self.assertResourceResponse(res, 'endpoint_pipeline')
+
     # Experiments
 
     @vcr.use_cassette('experiments/show.yaml')

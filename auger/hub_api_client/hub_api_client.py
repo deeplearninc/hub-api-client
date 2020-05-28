@@ -95,8 +95,14 @@ class HubApiClient:
         'dataset_manifest': {
             'actions': ['index', 'show', 'create', 'update']
         },
-        # /api/v1/endpoints/
-        # /api/v1/endpoint_pipelines
+        'endpoint': {
+            'actions': ['index', 'show', 'create', 'update', 'delete']
+        },
+        'endpoint_pipeline': {
+            'actions': ['create', 'update', 'delete']
+        },
+        # /api/v1/endpoints/:endpoint_id/actuals
+        # /api/v1/endpoints/:endpoint_id/predictions
         'experiment': {
             'actions': ['index', 'show', 'create', 'update', 'delete']
         },
