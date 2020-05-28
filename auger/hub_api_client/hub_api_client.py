@@ -86,9 +86,6 @@ class HubApiClient:
         'actual': {
             'actions': ['create']
         },
-        'cluster': {
-            'actions': ['index', 'show', 'create', 'delete']
-        },
         'cluster_task': {
             'actions': ['index', 'show', 'create', 'update']
         },
@@ -98,6 +95,8 @@ class HubApiClient:
         'dataset_manifest': {
             'actions': ['index', 'show', 'create', 'update']
         },
+        # /api/v1/endpoints/
+        # /api/v1/endpoint_pipelines
         'experiment': {
             'actions': ['index', 'show', 'create', 'update', 'delete']
         },
@@ -122,6 +121,7 @@ class HubApiClient:
         'prediction': {
             'actions': ['index', 'show', 'create']
         },
+        # /api/v1/prediction_groups
         'project': {
             'actions': [
                 'index',
@@ -144,6 +144,8 @@ class HubApiClient:
         'pod_log': {
             'actions': ['index']
         },
+        # /api/v1/review_alerts
+        # /api/v1/review_alert_items
         'similar_trials_request': {
             'actions': ['show', 'create']
         },
