@@ -150,33 +150,6 @@ class TestHubApiClient(unittest.TestCase):
 
         self.assertServerErrorResponse(context.exception)
 
-    # Clusters
-
-    @vcr.use_cassette('clusters/show.yaml')
-    def test_get_cluster(self, sleep_mock):
-      res = self.client.get_cluster(127)
-      self.assertResourceResponse(res, 'cluster')
-
-    @vcr.use_cassette('clusters/index.yaml')
-    def test_get_clusters(self, sleep_mock):
-        res = self.client.get_clusters()
-        self.assertIndexResponse(res, 'cluster')
-
-    @vcr.use_cassette('clusters/create_valid.yaml')
-    def test_create_cluster_valid(self, sleep_mock):
-        res = self.client.create_cluster(
-            name='my-cluster',
-            organization_id=23,
-            project_id=31
-        )
-
-        self.assertResourceResponse(res, 'cluster')
-
-    @vcr.use_cassette('clusters/delete_valid.yaml')
-    def test_delete_cluster_valid(self, sleep_mock):
-        res = self.client.delete_cluster(340)
-        self.assertResourceResponse(res, 'cluster')
-
     # Cluster statuses
 
     @vcr.use_cassette('cluster_statuses/index.yaml')
@@ -257,6 +230,95 @@ class TestHubApiClient(unittest.TestCase):
     def test_update_dataset_manifest_valid(self, sleep_mock):
         res = self.client.update_dataset_manifest(123123, dataset_url='s3://bucket/path')
         self.assertResourceResponse(res, 'dataset_manifest')
+
+    # Endpoints
+
+    @vcr.use_cassette('endpoints/show.yaml')
+    def test_get_endpoint(self, sleep_mock):
+      res = self.client.get_endpoint('ddc968ac-43d5-4aa4-9929-1edba7cefc8f')
+      self.assertResourceResponse(res, 'endpoint')
+
+    @vcr.use_cassette('endpoints/index.yaml')
+    def test_get_endpoints(self, sleep_mock):
+        res = self.client.get_endpoints()
+        self.assertIndexResponse(res, 'endpoint')
+
+    @vcr.use_cassette('endpoints/create_valid.yaml')
+    def test_create_endpoint_valid(self, sleep_mock):
+        res = self.client.create_endpoint(
+            pipeline_id='118DCF6B1A2A44A',
+            name='test-endpoint',
+        )
+
+        self.assertResourceResponse(res, 'endpoint')
+
+    @vcr.use_cassette('endpoints/update_valid.yaml')
+    def test_update_endpoint_valid(self, sleep_mock):
+        res = self.client.update_endpoint('3a0cfb34-b03b-468c-8e13-2befe3e78819', name='my super endpoint')
+        self.assertResourceResponse(res, 'endpoint')
+
+    @vcr.use_cassette('endpoints/delete.yaml')
+    def test_delete_endpoint_valid(self, sleep_mock):
+        res = self.client.delete_endpoint('3a0cfb34-b03b-468c-8e13-2befe3e78819')
+        self.assertResourceResponse(res, 'endpoint')
+
+    # Endpoint pipelines
+
+    @vcr.use_cassette('endpoint_pipelines/create_valid.yaml')
+    def test_create_endpoint_pipeline_valid(self, sleep_mock):
+        res = self.client.create_endpoint_pipeline(
+            endpoint_id='ddc968ac-43d5-4aa4-9929-1edba7cefc8f',
+            pipeline_id='118DCF6B1A2A44A',
+            active=True,
+        )
+
+        self.assertResourceResponse(res, 'endpoint_pipeline')
+
+    @vcr.use_cassette('endpoint_pipelines/update_valid.yaml')
+    def test_update_endpoint_pipeline_valid(self, sleep_mock):
+        res = self.client.update_endpoint_pipeline(7, active=True)
+        self.assertResourceResponse(res, 'endpoint_pipeline')
+
+    @vcr.use_cassette('endpoint_pipelines/delete.yaml')
+    def test_delete_endpoint_pipeline_valid(self, sleep_mock):
+        res = self.client.delete_endpoint_pipeline(3)
+        self.assertResourceResponse(res, 'endpoint_pipeline')
+
+    # Endpoint predictions + actuals
+
+    @vcr.use_cassette('endpoint_predictions/show.yaml')
+    def test_get_endpoint_prediction(self, sleep_mock):
+        res = self.client.get_endpoint_prediction(
+            '46da6a3f-085b-4169-8157-4d20deba3bd1',
+            endpoint_id='ddc968ac-43d5-4aa4-9929-1edba7cefc8f'
+        )
+        self.assertResourceResponse(res, 'prediction_group')
+
+    @vcr.use_cassette('endpoint_predictions/index.yaml')
+    def test_get_endpoint_predictions(self, sleep_mock):
+        res = self.client.get_endpoint_predictions(endpoint_id='ddc968ac-43d5-4aa4-9929-1edba7cefc8f')
+        self.assertIndexResponse(res, 'prediction_group')
+
+    @vcr.use_cassette('endpoint_predictions/create_valid.yaml')
+    def test_create_endpoint_prediction_valid(self, sleep_mock):
+        res = self.client.create_endpoint_prediction(
+            endpoint_id='ddc968ac-43d5-4aa4-9929-1edba7cefc8f',
+            records=[[1.1, 1.2, 1.3, 1.4]],
+            features=['sepal_length', 'sepal_length', 'petal_length', 'petal_width']
+        )
+
+        self.assertResourceResponse(res, 'prediction_group')
+
+    @vcr.use_cassette('endpoint_actuals/create_valid.yaml')
+    def test_create_endpoint_actuals_valid(self, sleep_mock):
+        res = self.client.create_endpoint_actual(
+            endpoint_id='ddc968ac-43d5-4aa4-9929-1edba7cefc8f',
+            prediction_group_id='46da6a3f-085b-4169-8157-4d20deba3bd1',
+            actuals=[{'prediction_id': '1', 'endpoint_actual': 1},
+                     {'prediction_id': '2', 'endpoint_actual': 1}]
+        )
+
+        self.assertResourceEmptyResponse(res, 'actual')
 
     # Experiments
 
@@ -528,6 +590,28 @@ class TestHubApiClient(unittest.TestCase):
 
         self.assertIn('Bad Request', str(context.exception))
 
+    # Prediction groups
+
+    @vcr.use_cassette('prediction_groups/show.yaml')
+    def test_get_prediction_group(self, sleep_mock):
+        res = self.client.get_prediction_group(7)
+        self.assertResourceResponse(res, 'prediction_group')
+
+    @vcr.use_cassette('prediction_groups/index.yaml')
+    def test_get_prediction_groups(self, sleep_mock):
+        res = self.client.get_prediction_groups()
+        self.assertIndexResponse(res, 'prediction_group')
+
+    @vcr.use_cassette('prediction_groups/create_valid.yaml')
+    def test_create_prediction_group_valid(self, sleep_mock):
+        res = self.client.create_prediction_group(
+            pipeline_id='118DCF6B1A2A44A',
+            records=[[1.1, 1.2, 1.3, 1.4]],
+            features=['sepal_length', 'sepal_length', 'petal_length', 'petal_width']
+        )
+
+        self.assertResourceResponse(res, 'prediction_group')
+
     # Projects
 
     @vcr.use_cassette('projects/show.yaml')
@@ -653,6 +737,52 @@ class TestHubApiClient(unittest.TestCase):
         self.assertIsInstance(res['data'], dict)
         matcher = r'https://[\w\d\-]+.s3.[\w\d\-]+.amazonaws.com.*files/test.csv?'
         self.assertTrue(re.match(matcher, res['data']['url']))
+
+    # Review alerts
+
+    @vcr.use_cassette('review_alerts/show.yaml')
+    def test_get_review_alert(self, sleep_mock):
+      res = self.client.get_review_alert(2)
+      self.assertResourceResponse(res, 'review_alert')
+
+    @vcr.use_cassette('review_alerts/index.yaml')
+    def test_get_review_alerts(self, sleep_mock):
+        res = self.client.get_review_alerts()
+        self.assertIndexResponse(res, 'review_alert')
+
+    @vcr.use_cassette('review_alerts/create_valid.yaml')
+    def test_create_review_alert_valid(self, sleep_mock):
+        res = self.client.create_review_alert(
+            endpoint_id='ddc968ac-43d5-4aa4-9929-1edba7cefc8f',
+            kind='runtime_errors_burst',
+            threshold=3,
+            sensitivity=48,
+            actions='retrain',
+        )
+
+        self.assertResourceResponse(res, 'review_alert')
+
+    @vcr.use_cassette('review_alerts/update_valid.yaml')
+    def test_update_review_alert_valid(self, sleep_mock):
+        res = self.client.update_review_alert(3, threshold=4)
+        self.assertResourceResponse(res, 'review_alert')
+
+    @vcr.use_cassette('review_alerts/delete.yaml')
+    def test_delete_review_alert_valid(self, sleep_mock):
+        res = self.client.delete_review_alert(3)
+        self.assertResourceResponse(res, 'review_alert')
+
+    # Review alerts
+
+    @vcr.use_cassette('review_alert_items/show.yaml')
+    def test_get_review_alert_item(self, sleep_mock):
+      res = self.client.get_review_alert_item(2)
+      self.assertResourceResponse(res, 'review_alert_item')
+
+    @vcr.use_cassette('review_alert_items/index.yaml')
+    def test_get_review_alert_items(self, sleep_mock):
+        res = self.client.get_review_alert_items()
+        self.assertIndexResponse(res, 'review_alert_item')
 
     # Similar trials requests
 

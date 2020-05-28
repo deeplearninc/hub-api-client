@@ -86,9 +86,6 @@ class HubApiClient:
         'actual': {
             'actions': ['create']
         },
-        'cluster': {
-            'actions': ['index', 'show', 'create', 'delete']
-        },
         'cluster_task': {
             'actions': ['index', 'show', 'create', 'update']
         },
@@ -97,6 +94,22 @@ class HubApiClient:
         },
         'dataset_manifest': {
             'actions': ['index', 'show', 'create', 'update']
+        },
+        'endpoint': {
+            'actions': ['index', 'show', 'create', 'update', 'delete']
+        },
+        'endpoint_pipeline': {
+            'actions': ['create', 'update', 'delete']
+        },
+        'endpoint_actual': {
+            'actions': ['create'],
+            'resource_name': 'actual',
+            'parent_resource': 'endpoint',
+        },
+        'endpoint_prediction': {
+            'actions': ['index', 'show', 'create'],
+            'resource_name': 'prediction',
+            'parent_resource': 'endpoint',
         },
         'experiment': {
             'actions': ['index', 'show', 'create', 'update', 'delete']
@@ -119,7 +132,12 @@ class HubApiClient:
         'pipeline_file': {
             'actions': ['index', 'show', 'create']
         },
+        # Legacy endpoint
         'prediction': {
+            'actions': ['index', 'show', 'create']
+        },
+        # New endpoint
+        'prediction_group': {
             'actions': ['index', 'show', 'create']
         },
         'project': {
@@ -143,6 +161,12 @@ class HubApiClient:
         },
         'pod_log': {
             'actions': ['index']
+        },
+        'review_alert': {
+            'actions': ['index', 'show', 'create', 'update', 'delete']
+        },
+        'review_alert_item': {
+            'actions': ['index', 'show']
         },
         'similar_trials_request': {
             'actions': ['show', 'create']
@@ -370,8 +394,9 @@ class HubApiClient:
 
     def define_actions(self):
         for resource_name, options in self.API_SCHEMA.items():
+            url_resource_name = options.get('resource_name', resource_name)
             parent_resource_name = options.get('parent_resource', None)
-            path = self.build_full_resource_path(resource_name, parent_resource_name)
+            path = self.build_full_resource_path(url_resource_name, parent_resource_name)
 
             for action_name in options['actions']:
                 if isinstance(action_name, str):
@@ -390,8 +415,7 @@ class HubApiClient:
                 return path_template.format(parent_id=parent_id)
             else:
                 raise self.MissingParamError(
-                    '{name} parameter is required'.format(name=parent_id_key),
-                    res.json().get('meta')
+                    '{name} parameter is required'.format(name=parent_id_key)
                 )
         elif not parent_resource_name:
             return path_template

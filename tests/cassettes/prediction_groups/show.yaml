@@ -1,0 +1,30 @@
+interactions:
+- request:
+    body: '{"project_api_token": "0d5a55cb795f2039922689e647cb3c5d24a0992bf58d941dad864ef7c371f8fc"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['89']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.22.0]
+    method: GET
+    uri: http://localhost:5000/api/v1/prediction_groups/7
+  response:
+    body: {string: '{"data":{"object":"prediction_group","deleted":false,"id":"46da6a3f-085b-4169-8157-4d20deba3bd1","pipeline_id":"118DCF6B1A2A44A","endpoint_id":"ddc968ac-43d5-4aa4-9929-1edba7cefc8f","status":"running","records_count":1,"time_consumed_ms":null,"result":null,"error_message":null,"created_at":"2020-05-28T13:21:20.426Z","predicted_at":"2020-05-28T13:21:20.426Z"},"meta":{"status":200}}'}
+    headers:
+      Cache-Control: ['max-age=0, private, must-revalidate']
+      Content-Type: [application/json; charset=utf-8]
+      ETag: [W/"260cde711301b2aa29120c20452ec2c2"]
+      Referrer-Policy: [strict-origin-when-cross-origin]
+      Transfer-Encoding: [chunked]
+      Vary: [Origin]
+      X-Content-Type-Options: [nosniff]
+      X-Download-Options: [noopen]
+      X-Frame-Options: [SAMEORIGIN]
+      X-Permitted-Cross-Domain-Policies: [none]
+      X-Request-Id: [da584654-9feb-4168-abba-7f81359d9e1d]
+      X-Runtime: ['0.060959']
+      X-XSS-Protection: [1; mode=block]
+    status: {code: 200, message: OK}
+version: 1
