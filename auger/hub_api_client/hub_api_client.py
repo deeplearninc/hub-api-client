@@ -158,8 +158,12 @@ class HubApiClient:
         'pod_log': {
             'actions': ['index']
         },
-        # /api/v1/review_alerts
-        # /api/v1/review_alert_items
+        'review_alert': {
+            'actions': ['index', 'show', 'create', 'update', 'delete']
+        },
+        'review_alert_item': {
+            'actions': ['index', 'show']
+        },
         'similar_trials_request': {
             'actions': ['show', 'create']
         },

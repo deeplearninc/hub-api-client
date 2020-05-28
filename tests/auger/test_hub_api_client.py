@@ -716,6 +716,52 @@ class TestHubApiClient(unittest.TestCase):
         matcher = r'https://[\w\d\-]+.s3.[\w\d\-]+.amazonaws.com.*files/test.csv?'
         self.assertTrue(re.match(matcher, res['data']['url']))
 
+    # Review alerts
+
+    @vcr.use_cassette('review_alerts/show.yaml')
+    def test_get_review_alert(self, sleep_mock):
+      res = self.client.get_review_alert(2)
+      self.assertResourceResponse(res, 'review_alert')
+
+    @vcr.use_cassette('review_alerts/index.yaml')
+    def test_get_review_alerts(self, sleep_mock):
+        res = self.client.get_review_alerts()
+        self.assertIndexResponse(res, 'review_alert')
+
+    @vcr.use_cassette('review_alerts/create_valid.yaml')
+    def test_create_review_alert_valid(self, sleep_mock):
+        res = self.client.create_review_alert(
+            endpoint_id='ddc968ac-43d5-4aa4-9929-1edba7cefc8f',
+            kind='runtime_errors_burst',
+            threshold=3,
+            sensitivity=48,
+            actions='retrain',
+        )
+
+        self.assertResourceResponse(res, 'review_alert')
+
+    @vcr.use_cassette('review_alerts/update_valid.yaml')
+    def test_update_review_alert_valid(self, sleep_mock):
+        res = self.client.update_review_alert(3, threshold=4)
+        self.assertResourceResponse(res, 'review_alert')
+
+    @vcr.use_cassette('review_alerts/delete.yaml')
+    def test_delete_review_alert_valid(self, sleep_mock):
+        res = self.client.delete_review_alert(3)
+        self.assertResourceResponse(res, 'review_alert')
+
+    # Review alerts
+
+    @vcr.use_cassette('review_alert_items/show.yaml')
+    def test_get_review_alert_item(self, sleep_mock):
+      res = self.client.get_review_alert_item(2)
+      self.assertResourceResponse(res, 'review_alert_item')
+
+    @vcr.use_cassette('review_alert_items/index.yaml')
+    def test_get_review_alert_items(self, sleep_mock):
+        res = self.client.get_review_alert_items()
+        self.assertIndexResponse(res, 'review_alert_item')
+
     # Similar trials requests
 
     @vcr.use_cassette('similar_trials_requests/show.yaml')
