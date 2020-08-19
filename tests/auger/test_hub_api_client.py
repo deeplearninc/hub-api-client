@@ -536,6 +536,19 @@ class TestHubApiClient(unittest.TestCase):
 
         self.assertResourceEmptyResponse(res, 'actual')
 
+    @vcr.use_cassette('actuals/delete_valid.yaml')
+    def test_delete_actuals_valid(self, sleep_mock):
+        res = self.client.delete_actuals(
+            **{
+                'pipeline_id': '118DCF6B1A2A44A',
+                'from': '2020-08-10',
+                'to': '2020-08-20',
+                'with_predictions': True
+            }
+        )
+
+        self.assertResourceResponse(res, 'cluster_task')
+
     @vcr.use_cassette('predictions/create_valid_with_nils.yaml')
     def test_create_prediction_valid_with_nils(self, sleep_mock):
         res = self.client.create_prediction(
