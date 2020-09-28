@@ -320,6 +320,19 @@ class TestHubApiClient(unittest.TestCase):
 
         self.assertResourceEmptyResponse(res, 'actual')
 
+    @vcr.use_cassette('endpoint_actuals/delete.yaml')
+    def test_delete_endpoint_actuals_valid(self, sleep_mock):
+        res = self.client.delete_endpoint_actuals(
+            'ddc968ac-43d5-4aa4-9929-1edba7cefc8f',
+            **{
+                'from': '2020-08-10',
+                'to': '2020-08-20',
+                'with_predictions': True,
+            }
+        )
+
+        self.assertIndexResponse(res, 'cluster_task')
+
     # Experiments
 
     @vcr.use_cassette('experiments/show.yaml')
