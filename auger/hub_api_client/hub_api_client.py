@@ -517,6 +517,10 @@ class HubApiClient:
         path = '{api_prefix}/actuals'.format(api_prefix=self.API_PREFIX)
         return self.make_and_handle_request('delete', path, payload=kwargs)
 
+    def delete_endpoint_actuals(self, endpoint_id, **kwargs):
+        path = '{api_prefix}/endpoints/{id}/actuals'.format(api_prefix=self.API_PREFIX, id=endpoint_id)
+        return self.make_and_handle_request('delete', path, payload=kwargs)
+
     # Optimizers service client
     def _post_optimizer_service(self, url, payload={}):
         if self.optimizers_url:
