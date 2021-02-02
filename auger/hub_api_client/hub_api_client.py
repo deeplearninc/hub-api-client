@@ -111,6 +111,11 @@ class HubApiClient:
             'resource_name': 'prediction',
             'parent_resource': 'endpoint',
         },
+        'endpoint_roi_validation': {
+            'actions': ['create'],
+            'resource_name': 'roi_validation',
+            'parent_resource': 'endpoint',
+        },
         'experiment': {
             'actions': ['index', 'show', 'create', 'update', 'delete']
         },

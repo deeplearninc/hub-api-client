@@ -1,0 +1,32 @@
+interactions:
+- request:
+    body: '{"endpoint_id": "8cbb0609-f0b9-42a6-952a-373c20ab7806", "expressions":
+      ["P = true", "$1000", "@if(A = true, $1050, $0)"], "project_api_token": "0d5a55cb795f2039922689e647cb3c5d24a0992bf58d941dad864ef7c371f8fc"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['210']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.22.0]
+    method: POST
+    uri: http://localhost:5000/api/v1/endpoints/8cbb0609-f0b9-42a6-952a-373c20ab7806/roi_validations
+  response:
+    body: {string: '{"data":{"object":"cluster_task","deleted":false,"id":172,"external_uid":null,"cluster_id":null,"project_id":35,"queue":null,"status":"pending","name":"a2ml.tasks_queue.tasks_hub_api.validate_roi_syntax_task","args":[{"data_path":null,"content_type":null,"provider_info":{"auger":{"project":{"deploy_cluster":{"type":"aci","memory_gb":2,"cpu_cores":1,"compute_target":"standard"}}}},"expressions":["P
+        = true","$1000","@if(A = true, $1050, $0)"],"provider":"auger","hub_info":{"dataset_manifest_id":null,"experiment_id":null,"experiment_name":null,"project_name":"project-1","project_path":"s3://auger-organizati-zq3x43/workspace/projects/project-1","project_file_id":null,"project_file":null,"experiment_session_id":null,"experiment_session":null,"pipeline_id":"c023ba372909a5","prediction_id":null,"cluster_task_id":172}}],"result":null,"exception":null},"meta":{"status":200}}'}
+    headers:
+      Cache-Control: ['max-age=0, private, must-revalidate']
+      Content-Type: [application/json; charset=utf-8]
+      ETag: [W/"33afe05147457681cb74a492b42c439f"]
+      Referrer-Policy: [strict-origin-when-cross-origin]
+      Transfer-Encoding: [chunked]
+      Vary: ['Accept, Origin']
+      X-Content-Type-Options: [nosniff]
+      X-Download-Options: [noopen]
+      X-Frame-Options: [SAMEORIGIN]
+      X-Permitted-Cross-Domain-Policies: [none]
+      X-Request-Id: [a05a0f19-25b2-448b-af83-16998c67d07e]
+      X-Runtime: ['1.847401']
+      X-XSS-Protection: [1; mode=block]
+    status: {code: 200, message: OK}
+version: 1

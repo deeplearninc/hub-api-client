@@ -333,6 +333,17 @@ class TestHubApiClient(unittest.TestCase):
 
         self.assertIndexResponse(res, 'cluster_task')
 
+    # Endpoint ROI validations
+
+    @vcr.use_cassette('endpoint_roi_validations/create.yaml')
+    def test_create_endpoint_roi_validations(self, sleep_mock):
+        res = self.client.create_endpoint_roi_validation(
+            endpoint_id='8cbb0609-f0b9-42a6-952a-373c20ab7806',
+            expressions=['P = true', '$1000', '@if(A = true, $1050, $0)'],
+        )
+
+        self.assertResourceResponse(res, 'cluster_task')
+
     # Experiments
 
     @vcr.use_cassette('experiments/show.yaml')
