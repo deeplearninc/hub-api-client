@@ -8,7 +8,7 @@
 ### Install
 
 ```sh
-pip install auger-hub-api-client==0.7.2
+pip install auger-hub-api-client==0.7.3
 ```
 ### Initialize client
 
@@ -46,6 +46,7 @@ This client currently support only next subset of resources:
 * cluster_task
 * cluster_status
 * dataset_manifest
+* endpoints
 * experiment (ex. notebook)
 * experiment_session (ex. project_run)
 * hyperparameter
@@ -245,6 +246,7 @@ res = client.get_fte(
 
 ## Releases
 
+* 0.7.3 - Add ROI validation API
 * 0.7.2 - Add delete endpoint actuals API
 * 0.7.1 - Add delete actuals API
 * 0.7.0 - Add endpoints and review API. Drop clusters API
@@ -289,7 +291,7 @@ Commit and push changes
 Create and push new tag
 
 ```bash
-git tag v0.7.2 && git push origin v0.7.2
+git tag v0.7.3 && git push origin v0.7.3
 ```
 
 Then build and upload new wheel
