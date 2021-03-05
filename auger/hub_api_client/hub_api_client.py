@@ -180,7 +180,7 @@ class HubApiClient:
             'actions': ['create']
         },
         'trial': {
-            'actions': ['index', 'show', 'update']
+            'actions': ['index', 'show', 'create', 'update']
         },
         'trial_search': {
             'actions': ['index', 'show', 'create', 'update']
@@ -521,6 +521,9 @@ class HubApiClient:
     def delete_actuals(self, **kwargs):
         path = '{api_prefix}/actuals'.format(api_prefix=self.API_PREFIX)
         return self.make_and_handle_request('delete', path, payload=kwargs)
+
+    def refit_trial(self, id, refit_data_path):
+        return self.create_trial(id=id, refit_data_path=refit_data_path)
 
     def delete_endpoint_actuals(self, endpoint_id, **kwargs):
         path = '{api_prefix}/endpoints/{id}/actuals'.format(api_prefix=self.API_PREFIX, id=endpoint_id)

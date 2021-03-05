@@ -1,0 +1,53 @@
+interactions:
+- request:
+    body: '{"id": "bb9887bc5b", "refit_data_path": "s3://some_new_path.csv", "project_api_token":
+      "0d5a55cb795f2039922689e647cb3c5d24a0992bf58d941dad864ef7c371f8fc"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '154'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.25.1
+    method: POST
+    uri: http://localhost:5000/api/v1/trials
+  response:
+    body:
+      string: '{"data":{"object":"trial","deleted":false,"id":"c594b3972b298ec7","experiment_session_id":"87ad8142c6c0d8","project_id":36,"hyperparameter":{"object":"hyperparameter","deleted":false,"id":63,"algorithm_name":"sklearn.ensemble.RandomForestClassifier","algorithm_params":{"n_jobs":-1,"bootstrap":true,"criterion":"gini","max_features":0.5555568747692685,"n_estimators":100,"min_samples_leaf":4,"min_samples_split":15},"algorithm_params_hash":null},"score_name":"f1","score_value":0.5994610911363535,"task_type":"regression","pdf_data":null,"pdf_data_status":"not_requested","raw_data":{"uid":"c594b3972b298ec7","error":null,"ratio":1.0,"score":0.5994610911363535,"budget":null,"scoring":"f1","ensemble":false,"all_scores":{"f1":0.5994610911363535,"recall":0.5076237015674652,"roc_auc":0.9307678557380448,"accuracy":0.8896342039045146,"f1_macro":0.7677303373060739,"f1_micro":0.8896342039045146,"precision":0.7318870894601397,"f1_weighted":0.8812466528751092,"neg_log_loss":-0.2367266878917726,"recall_macro":0.7357426269706364,"recall_micro":0.8896342039045146,"precision_macro":0.8207952796266752,"precision_micro":0.8896342039045146,"recall_weighted":0.8896342039045146,"average_precision":0.7276520336635652,"precision_weighted":0.880773741694883},"score_name":"f1","trialClass":null,"fold_scores":[0.597210441994157,0.6027565954625111,0.5984162359523924],"algorithm_name":"sklearn.ensemble.RandomForestClassifier","optimizer_name":"auger_ml.optimizers.pso_optimizer.PSOOptimizer","evaluation_time":499.3518218994141,"algorithm_params":{"n_jobs":-1,"bootstrap":true,"criterion":"gini","max_features":0.5555568747692685,"n_estimators":100,"min_samples_leaf":4,"min_samples_split":15},"dataset_manifest_id":"63DAECF6D03C404","refit_data_path":"s3://some_new_path.csv","task_type":"regression"},"trial_metrics_count":0,"created_at":"2021-03-05T16:11:18.490Z","updated_at":"2021-03-05T16:11:18.490Z","provider":"azure"},"meta":{"status":200}}'
+    headers:
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      Content-Type:
+      - application/json; charset=utf-8
+      ETag:
+      - W/"909f4a6ef7e9241af620a6ffbd1769b1"
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept, Origin
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - 2cb86c24-c1f2-41df-8b11-268739dc8c8d
+      X-Runtime:
+      - '3.608461'
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

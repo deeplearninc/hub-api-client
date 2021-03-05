@@ -887,6 +887,22 @@ class TestHubApiClient(unittest.TestCase):
         res = self.client.get_trials()
         self.assertIndexResponse(res, 'trial')
 
+    @vcr.use_cassette('trials/create.yaml')
+    def test_create_trial(self, sleep_mock):
+        res = self.client.create_trial(id='bb9887bc5b', refit_data_path='s3://some_new_path.csv')
+        self.assertResourceResponse(res, 'trial')
+
+        assert res['data']['id'] != 'bb9887bc5b'
+        assert res['data']['raw_data']['refit_data_path'] == 's3://some_new_path.csv'
+
+    @vcr.use_cassette('trials/create.yaml')
+    def test_refit_trial(self, sleep_mock):
+        res = self.client.refit_trial(id='bb9887bc5b', refit_data_path='s3://some_new_path.csv')
+        self.assertResourceResponse(res, 'trial')
+
+        assert res['data']['id'] != 'bb9887bc5b'
+        assert res['data']['raw_data']['refit_data_path'] == 's3://some_new_path.csv'
+
     @vcr.use_cassette('trials/update_one_valid.yaml')
     def test_update_trial_valid(self, sleep_mock):
         res = self.client.update_trial(
